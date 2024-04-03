@@ -6,8 +6,8 @@ logging:
 
 spring:
     rabbitmq:
-        host: 154.12.21.42 # 主机名
-        port: 5672 #端口
+      #  host: 154.12.21.42 # 主机名
+       # port: 5672 #端口
         username: root # 用户名
         password: root # 密码
         virtual-host: / # 虚拟主机
