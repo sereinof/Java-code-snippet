@@ -27,7 +27,7 @@ public class mainClass {
         //this delegated object  can  only call method that belongs to thenslves
        // proxyInstance.selfMethod();
     }
-    public static void main(String[] args) {
+    public static void main(String[] args) throws ClassNotFoundException {
         CglibObject target = new CglibObject();
         HelloServiceCglib cglib = new HelloServiceCglib();
         CglibObject proxy = (CglibObject) cglib.getInstance(target);
