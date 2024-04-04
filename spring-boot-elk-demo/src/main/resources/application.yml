@@ -6,6 +6,9 @@ logging:
 
 spring:
     rabbitmq:
+        #publisher-confirms: true
+        publisher-confirm-type: correlated
+        publisher-returns: true
         host: 154.12.21.42 # 主机名
         port: 5672 #端口
         username: root # 用户名
@@ -18,8 +21,6 @@ spring:
                 multiplier: 2
                 initial-interval: 1000ms
                 max-attempts: 3
-        publisher-confirms-types: correlated
-        publisher-returns: true
         listener:
           simple:
               prefetch: 1 #设置每次只能获取一条消息 处理完才能处理下一条消息

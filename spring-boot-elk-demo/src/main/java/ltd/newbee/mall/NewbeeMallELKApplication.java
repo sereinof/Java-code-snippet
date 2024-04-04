@@ -33,10 +33,6 @@ import java.util.concurrent.TimeoutException;
 @SpringBootApplication
 public class NewbeeMallELKApplication {
 
-    @Bean
-    public Queue ObjectQueue(){
-        return new Queue("object.queue");
-    }
 
     public static void main(String[] args) throws IOException, TimeoutException {
         SpringApplication.run(NewbeeMallELKApplication.class, args);

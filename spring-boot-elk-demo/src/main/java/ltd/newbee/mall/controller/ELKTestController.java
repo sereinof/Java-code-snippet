@@ -54,11 +54,14 @@ public class ELKTestController {
         cd.getFuture().addCallback(new ListenableFutureCallback<CorrelationData.Confirm>() {
             @Override
             public void onFailure(Throwable ex) {
+                log.error("消息投递错了");
                 System.out.println("你好 消息失败了");
             }
 
             @Override
             public void onSuccess(CorrelationData.Confirm result) {
+                log.error("消息投递成功");
+                System.out.println("消息发送成功");
                 if(result.isAck()){
                     System.out.println("消息收到ACK");
                 }else{
@@ -69,6 +72,6 @@ public class ELKTestController {
         });
 rabbitTemplate.convertAndSend("directExchange","LOL",message+UUID.randomUUID().toString(),cd);
         //rabbitTemplate.convertAndSend("object.queue", (Object) (message + UUID.randomUUID().toString()),cd);
-        return "hello,MQ!";
+        return "hello,MQ!"+message;
     }
 }
