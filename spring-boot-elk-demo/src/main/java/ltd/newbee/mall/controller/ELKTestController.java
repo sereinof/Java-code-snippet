@@ -11,9 +11,17 @@ package ltd.newbee.mall.controller;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import org.springframework.amqp.rabbit.connection.CorrelationData;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.concurrent.ListenableFutureCallback;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.ResponseBody;
+
+import javax.annotation.Resource;
+import java.util.UUID;
 
 /**
  * @author 十三
@@ -26,6 +34,9 @@ public class ELKTestController {
 
     private static final Logger log = LoggerFactory.getLogger(ELKTestController.class);
 
+    @Autowired
+    RabbitTemplate rabbitTemplate;
+
     @GetMapping("/elk-logs")
     @ResponseBody
     public String elkTest() {
@@ -34,5 +45,30 @@ public class ELKTestController {
         log.error("ERROR级别日志输出 --> ELK");
 
         return "hello,elk!";
+    }
+
+    @GetMapping("/send/{message}")
+    @ResponseBody
+    public String sendMessage(@PathVariable String message) {
+        CorrelationData cd = new CorrelationData(UUID.randomUUID().toString());
+        cd.getFuture().addCallback(new ListenableFutureCallback<CorrelationData.Confirm>() {
+            @Override
+            public void onFailure(Throwable ex) {
+                System.out.println("你好 消息失败了");
+            }
+
+            @Override
+            public void onSuccess(CorrelationData.Confirm result) {
+                if(result.isAck()){
+                    System.out.println("消息收到ACK");
+                }else{
+
+
+                    System.out.println("你好 收到NACK"+result.getReason());}
+            }
+        });
+rabbitTemplate.convertAndSend("directExchange","LOL",message+UUID.randomUUID().toString(),cd);
+        //rabbitTemplate.convertAndSend("object.queue", (Object) (message + UUID.randomUUID().toString()),cd);
+        return "hello,MQ!";
     }
 }
