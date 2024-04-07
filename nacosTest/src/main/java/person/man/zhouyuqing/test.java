@@ -28,7 +28,16 @@ public class test {
         travse(true, subset, 0, res, nums);
         return res;
     }
-
+    public boolean isPalindrome(int x) {
+        int reversed = 0;
+        int init = x;
+        while (x>0) {
+            int temp = x%10;
+            reversed = reversed * 10 + temp;
+            x = x / 10;
+        }
+        return init == reversed;
+    }
     public static void travse(Boolean isChooes, ArrayList subset, int level, ArrayList res, int[] nums) {
         if (level > nums.length - 1) {
             return;
