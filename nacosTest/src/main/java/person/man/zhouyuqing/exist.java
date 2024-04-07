@@ -1,6 +1,7 @@
 package person.man.zhouyuqing;
 
 import java.util.HashMap;
+import java.util.LinkedList;
 
 public class exist {
     public boolean flag = false;
@@ -8,6 +9,8 @@ public class exist {
         char[] a1 = new char[]{'a','a'};
         char[][] board  =  new char[][]{a1,};
         System.out.println( new exist().exist(board,"aaa"));
+        LinkedList<String> str = new LinkedList<>();
+      
     }
 
 
