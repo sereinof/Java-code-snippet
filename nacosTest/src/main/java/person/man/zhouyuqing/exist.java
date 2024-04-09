@@ -10,10 +10,30 @@ public class exist {
         char[][] board  =  new char[][]{a1,};
         System.out.println( new exist().exist(board,"aaa"));
         LinkedList<String> str = new LinkedList<>();
-      
+       new exist().test(new int[]{3,2,2,3 },3);
+
     }
 
-
+public  int test(int [] nums,int val
+){
+        int res = 0;
+        int left = 0;
+        int reight = nums.length-1;
+        while(left<reight){
+            if(nums[left]!=val){
+                left++;
+            }
+            if(nums[left]==val){
+                res ++;
+                int tem = nums[left];
+                nums[left] = nums[reight];
+                nums[reight]= tem;
+                reight--;
+                continue;
+            }
+        }
+        return res;
+}
     public boolean exist(char[][] board, String word) {
         int x = board.length;
         int y = board[0].length;
