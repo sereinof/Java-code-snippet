@@ -25,14 +25,14 @@ public class testFunction {
         System.out.println("厨师准备了：" + foodq);
 
         // 定义一个服务员（Function），用于加工食物
-        Function<String, String> waiter = food -> "加工后的" + food;
+      //  Function<String, String> waiter = food -> "加工后的" + food;
 
 // 厨师提供食物
         Supplier<String> chefw = () -> "美味牛排";
         String foodw = chef.get();
 
 // 服务员加工食物后送到顾客手中
-        String processedFood = waiter.apply(foodw);
+    //    String processedFood = waiter.apply(foodw);
 
     }
 }
