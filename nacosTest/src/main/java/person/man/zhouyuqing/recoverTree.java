@@ -1,10 +1,15 @@
 package person.man.zhouyuqing;
 
-public class recoverTree {
-    public static int[] preorder;
-    public static int[] inorder;
-    public HashMap map;
+import java.util.HashMap;
 
+public class recoverTree {
+    public static int[] preorder ;
+    public static int[] inorder ;
+    public HashMap<Integer,Integer> map =new HashMap<>();
+
+    public static void main(String[] args) {
+        new recoverTree().buildTree(new int[]{3,9,20,15,7},new int[]{9,3,15,20,7});
+    }
     public TreeNode buildTree(int[] preorder, int[] inorder) {
         this.preorder = preorder;
         this.inorder = inorder;
@@ -17,7 +22,7 @@ public class recoverTree {
         return res;
     }
 
-    public TreeNode recursive(TreeNode node,int index1 ,int idnex2 ,int index3,int index4){
+    public void recursive(TreeNode node,int index1 ,int index2 ,int index3,int index4){
 
         node.val = preorder[index1];
         int indexRootinoreder = map.get(preorder[index1]);
@@ -29,7 +34,19 @@ public class recoverTree {
         }
         if(lengthRight>0){
             node.right =new TreeNode();
-            recursive(node.right,index1+1+lengthOfSubpre,idnex2+lengthOfSubpre+1,index4);
+            recursive(node.right,index1+1+lengthOfSubpre,index2,index3+lengthOfSubpre+1,index4);
         }
     }
 }
+  class TreeNode {
+  int val;
+  TreeNode left;
+  TreeNode right;
+  TreeNode() {}
+  TreeNode(int val) { this.val = val; }
+  TreeNode(int val, TreeNode left, TreeNode right) {
+  this.val = val;
+  this.left = left;
+  this.right = right;
+  }
+  }
