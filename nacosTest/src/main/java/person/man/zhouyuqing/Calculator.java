@@ -29,7 +29,24 @@ public class Calculator {
         result += lastNumber;
         return result;
     }
+    public int maxProduct(int[] nums) {
+        int[] dp = new int[nums.length];
+        int[] dp_min = new int[nums.length];
+        dp[0]=nums[0];
+        dp_min[0] = nums[0];
+        for(int i= 1;i<nums.length;i++){
+            dp[i] =  Math.max( Math.max(dp[i-1]*nums[i],nums[i]),Math.max(dp[i-1],dp_min[i-1]*nums[i]));
+            dp_min[i] = Math.min(Math.min(nums[i]*dp_min[i-1],nums[i]),Math.min(dp[i-1],dp[i-1]*nums[i]));
 
+        }
+        int asn =   Integer.MIN_VALUE;;
+        for(int i :dp){
+            if(i>asn){
+                asn = i;
+            }
+        }
+        return asn;
+    }
     public static void main(String[] args) {
         String expression = "1+2*3+4/2-3";
         System.out.println(calculate(expression));  // 输出结果应该为6
