@@ -1,6 +1,10 @@
 package person.man.zhouyuqing;
 
 
+import java.util.ArrayList;
+import java.util.Optional;
+import java.util.Stack;
+
 public class Calculator {
 
     public static int calculate(String s) {
@@ -49,6 +53,10 @@ public class Calculator {
     }
     public static void main(String[] args) {
         String expression = "1+2*3+4/2-3";
+        ArrayList a = new ArrayList();
+        Stack<Integer> b = new Stack();
+         Integer min =  b.stream().min((x, y)->x-y).get();
+
         System.out.println(calculate(expression));  // 输出结果应该为6
     }
 }
