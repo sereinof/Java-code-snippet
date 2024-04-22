@@ -1,6 +1,18 @@
 package person.man.zhouyuqing;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.LinkedList;
+
 public class canPartion {
+    public static void main(String[] args) {
+        LinkedList kist  = new LinkedList();
+        ArrayList list = new ArrayList();
+        list.get(0);
+        kist.get(3);
+
+
+    }
     public boolean canPartition(int[] nums) {
         int target = 0;
   for(int i=0;i< nums.length;i++){
