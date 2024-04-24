@@ -14,6 +14,9 @@ import java.util.Properties;
 @SpringBootApplication
 public class test {
     public static void main(String[] args) {
+        ThreadLocal threadLocal = new ThreadLocal<>();
+        threadLocal.set("nihao");
+        threadLocal.remove();
         List res =  subsets(new int[]{1, 2, 3});
         System.out.println(res);
         SpringApplication.run(test.class, args);
