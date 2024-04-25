@@ -5,8 +5,57 @@ import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
 public class FizzBuzz {
+
+    public static void main(String[] args) {
+        Runnable printFizz = () -> {
+            System.out.printf("%s", "fizz");
+        };
+        Runnable printBuzz = () -> {
+            System.out.printf("%s", "buzz");
+        };
+        Runnable printFizzBuzz = () -> {
+            System.out.printf("%s", "fizzbuzz");
+        };
+        IntConsumer intConsumer = new IntConsumer();
+        FizzBuzz fb = new FizzBuzz(15);
+        new Thread(() -> {
+            try {
+                fb.fizz(printFizz);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }).start();
+        new Thread(() -> {
+            try {
+                fb.buzz(printBuzz);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }).start();
+        new Thread(() -> {
+            try {
+                fb.fizzbuzz(printFizzBuzz);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }).start();
+        new Thread(() -> {
+            try {
+                fb.number(intConsumer);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }).start();
+
+    }
+
+
+
+
+
+
     private int n;
-    private volatile int i = 0;
+    private volatile int i = 1;
     private Lock lock = new ReentrantLock();
     private Condition c1 = lock.newCondition();
     private Condition c2 = lock.newCondition();
@@ -21,15 +70,16 @@ public class FizzBuzz {
     public void fizz(Runnable printFizz) throws InterruptedException {
         try {
             lock.lock();
+            c1.await();
             while (i <= n) {
-                if (i % 3 == 0 && i%5!=0) {
+                if(i>n){
+                    break;
+                }
                     printFizz.run();
                     i++;
                     c4.signal();
                     c1.await();
-                }else{
-                    c1.await();
-                }
+
             }
         } finally {
             lock.unlock();
@@ -40,15 +90,16 @@ public class FizzBuzz {
     public void buzz(Runnable printBuzz) throws InterruptedException {
         try {
             lock.lock();
+            c2.await();
             while (i <= n) {
-                if (i % 5 == 0&& i%3!=0) {
-                    printBuzz.run();
-                    i++;
-                    c4.signal();
-                    c2.await();
-                }else{
-                    c2.await();
+                if(i>n){
+                    break;
                 }
+                printBuzz.run();
+                i++;
+                c4.signal();
+                c2.await();
+
             }
         } finally {
             lock.unlock();
@@ -59,15 +110,17 @@ public class FizzBuzz {
     public void fizzbuzz(Runnable printFizzBuzz) throws InterruptedException {
         try {
             lock.lock();
+            c3.await();
             while (i <= n) {
-                if (i % 3 == 0 && i % 5 == 0) {
-                    printFizzBuzz.run();
-                    i++;
-                    c4.signal();
-                    c3.await();
-                }else{
-                    c3.await();
+                if(i>n){
+                    break;
                 }
+                printFizzBuzz.run();
+                i++;
+                c4.signal();
+
+                c3.await();
+
             }
         } finally {
             lock.unlock();
@@ -79,20 +132,43 @@ public class FizzBuzz {
         try {
             lock.lock();
 
-            while (i < n) {
-               if(i%3!=0 &i%5!=0){
-                   printNumber.accept(i++);
-                   c1.signal();
-                   c2.signal();
-                   c3.signal();
-                   c4.await();
-               }
+            while (i <= n) {
+                if (i % 3 != 0 && i % 5 != 0) {
+                    printNumber.accept(i++);
+                   continue;
+                }
+                if (i % 3 == 0 && i % 5 != 0) {
+                    c1.signal();
+
+                    c4.await();
+                    continue;
+                }
+
+                if (i % 5 == 0 && i % 3 != 0) {
+
+                    c2.signal();
+
+                    c4.await();
+                    continue;
+                }
+                if(i % 5 == 0 && i % 3 == 0) {
+
+                    c3.signal();
+                    c4.await();
+                    continue;
+                }
+                }
+            c1.signal();
+            c2.signal();
+            c3.signal();
+
+            } finally{
+                lock.unlock();
             }
-
-
-        } finally {
-            lock.unlock();
         }
     }
+class IntConsumer {
+    public void accept(int i) {
+        System.out.printf("%d", i);
+    }
 }
-
