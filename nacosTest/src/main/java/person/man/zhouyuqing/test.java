@@ -17,6 +17,7 @@ public class test {
         ThreadLocal threadLocal = new ThreadLocal<>();
         threadLocal.set("nihao");
         threadLocal.remove();
+        ArrayList a = new ArrayList();
         List res =  subsets(new int[]{1, 2, 3});
         System.out.println(res);
         SpringApplication.run(test.class, args);
