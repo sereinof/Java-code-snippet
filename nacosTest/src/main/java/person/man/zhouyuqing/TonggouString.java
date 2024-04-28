@@ -1,6 +1,8 @@
 package person.man.zhouyuqing;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 public class TonggouString {
     public boolean isIsomorphic(String s, String t) {
@@ -62,7 +64,62 @@ public class TonggouString {
         }
         return true;
     }
+
     public boolean isHappy(int n) {
-  return true;
+        HashMap<Integer, Integer> map = new HashMap<>();
+        int next = getNext(n);
+        while (next != 1) {
+            if (map.containsKey(next)) {
+                return false;
+            }
+            next = getNext(next);
+            map.put(next, 1);
+        }
+        return true;
+    }
+
+    public int getNext(int x) {
+        int res = 0;
+        while (x != 0) {
+            int now = x % 10;
+            res += now * now;
+            x /= 10;
+        }
+        return res;
+
+    }
+
+    public boolean containsNearbyDuplicate(int[] nums, int k) {
+        HashMap<Integer, Integer> map = new HashMap<>();
+        for (int i = 0; i < nums.length; i++) {
+            if (map.containsKey(nums[i])) {
+                if (i - map.get(nums[i]) <= k) {
+                    return true;
+                } else {
+                    map.put(nums[i], i);
+                }
+            } else {
+                map.put(nums[i], i);
+            }
+        }
+        return false;
+    }
+
+    public List<String> summaryRanges(int[] nums) {
+        List<String> res = new ArrayList<>();
+        int point = 0;
+        for (int i = 0; i < nums.length; i++) {
+            if (i == 0) {
+                res.set(point, nums[0] + "->");
+            } else if (nums[i] == nums[i - 1] + 1) {
+
+            } else {
+                res.set(point, res.get(point) + nums[i - 1]);
+                point++;
+                res.set(point, nums[i] + "->");
+            }
+
+        }
+        return res;
     }
 }
