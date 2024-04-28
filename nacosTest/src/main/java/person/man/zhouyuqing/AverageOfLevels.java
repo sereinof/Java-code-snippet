@@ -26,4 +26,36 @@ public class AverageOfLevels {
         }
         return res;
     }
+
+    public int getMinimumDifference(TreeNode root) {
+        if (root == null) {
+            return Integer.MAX_VALUE;
+        }
+        int left = getMinimumDifference(root.left);
+        int right = getMinimumDifference(root.right);
+        int dir_left = Integer.MAX_VALUE;
+        int dir_right = Integer.MAX_VALUE;
+        if (root.left != null) {
+            dir_left = Math.abs(findMax(root.left) - root.val);
+        }
+        if (root.right != null) {
+            dir_right = Math.abs(findMin(root.right) - root.val);
+        }
+
+        return Math.min(left, Math.min(right, Math.min(dir_left, dir_right)));
+    }
+    public  int findMax(TreeNode root){
+         if(root.right==null){
+             return  root.val;
+         }else {
+             return findMax(root.right);
+         }
+    }
+    public  int findMin(TreeNode root){
+        if(root.left==null){
+            return  root.val;
+        }else {
+            return findMin(root.left);
+        }
+    }
 }
