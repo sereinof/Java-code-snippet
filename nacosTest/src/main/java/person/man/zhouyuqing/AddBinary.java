@@ -73,7 +73,7 @@ public class AddBinary {
                     if (hasN) {
                         res = "1" + res;
                         hasN = false;
-                        len1--;
+                           len1--;
                     } else {
                         res = "0" + res;
                         len1--;
