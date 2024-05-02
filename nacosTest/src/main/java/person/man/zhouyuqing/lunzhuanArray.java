@@ -51,4 +51,40 @@ public class lunzhuanArray {
         }
         return ase;
     }
+
+
+    public static void main(String[] args) {
+        new lunzhuanArray().jump(new int[]{1,2,1,1,1});
+    }
+
+    public int jump(int[] nums) {
+        int n = 0;
+        int l = 0;
+        int r = 0;
+        if (nums.length == 1) {
+            if (nums[0] == 0) {
+                return 0;
+            }
+
+        }
+        while (r < nums.length) {
+            int range = nums[l];
+            int max = 0;
+            int index = l+1;
+            if (l + range >= nums.length - 1) {
+                n++;
+                break;
+            }
+            for (int i = l+1; i <= l + range; i++) {
+                if (i + nums[i] > max) {
+                    max = i + nums[i];
+                    index = i;
+                }
+            }
+            n++;
+            l = index;
+            r = index;
+        }
+        return n;
+    }
 }
