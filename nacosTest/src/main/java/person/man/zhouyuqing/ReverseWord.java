@@ -31,6 +31,18 @@ public class ReverseWord {
     }
 
     public int[] twoSum(int[] numbers, int target) {
-
+        int len = numbers.length;
+        int l = 0;
+        int r = len - 1;
+        while (l < r) {
+            if (numbers[l] + numbers[r] == target) {
+                return new int[]{l, r};
+            } else if (numbers[l] + numbers[r] < target) {
+                l++;
+            } else {
+                r--;
+            }
+        }
+        return new int[]{-1,-1};
     }
 }
