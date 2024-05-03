@@ -1,11 +1,9 @@
 package person.man.zhouyuqing;
 
-public class ReverseWord {
-    public static void main(String[] args) {
-        String res = new ReverseWord().reverseWords("  hello world  ");
-        System.out.println(res);
+import java.util.HashMap;
 
-    }
+public class ReverseWord {
+
 
     public String reverseWords(String s) {
         String res = "";
@@ -43,6 +41,80 @@ public class ReverseWord {
                 r--;
             }
         }
-        return new int[]{-1,-1};
+        return new int[]{-1, -1};
+    }
+
+
+    public static void main(String[] args) {
+        int res = new ReverseWord().minSubArrayLen(7, new int[]{2, 3, 1, 2, 4, 3});
+        System.out.println(res);
+
+    }
+
+    public int minSubArrayLen1(int target, int[] nums) {
+        int len = nums.length;
+        int l = 0;
+        int r = 0;
+        int sum = 0;
+        int res = Integer.MAX_VALUE;
+        while (l <= r && r < len) {
+            boolean flag = false;
+            while (r < len && sum < target) {
+                sum += nums[r];
+                r++;
+            }
+            if (r == len) {
+                if (sum >= target) {
+                    res = Math.min(res, r - l);
+                }
+                r = l;
+                l++;
+                r++;
+                sum = 0;
+                continue;
+            }
+            while (sum >= target) {
+                sum -= nums[l];
+                flag = true;
+                l++;
+            }
+            if (flag == true) {
+                res = Math.min(res, r - l + 1);
+            } else {
+                res = Math.min(res, r - l);
+                l++;
+            }
+
+        }
+        return res == Integer.MAX_VALUE ? 0 : res;
+    }
+
+    public int minSubArrayLen(int target, int[] nums) {
+        int len = nums.length;//还是用闭区间来做吧
+        int l = 0;
+        int r = 0;
+        int sum = nums[0];
+        int res = Integer.MAX_VALUE;
+        while (l <= r && r < len) {
+            while (r < len && sum < target) {
+                r++;
+                sum += nums[r];
+            }
+            if (r==len){
+                if (sum >= target) {
+                    res = Math.min(res, r - l+1);
+                    r = l;
+                    l++;
+                    r++;
+                    sum = 0;
+                    continue;
+                }else {
+                    break;
+                }
+
+            }
+
+        }
+        return res == Integer.MAX_VALUE ? 0 : res;
     }
 }
