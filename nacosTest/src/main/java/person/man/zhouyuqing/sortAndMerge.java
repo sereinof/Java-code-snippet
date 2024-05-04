@@ -1,6 +1,9 @@
 package person.man.zhouyuqing;
 
 import java.util.Arrays;
+import java.util.Deque;
+import java.util.LinkedList;
+import java.util.Stack;
 
 public class sortAndMerge {
     public int findMinArrowShots(int[][] points) {
@@ -29,5 +32,27 @@ public class sortAndMerge {
             }
         }
         return res;
+    }
+
+    public String simplifyPath(String path) {
+        String[] names = path.split("/");
+       Deque deque = new LinkedList();
+        for (String s : names) {
+            if (!deque.isEmpty() && "..".equals(s)) {
+                deque.pollLast();
+            } else if (s.length() > 0 && !".".equals(names)) {
+                deque.offerLast(s);
+            }
+        }
+        StringBuilder stringBuilder = new StringBuilder();
+        if (deque.isEmpty()) {
+            stringBuilder.append("/");
+        } else {
+            while (!deque.isEmpty()) {
+                stringBuilder.append("/");
+                stringBuilder.append(deque.pollFirst());
+            }
+        }
+        return stringBuilder.toString();
     }
 }
