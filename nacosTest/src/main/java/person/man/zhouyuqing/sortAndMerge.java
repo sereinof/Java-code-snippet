@@ -36,7 +36,7 @@ public class sortAndMerge {
 
     public String simplifyPath(String path) {
         String[] names = path.split("/");
-       Deque deque = new LinkedList();
+        Deque deque = new LinkedList();
         for (String s : names) {
             if (!deque.isEmpty() && "..".equals(s)) {
                 deque.pollLast();
@@ -54,5 +54,39 @@ public class sortAndMerge {
             }
         }
         return stringBuilder.toString();
+    }
+
+    public int evalRPN(String[] tokens) {
+        Stack<Integer> s = new Stack<>();
+        for (String token : tokens) {
+            if (isNumber(token)) {
+                s.push(Integer.parseInt(token));
+            } else {
+                int num2 = s.pop();
+                int num1 = s.pop();
+                switch (token) {
+                    case "/":
+                        s.push(num1 / num2);
+                        break;
+                    case "+":
+                        s.push(num1 + num2);
+                        break;
+                    case "-":
+                        s.push(num1 - num2);
+                        break;
+                    case "*":
+                        s.push(num1 * num2);
+                        break;
+                    default:
+                }
+
+
+            }
+        }
+        return s.pop();
+    }
+
+    public boolean isNumber(String s) {
+        return !("/".equals(s) || "*".equals(s) || "-".equals(s) || "+".equals(s));
     }
 }
