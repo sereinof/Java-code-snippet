@@ -1,5 +1,7 @@
 package person.man.zhouyuqing;
 
+import java.util.List;
+
 public class DeepCopy {
     public Node copyRandomList(Node head) {
         if (head == null) {
@@ -15,9 +17,9 @@ public class DeepCopy {
             head = head.next.next;//构建 A->A` ->B->B`
         }
         while (headRan != null) {
-           if(headRan.random!=null){
-               headRan.next.random = headRan.random.next;
-           }
+            if (headRan.random != null) {
+                headRan.next.random = headRan.random.next;
+            }
             headRan = headRan.next.next;
         }
         Node returnw = head_re.next;
@@ -34,7 +36,36 @@ public class DeepCopy {
         }
         return returnw;
     }
+
+
+    public ListNode reverseBetween(ListNode head, int left, int right) {
+//来吧 翻转链表
+        ListNode remeber = head;
+        ListNode leftNode = head;
+        ListNode dummyNode = new ListNode(-1);
+        dummyNode.next = head;
+        leftNode = dummyNode;
+        for (int i = 0; i < left - 1; i++) {
+            leftNode = leftNode.next;
+        }
+        ListNode mid = leftNode.next;
+        ListNode Rp = leftNode.next.next;
+        for (int i = 0; i < right - left; i++) {
+            ListNode next = Rp.next;
+            mid.next = next;
+            Rp.next = null;//先断开
+            //插入
+            ListNode subHead = leftNode.next;
+            leftNode.next = Rp;
+            Rp.next = subHead;
+            Rp = next;
+        }
+
+        return head;
+    }
+
 }
+
 
 class Node {
     int val;
