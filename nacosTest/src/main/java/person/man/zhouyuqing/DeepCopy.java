@@ -1,5 +1,7 @@
 package person.man.zhouyuqing;
 
+import org.w3c.dom.ls.LSInput;
+
 import java.util.List;
 
 public class DeepCopy {
@@ -62,6 +64,34 @@ public class DeepCopy {
         }
 
         return head;
+    }
+
+    public ListNode deleteDuplicates(ListNode head) {
+        ListNode nodeR = head;
+        ListNode dummy = new ListNode(-1);
+        ListNode res = dummy;
+        dummy.next = head;
+        while (head != null) {
+            boolean flag = false;
+            while (head.next != null && head.next.val == head.val) {
+                flag = true;
+                ListNode n1 = head.next.next;
+                head.next.next = null;
+                head.next = n1;
+            }
+            if (flag) {
+                ListNode nn = head.next;
+                head.next = null;
+                dummy.next = nn;
+                head = nn;
+
+            } else {
+                dummy = dummy.next;
+                head = head.next;
+            }
+
+        }
+        return res.next;
     }
 
 }
