@@ -94,6 +94,35 @@ public class DeepCopy {
         return res.next;
     }
 
+    public ListNode rotateRight(ListNode head, int k) {
+        if (head.next == null) {
+            return head;
+        }
+        ListNode h = head;
+        int len = 0;
+        while (head != null) {
+            len++;
+            ListNode t = head.next;
+            if (t == null) {
+                break;//成环
+            } else {
+                head = head.next;
+            }
+        }
+        ListNode h1 = h;
+        int Rk = k % len;
+        if (Rk == 0) {
+            return h;
+        }
+        for (int i = 0; i < len - Rk-1; i++) {
+            h1 = h1.next;
+        }
+        ListNode res = h1.next;
+        h1.next = null;
+        head.next = h;
+        return res;
+    }
+
 }
 
 
