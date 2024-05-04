@@ -125,7 +125,7 @@ public class DeepCopy {
     }
 
     public ListNode partition(ListNode head, int x) {
-        if(head==null||head.next==null){
+        if (head == null || head.next == null) {
             return head;
         }
         ListNode dummp = new ListNode(-1);
@@ -133,7 +133,7 @@ public class DeepCopy {
         dummp.next = head;
         while (dummp.next.val < x) {
             dummp = dummp.next;//在第一个大于x的节点前停下来
-            if(dummp.next==null){
+            if (dummp.next == null) {
                 return head;
             }
         }
@@ -149,12 +149,12 @@ public class DeepCopy {
                 n.next = null;
                 dump1.next = y;
 
-                ListNode y1  = dummp.next;
+                ListNode y1 = dummp.next;
                 dummp.next = n;
                 n.next = y1;
                 dummp = dummp.next;
 
-                n=y;
+                n = y;
                 //交换
             }
         }
@@ -165,8 +165,10 @@ public class DeepCopy {
 
 
 class Node {
+    public Node left;
+    public Node right;
+    public Node next;
     int val;
-    Node next;
     Node random;
     boolean isNew = false;
 
