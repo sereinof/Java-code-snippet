@@ -4,6 +4,7 @@ import org.w3c.dom.ls.LSInput;
 
 import java.util.List;
 
+//好几道链表的题目
 public class DeepCopy {
     public Node copyRandomList(Node head) {
         if (head == null) {
@@ -114,13 +115,50 @@ public class DeepCopy {
         if (Rk == 0) {
             return h;
         }
-        for (int i = 0; i < len - Rk-1; i++) {
+        for (int i = 0; i < len - Rk - 1; i++) {
             h1 = h1.next;
         }
         ListNode res = h1.next;
         h1.next = null;
         head.next = h;
         return res;
+    }
+
+    public ListNode partition(ListNode head, int x) {
+        if(head==null||head.next==null){
+            return head;
+        }
+        ListNode dummp = new ListNode(-1);
+        ListNode res = dummp;
+        dummp.next = head;
+        while (dummp.next.val < x) {
+            dummp = dummp.next;//在第一个大于x的节点前停下来
+            if(dummp.next==null){
+                return head;
+            }
+        }
+        ListNode n = dummp.next;
+        ListNode dump1 = new ListNode(-2);
+        dump1.next = n;
+        while (n != null) {
+            if (n.val >= x) {
+                dump1 = dump1.next;//记录前驱节点
+                n = n.next;
+            } else {
+                ListNode y = n.next;
+                n.next = null;
+                dump1.next = y;
+
+                ListNode y1  = dummp.next;
+                dummp.next = n;
+                n.next = y1;
+                dummp = dummp.next;
+
+                n=y;
+                //交换
+            }
+        }
+        return res.next;
     }
 
 }
