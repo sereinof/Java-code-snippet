@@ -105,4 +105,37 @@ public class Tree {
         }
         return res;
     }
+
+    public List<List<Integer>> zigzagLevelOrder(TreeNode root) {
+        List<List<Integer>> res = new ArrayList<>();
+        boolean flag =true;
+        if (root == null) {
+            return res;
+        }
+        Queue<TreeNode> queue = new ArrayDeque<>();
+        queue.offer(root);
+        while (!queue.isEmpty()) {
+            int size = queue.size();
+            ArrayList<Integer> now = new ArrayList<>();
+            for (int i = 0; i < size; i++) {
+                TreeNode node = queue.poll();
+                now.add(node.val);
+                if (node.left != null) {
+                    queue.offer(node.left);
+                }
+                if (node.right != null) {
+                    queue.offer(node.right);
+                }
+            }
+            if(flag){
+                res.add(now);
+                flag=false;
+            }else{
+                Collections.reverse(now);
+                res.add(now);
+                flag=true;
+            }
+        }
+        return res;
+    }
 }
