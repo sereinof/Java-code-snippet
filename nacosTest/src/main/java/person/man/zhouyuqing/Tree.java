@@ -165,4 +165,52 @@ public class Tree {
         List<Integer> res = new ArrayList<>();
         return res;
     }
+
+    public void solve(char[][] board) {
+        if (board.length == 0 || board[0].length == 0) {
+            return;
+        }
+        List<List<Integer>> boundary = new ArrayList<>();
+        for (int i = 0; i < board.length; i++) {
+            for (int j = 0; j < board[0].length; j++) {
+                if (i == 0 || i == board.length - 1 || j == 0 || j == board[0].length - 1) {
+                    if (board[i][j] == 'O') {
+                        List<Integer> now = new ArrayList<>();
+                        now.add(i);
+                        now.add(j);
+                        boundary.add(now);
+                    }
+                }
+            }
+        }
+        for (List s : boundary) {
+            dfs(board, (int) s.get(0), (int) s.get(1));
+        }
+        for (int i = 0; i < board.length; i++) {
+            for (int j = 0; j < board[0].length; j++) {
+                if (board[i][j] != 'R') {
+                    board[i][j] = 'X';
+                } else {
+                    board[i][j] = 'O';
+                }
+            }
+        }
+    }
+
+    public void dfs(char[][] board, int index1, int index2) {
+        if (!(index1 >= 0 && index1 <= board.length - 1)) {
+            return;
+        }
+        if (!(index2 >= 0 && index2 <= board[0].length - 1)) {
+            return;
+        }
+        if (board[index1][index2] == 'O') {
+            board[index1][index2] = 'R';
+            dfs(board, index1 - 1, index2);
+            dfs(board, index1 + 1, index2);
+            dfs(board, index1, index2 - 1);
+            dfs(board, index1, index2 + 1);
+        }
+
+    }
 }
