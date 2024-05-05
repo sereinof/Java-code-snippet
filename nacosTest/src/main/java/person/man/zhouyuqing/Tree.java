@@ -37,7 +37,7 @@ public class Tree {
 
     //二叉树的层序遍历
     public Node connect(Node root) {
-        if(root==null){
+        if (root == null) {
             return root;
         }
         //借助队列吧
@@ -61,4 +61,28 @@ public class Tree {
         }
         return root;
     }
+
+    int sum = 0;
+
+    public int sumNumbers(TreeNode root) {
+
+        dfsSum(root, 0);
+        return sum;
+    }
+
+    public void dfsSum(TreeNode node, int s) {
+
+        if(node.left==null&&node.right==null){
+            sum += (s * 10 + node.val);
+        }
+        if (node.left != null) {
+            dfsSum(node.left, s * 10 + node.val);
+        }
+        if (node.right != null) {
+            dfsSum(node.right, s * 10 + node.val);
+        }
+
+    }
+
+    ;
 }
