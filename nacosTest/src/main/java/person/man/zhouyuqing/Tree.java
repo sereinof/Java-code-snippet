@@ -1,9 +1,6 @@
 package person.man.zhouyuqing;
 
-import java.util.ArrayDeque;
-import java.util.Deque;
-import java.util.LinkedList;
-import java.util.Queue;
+import java.util.*;
 
 public class Tree {
     int[] inorder;
@@ -72,7 +69,7 @@ public class Tree {
 
     public void dfsSum(TreeNode node, int s) {
 
-        if(node.left==null&&node.right==null){
+        if (node.left == null && node.right == null) {
             sum += (s * 10 + node.val);
         }
         if (node.left != null) {
@@ -84,5 +81,28 @@ public class Tree {
 
     }
 
-    ;
+    public List<Integer> rightSideView(TreeNode root) {
+        List<Integer> res = new ArrayList<>();
+        if (root == null) {
+            return res;
+        }
+        Queue<TreeNode> queue = new ArrayDeque<>();
+        queue.offer(root);
+        while (!queue.isEmpty()) {
+            int size = queue.size();
+            for (int i = 0; i < size; i++) {
+                TreeNode node = queue.poll();
+                if (i == size - 1) {
+                    res.add(node.val);
+                }
+                if (node.left != null) {
+                    queue.offer(node.left);
+                }
+                if (node.right != null) {
+                    queue.offer(node.right);
+                }
+            }
+        }
+        return res;
+    }
 }
