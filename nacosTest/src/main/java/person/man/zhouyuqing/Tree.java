@@ -108,7 +108,7 @@ public class Tree {
 
     public List<List<Integer>> zigzagLevelOrder(TreeNode root) {
         List<List<Integer>> res = new ArrayList<>();
-        boolean flag =true;
+        boolean flag = true;
         if (root == null) {
             return res;
         }
@@ -127,15 +127,42 @@ public class Tree {
                     queue.offer(node.right);
                 }
             }
-            if(flag){
+            if (flag) {
                 res.add(now);
-                flag=false;
-            }else{
+                flag = false;
+            } else {
                 Collections.reverse(now);
                 res.add(now);
-                flag=true;
+                flag = true;
             }
         }
+        return res;
+    }
+
+    public int kthSmallest(TreeNode root, int k) {
+        int res = 0;
+//这题用中序遍历可以直接秒
+        //才发现非递归的中序遍历好牛逼呀 估计是要背的 这种算法
+        Stack<TreeNode> stack = new Stack<>();
+        stack.push(root);
+        TreeNode cur = root;
+        while (!stack.isEmpty()) {
+            while (cur != null) {
+                stack.push(cur);
+                cur = cur.left;
+            }
+            TreeNode n = stack.pop();
+            res++;
+            if (res == k) {
+                return n.val;
+            }
+            cur = cur.right;
+        }
+        return res;
+    }
+
+    public List<Integer> inorderTraversal(TreeNode root) {
+        List<Integer> res = new ArrayList<>();
         return res;
     }
 }
