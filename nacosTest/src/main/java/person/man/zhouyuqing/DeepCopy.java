@@ -170,6 +170,7 @@ class Node {
     public Node next;
     int val;
     Node random;
+    public List<Node> neighbors;
     boolean isNew = false;
 
     public Node(int val) {
