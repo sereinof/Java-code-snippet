@@ -165,12 +165,71 @@ public class Graph {
                     }
                 }
             }
-
         }
         return -1;
     }
+
+    public static void main(String[] args) {
+        ArrayList<String> arr = new ArrayList();
+        arr.add("most");
+        arr.add("mist");
+        arr.add("miss");
+        arr.add("lost");
+        arr.add("fist");
+        arr.add("fish");
+        new Graph().ladderLength("lost", "miss", arr);
+    }
+
     public int ladderLength(String beginWord, String endWord, List<String> wordList) {
 
+        HashSet set = new HashSet<>(wordList);
+        HashSet visited = new HashSet<>();
+
+        if (beginWord.equals(endWord)) {
+            return 0;
+        }
+        if (set.size() == 0 || !set.contains(endWord)) {
+            return 0;
+        }
+        set.remove(beginWord);
+        Queue<String> queue = new ArrayDeque();
+        queue.offer(beginWord);
+        visited.add(beginWord);
+        int steps = 0;
+        while (!queue.isEmpty()) {
+            steps++;
+            int size = queue.size();
+            for (int q = 0; q < size; q++) {
+                String now = queue.poll();
+                for (int i = 0; i < now.length(); i++) {
+                    for (char j = 'a'; j <= 'z'; j++) {
+                        if (now.charAt(i) != j) {
+                            StringBuilder next = new StringBuilder(now);
+                            next.setCharAt(i, j);
+                            String nextR = next.toString();
+                            if (set.contains(nextR)) {
+                                if (nextR.equals(endWord)) {
+                                    return steps + 1;
+                                } else {
+                                    if (!visited.contains(nextR)) {
+                                        queue.offer(nextR);
+                                        visited.add(nextR);
+                                    }
+                                }
+                            }
+
+                        }
+                    }
+                }
+            }
+        }
+        return 0;
+    }
+
+    public int openLock(String[] deadends, String target) {
+
+
+        return -1;
     }
 
 }
