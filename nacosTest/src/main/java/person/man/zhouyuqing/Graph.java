@@ -64,8 +64,8 @@ public class Graph {
 
     public int snakesAndLadders(int[][] board) {
         int n1 = board.length * board[0].length;
-        int n = board.length ;
-        int[] endCor = id2rc(n1 , n);
+        int n = board.length;
+        int[] endCor = id2rc(n1, n);
         int endP = board[endCor[0]][endCor[1]];
         if (endP < n1 && endP != -1) {
             return -1;//终点有蛇
@@ -83,7 +83,7 @@ public class Graph {
                 for (int j = 1; j <= 6; j++) {
                     int[] rc = id2rc(posiotn + j, n);
                     int nxt = posiotn + j;
-                    if(nxt>n1){
+                    if (nxt > n1) {
                         break;
                     }
                     if (posiotn + j >= n1) {
@@ -118,6 +118,59 @@ public class Graph {
             c = n - 1 - c;
         }
         return new int[]{n - 1 - r, c};
+    }
+
+    public int minMutation(String startGene, String endGene, String[] bank) {
+        char[] can = new char[]{'A', 'C', 'G', 'T'};
+        HashSet set = new HashSet<>();
+        HashSet visited = new HashSet<>();
+        for (String i : bank) {
+            set.add(i);
+        }
+        if (startGene.equals(endGene)) {
+            return 0;
+        }
+        if (!set.contains(endGene)) {
+            return -1;
+        }
+        Queue<String> queue = new ArrayDeque();
+        queue.offer(startGene);
+        visited.add(startGene);
+        int steps = 0;
+        while (!queue.isEmpty()) {
+            steps++;
+            int size = queue.size();
+            for (int q = 0; q < size; q++) {
+                String now = queue.poll();
+                for (int i = 0; i < 8; i++) {
+                    for (int j = 0; j < 4; j++) {
+                        if (now.charAt(i) != can[j]) {
+                            StringBuilder next = new StringBuilder(now);
+                            next.setCharAt(i, can[j]);
+                            String nextR = next.toString();
+
+                            //变化后的基因必须位于基因库中
+                            if (set.contains(nextR)) {
+                                if (nextR.equals(endGene)) {
+                                    return steps;
+                                } else {
+                                    if (!visited.contains(nextR)) {
+                                        queue.offer(nextR);
+                                        visited.add(nextR);
+                                    }
+                                }
+                            }
+
+                        }
+                    }
+                }
+            }
+
+        }
+        return -1;
+    }
+    public int ladderLength(String beginWord, String endWord, List<String> wordList) {
+
     }
 
 }
