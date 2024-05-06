@@ -227,7 +227,63 @@ public class Graph {
     }
 
     public int openLock(String[] deadends, String target) {
+        String beginWord = "0000";
+        HashSet set = new HashSet<String>();
+        HashSet visited = new HashSet<>();
+        for (String i : deadends) {
+            set.add(i);
+        }
+        if (beginWord.equals(target)) {
+            return -1;
+        }
+        if(set.contains(beginWord)){
+            return -1;
+        }
+        if (set.size() == 0 || set.contains(target)) {
+            return -1;
+        }
+        set.remove(beginWord);
+        Queue<String> queue = new ArrayDeque();
+        queue.offer(beginWord);
+        visited.add(beginWord);
+        int steps = 0;
+        while (!queue.isEmpty()) {
+            steps++;
+            int size = queue.size();
+            for (int q = 0; q < size; q++) {
+                String now = queue.poll();
+                for (int i = 0; i < 4; i++) {
+                    //
 
+                    char[] nexts = new char[2];
+                    if (now.charAt(i) == '0') {
+                        nexts[0] = '9';
+                        nexts[1] = '1';
+                    } else if (now.charAt(i) == '9') {
+                        nexts[0] = '0';
+                        nexts[1] = '8';
+                    }else{
+                        nexts[0] = (char) (now.charAt(i)-1);
+                        nexts[1] = (char) (now.charAt(i)+1);
+                    }
+                    for (char j:nexts) {
+                            StringBuilder next = new StringBuilder(now);
+                            next.setCharAt(i, j);
+                            String nextR = next.toString();
+                            if (!set.contains(nextR)) {
+                                if (nextR.equals(target)) {
+                                    return steps + 1;
+                                } else {
+                                    if (!visited.contains(nextR)) {
+                                        queue.offer(nextR);
+                                        visited.add(nextR);
+                                    }
+                                }
+                        }
+                    }
+                }
+            }
+        }
 
         return -1;
     }
