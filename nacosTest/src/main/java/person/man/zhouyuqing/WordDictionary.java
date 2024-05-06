@@ -55,7 +55,6 @@ public class WordDictionary {
             } else {
                 return false;
             }
-
         }
         if (word.charAt(index1) == '.') {
             boolean flag = false;
