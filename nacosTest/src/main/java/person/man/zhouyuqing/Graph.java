@@ -254,7 +254,6 @@ public class Graph {
                 String now = queue.poll();
                 for (int i = 0; i < 4; i++) {
                     //
-
                     char[] nexts = new char[2];
                     if (now.charAt(i) == '0') {
                         nexts[0] = '9';
