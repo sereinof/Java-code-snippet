@@ -2,10 +2,7 @@ package person.man.zhouyuqing;
 
 import org.checkerframework.checker.units.qual.A;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 
 public class HuiSuo {
     List<List<Integer>> res = new ArrayList<>();
@@ -45,43 +42,55 @@ public class HuiSuo {
 
     public static void main(String[] args) {
         HuiSuo a = new HuiSuo();
-        int res = a.totalNQueens(4);
+       List res = a.solveNQueens(4);
         System.out.println("finish test!");
     }
 
     int target;
-    int res1;
+    List<List<String>> res1  =new ArrayList<>();
     HashSet<Integer> x = new HashSet<>();
     HashSet<Integer> y = new HashSet<>();
     HashSet<Integer> z = new HashSet<>();
 
-    public int totalNQueens(int n) {
+    public List<List<String>> solveNQueens(int n) {
         target = n;
         LinkedList arr = new LinkedList<>();
         for (int i = 0; i < n; i++) {
-            arr.push(i);
-            mark(0,i);
+            char[] row = new char[n];
+            Arrays.fill(row,'.');
+            row[i] = 'Q';
+            String add = new String(row);
+            arr.push(add);
+            mark(0, i);
             backtracking(n - 1, arr);
-            unmark(0,i );
+            unmark(0, i);
             arr.pop();
         }
         return res1;
     }
 
-    public void backtracking(int n, LinkedList s) {
+    public void backtracking(int n, LinkedList<String> s) {
         if (s.size() == target) {
-            res1++;
+            ArrayList<String> candi = new ArrayList<>();
+            for(String q:s){
+                candi.add(q);
+            }
+            res1.add(candi);
             return;
         }
         if (n <= 0) {
             return;
         }
         for (int i = 0; i < target; i++) {
-            if (aviable(s.size(),i)) {
-                s.push(i);
-                mark(s.size() - 1,i );
+            if (aviable(s.size(), i)) {
+                char[] row = new char[target];
+                Arrays.fill(row,'.');
+                row[i] = 'Q';
+                String add = new String(row);
+                s.push(add);
+                mark(s.size() - 1, i);
                 backtracking(n - 1, s);
-                unmark(s.size() - 1,i );
+                unmark(s.size() - 1, i);
                 s.pop();
             }
         }
