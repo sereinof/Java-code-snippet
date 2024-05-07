@@ -1,6 +1,7 @@
 package person.man.zhouyuqing;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.PriorityQueue;
 
@@ -53,12 +54,52 @@ public class HeapQ {
         int a = 0;
         int b = 0;
         for (int n : nums) {
-            if ((n & bit_position)==0){
-                a^=n;
-            }else{
-                b^=n;
+            if ((n & bit_position) == 0) {
+                a ^= n;
+            } else {
+                b ^= n;
             }
         }
-        return new int[]{a,b};
+        return new int[]{a, b};
     }
+
+    public static void main(String[] args) {
+        new HeapQ().rangeBitwiseAnd(1, 10);
+    }
+
+    public int rangeBitwiseAnd(int m, int n) {
+        int shift = 0;
+        // 找到公共前缀
+        while (m < n) {
+            m >>= 1;
+            n >>= 1;
+            ++shift;
+        }
+        return m << shift;
+    }
+
+    public double myPow(double x, int n1) {
+        double sum = x;
+        double asn = 1;
+        int n = n1;
+        boolean flag = false;
+        if (n < 0) {
+            n = -n;
+            flag = true;
+        }
+        while (n != 0) {
+            if ((n & 1) == 1) {
+                asn *= sum;
+            }
+            sum *= sum;
+            n = n >> 1;
+        }
+        if (flag) {
+            return 1 / asn;
+        } else {
+            return asn;
+        }
+
+    }
+
 }
