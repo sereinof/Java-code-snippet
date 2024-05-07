@@ -112,6 +112,38 @@ public class DP {
     }
 
     public int trap(int[] height) {
-
+        int[] left = new int[height.length];
+        int[] right = new int[height.length];
+        left[0] = height[0];
+        for (int i = 1; i < height.length; i++) {
+            left[i] = Math.max(left[i - 1], height[i]);
+        }
+        right[height.length - 1] = height[height.length - 1];
+        for (int i = height.length - 2; i >= 0; i--) {
+            right[i] = Math.max(right[i + 1], height[i]);
+        }
+        int res = 0;
+        for (int i = 0; i < height.length; i++) {
+            int min = Math.min(left[i], right[i]);
+            if (min > height[i]) {
+                res += min - height[i];
+            }
+        }
+        return res;
     }
+
+    public String intToRoman(int num) {
+        int[] value = {1000, 900, 500, 400, 100, 90, 50, 40, 10, 9, 5, 4, 1};
+        String[] reps = {"M", "CM", "D", "CD", "C", "XC", "L", "XL", "X", "IX", "V", "IV", "I"};
+        StringBuilder res = new StringBuilder();
+        for (int i = 0; i < value.length; i++) {
+            int count = num / value[i];
+            for (int j = 0; j < count; j++) {
+                res.append(reps[i]);
+            }
+            num = num / value[i];
+        }
+        return res.toString();
+    }
+
 }
