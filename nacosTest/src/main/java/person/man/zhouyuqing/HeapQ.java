@@ -33,12 +33,32 @@ public class HeapQ {
         for (int i = 0; i < 32; i++) {
             int count = 0;
             for (int n : nums) {
-            count+=   n&1>>i+1;
+                count += n & 1 >> i + 1;
             }
-            if(count==1){
-                res += 1>>i+1;
+            if (count == 1) {
+                res += 1 >> i + 1;
             }
         }
         return res;
+    }
+
+    public int[] singleNumber(int[] nums) {
+        int yihuoRes = 0;//存储a,b 异或的结果
+        for (int i = 0; i < nums.length; i++) {
+            yihuoRes ^= nums[i];
+        }
+        //得到异或的结果之后
+        //那么获取到这个异或结果上随便以为位1 的比特位
+        int bit_position = yihuoRes == Integer.MIN_VALUE ? yihuoRes : yihuoRes & (-yihuoRes);
+        int a = 0;
+        int b = 0;
+        for (int n : nums) {
+            if ((n & bit_position)==0){
+                a^=n;
+            }else{
+                b^=n;
+            }
+        }
+        return new int[]{a,b};
     }
 }
