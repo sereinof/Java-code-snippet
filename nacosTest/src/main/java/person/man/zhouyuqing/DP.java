@@ -1,5 +1,13 @@
 package person.man.zhouyuqing;
 
+import org.checkerframework.checker.nullness.Opt;
+
+import java.util.Arrays;
+import java.util.Optional;
+import java.util.OptionalInt;
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.stream.Stream;
+
 public class DP {
     public int uniquePathsWithObstacles(int[][] obstacleGrid) {
         int x = obstacleGrid.length;
@@ -31,8 +39,9 @@ public class DP {
     }
 
     public static void main(String[] args) {
-        new DP().isInterleave("aabc","abad","aabadabc");
+        new DP().isInterleave("aabc", "abad", "aabadabc");
     }
+
     public boolean isInterleave(String s1, String s2, String s3) {
 
         int size1 = s1.length();
@@ -53,8 +62,8 @@ public class DP {
             for (int j = 1; j <= size2; j++) {
                 if (s1.charAt(i - 1) != s3.charAt(i + j - 1) && s2.charAt(j - 1) != s3.charAt(i + j - 1)) {
                     dp[i][j] = false;
-                } else if (s1.charAt(i - 1) == s3.charAt(i + j - 1) && s2.charAt(j - 1) == s3.charAt(i + j - 1)){
-                    dp[i][j] = dp[i - 1][j]||dp[i][j - 1];
+                } else if (s1.charAt(i - 1) == s3.charAt(i + j - 1) && s2.charAt(j - 1) == s3.charAt(i + j - 1)) {
+                    dp[i][j] = dp[i - 1][j] || dp[i][j - 1];
                 } else if (s1.charAt(i - 1) == s3.charAt(i + j - 1)) {
                     dp[i][j] = dp[i - 1][j];
                 } else if (s2.charAt(j - 1) == s3.charAt(i + j - 1)) {
@@ -67,8 +76,42 @@ public class DP {
         return dp[size1][size2];
     }
 
-    public int maxProfit(int[] prices) {
-
+    public int maxProfit1(int[] prices) {
+//又来买股票喽
+        int[][] dp = new int[prices.length][5];
+        dp[0][0] = 0;
+        dp[0][1] = -prices[0];//第一次买入
+        dp[0][2] = 0;//第一次卖出
+        dp[0][3] = -prices[0];//第二次买入
+        dp[0][4] = 0;//第二次卖出
+        for (int i = 1; i < prices.length; i++) {
+            dp[i][0] = dp[i - 1][0];
+            dp[i][1] = Math.max(-prices[i], dp[i - 1][1]);
+            dp[i][2] = Math.max(dp[i - 1][1] + prices[i], dp[i - 1][2]);
+            dp[i][3] = Math.max(dp[i - 1][2] - prices[i], dp[i - 1][3]);
+            dp[i][4] = Math.max(dp[i - 1][4], dp[i - 1][3] + prices[i]);
+        }
+        return Math.max(dp[prices.length - 1][2], dp[prices.length - 1][4]);
     }
 
+    public int maxProfit(int k, int[] prices) {
+//又来买股票喽
+        int[][] dp = new int[prices.length][2 * k + 1];
+        for (int i = 1; i <= 2 * k; i += 2) {
+            dp[0][i] = -prices[0];
+        }
+        for (int i = 1; i < prices.length; i++) {
+            for (int j = 1; j <= 2 * k; j += 2) {
+                dp[i][j] = Math.max(dp[i - 1][j - 1] - prices[i], dp[i - 1][j]);
+                dp[i][j + 1] = Math.max(dp[i - 1][j] + prices[i], dp[i - 1][j]);
+            }
+        }
+
+        OptionalInt res = Arrays.stream(dp[prices.length - 1]).max();
+        return res.getAsInt();
+    }
+
+    public int trap(int[] height) {
+
+    }
 }
