@@ -102,4 +102,29 @@ public class HeapQ {
 
     }
 
+    public int minimumTotal(List<List<Integer>> triangle) {
+        //定义dp函数 的参数位 到达该行该列的最小路径是多少 结果取dp数组中最后一行的的最小值即可
+        int maxLen = triangle.get(triangle.size() - 1).size();
+        int[][] dp = new int[triangle.size()][maxLen];
+        dp[0][0] = triangle.get(0).get(0);
+        int res = Integer.MAX_VALUE;
+        for (int i = 1; i < triangle.size(); i++) {//从第二层开始遍历
+            for (int j = 0; j < triangle.get(i).size(); j++) {
+                List<Integer> lastRow = triangle.get(i - 1);
+                int value = triangle.get(i).get(j);
+                if (j == 0) {
+                    dp[i][j] = dp[i - 1][j] + value;
+                } else if (j == lastRow.size()) {
+                    dp[i][j] = dp[i - 1][j - 1] + value;
+                } else {
+                    dp[i][j] = value + Math.min(dp[i - 1][j], dp[i - 1][j - 1]);
+                }
+                if (i == triangle.size() - 1) {
+                    res = Math.min(dp[i][j], res);
+                }
+            }
+        }
+        return res==Integer.MAX_VALUE?dp[0][0]:res;
+    }
+
 }
