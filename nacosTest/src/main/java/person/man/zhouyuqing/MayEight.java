@@ -171,10 +171,7 @@ public class MayEight {
         return l;
     }
 
-    public static void main(String[] args) {
-        String res = new MayEight().multiply("123", "456");
-        System.out.println(res);
-    }
+
 
     public String multiply(String num1, String num2) {
         if ("0".equals(num1) || "0".equals(num2)) {
@@ -223,5 +220,33 @@ public class MayEight {
             }
         }
         return res.toString();
+    }
+    public static void main(String[] args) {
+        int  res = new MayEight().reverse(1534236469);
+        System.out.println(res);
+    }
+    public int reverse(int x) {
+        int res = 0;
+        try {
+            while (x != 0) {
+                int now = x % 10;
+                res = 10 * res + now;
+                x /= 10;
+                if(res>Integer.MAX_VALUE/10){
+                    return 0;
+                }
+                if(res<Integer.MAX_VALUE/10){
+                    return 0;
+                }
+            }
+            return res;
+        } catch (Exception e) {
+            return 0;
+        }
+
+    }
+
+    public boolean repeatedSubstringPattern(String s) {
+
     }
 }
