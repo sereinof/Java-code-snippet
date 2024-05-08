@@ -59,29 +59,56 @@ public class MayEight {
                 cnt++;
             } else if (s.charAt(i) == ')') {
                 cnt--;
-                if(cnt<0){
+                if (cnt < 0) {
                     con.add(i);
-                    cnt=0;
-                };
+                    cnt = 0;
+                }
+                ;
             }
         }
-        while (cnt!=0){
-            for(int i=0;i<s.length();i++){
-                if(s.charAt(i)=='('){
+        while (cnt != 0) {
+            for (int i = 0; i < s.length(); i++) {
+                if (s.charAt(i) == '(') {
                     con.add(i);
                     cnt--;
-                    if(cnt==0){
+                    if (cnt == 0) {
                         break;
                     }
                 }
             }
         }
-        for(int i = 0;i<s.length();i++){
-            if(!con.contains(i)){
+        for (int i = 0; i < s.length(); i++) {
+            if (!con.contains(i)) {
                 res.append(s.charAt(i));
             }
         }
 
+        return res.toString();
+    }
+
+    public String mergeAlternately(String word1, String word2) {
+//写个简单字符串压压惊吧
+        int i = 0;
+        int j = 0;
+        boolean flag = true;
+        StringBuilder res = new StringBuilder();
+        while (i < word1.length() || j < word2.length()) {
+            if (flag) {
+                if (i < word1.length()) {
+                    res.append(word1.charAt(i));
+                    i++;
+                }
+
+                flag = false;
+            } else {
+                if (j < word2.length()) {
+                    res.append(word2.charAt(j));
+                    i++;
+                }
+
+                flag = true;
+            }
+        }
         return res.toString();
     }
 }
