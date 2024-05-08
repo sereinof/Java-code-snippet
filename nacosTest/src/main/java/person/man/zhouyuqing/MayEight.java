@@ -172,7 +172,6 @@ public class MayEight {
     }
 
 
-
     public String multiply(String num1, String num2) {
         if ("0".equals(num1) || "0".equals(num2)) {
             return "0";
@@ -221,10 +220,8 @@ public class MayEight {
         }
         return res.toString();
     }
-    public static void main(String[] args) {
-        int  res = new MayEight().reverse(1534236469);
-        System.out.println(res);
-    }
+
+
     public int reverse(int x) {
         int res = 0;
         try {
@@ -232,10 +229,10 @@ public class MayEight {
                 int now = x % 10;
                 res = 10 * res + now;
                 x /= 10;
-                if(res>Integer.MAX_VALUE/10){
+                if (res > Integer.MAX_VALUE / 10) {
                     return 0;
                 }
-                if(res<Integer.MAX_VALUE/10){
+                if (res < Integer.MAX_VALUE / 10) {
                     return 0;
                 }
             }
@@ -246,7 +243,35 @@ public class MayEight {
 
     }
 
+    public static void main(String[] args) {
+        boolean res = new MayEight().repeatedSubstringPattern("ababba");
+        System.out.println(res);
+    }
+
     public boolean repeatedSubstringPattern(String s) {
+        for (int i = 1; i <= s.length() / 2; i++) {
+            int dd = s.length() % i;
+            if (dd == 0) {
+                boolean flag = false;
+                int index = 0;
+                for (int j = 0; j < i; j++) {
+                    char thistime = s.charAt(index);
+                    for (int k = index; k < s.length(); k += i) {
+                        if (s.charAt(k) != thistime) {
+                            flag = true;
+                        }
+                    }
+                    index++;
+                }
+                if(!flag){
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    public void reorderList(ListNode head) {
 
     }
 }
