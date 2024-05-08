@@ -1,8 +1,6 @@
 package person.man.zhouyuqing;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
+import java.util.*;
 
 public class MayEight {
 
@@ -98,17 +96,60 @@ public class MayEight {
                     res.append(word1.charAt(i));
                     i++;
                 }
-
                 flag = false;
             } else {
                 if (j < word2.length()) {
                     res.append(word2.charAt(j));
                     i++;
                 }
-
                 flag = true;
             }
         }
         return res.toString();
+    }
+
+    public static void main(String[] args) {
+        new MayEight().longestValidParentheses(")()())()()(");
+    }
+    public int longestValidParentheses(String s) {
+        //和回文有关呢这个题目
+        if (s.length() == 0) {
+            return 0;
+        }
+        int len = s.length();
+        int dp[] = new int[len];
+        dp[0] = 0;
+        for (int i = 1; i < len; i++) {
+            if (s.charAt(i) == '(') {
+                dp[i] = 0;
+            } else if (s.charAt(i) == ')') {
+                if (s.charAt(i - 1) == '(') {
+                    if (i - 2 >= 0) {
+                        dp[i] = dp[i - 2] + 2;
+                    } else {
+                        dp[i] = 2;
+                    }
+
+                } else {//')'
+                    if (i - dp[i - 1] - 1 >= 0) {
+                        if (s.charAt(i - dp[i - 1] - 1) == '(') {
+                            if (i - dp[i - 1] - 2 >= 0) {
+                                dp[i] = dp[i - 1] + 2 + dp[i - dp[i - 1] - 2];
+                            } else {
+                                dp[i] = dp[i - 1] + 2;
+                            }
+
+                        } else {
+                            dp[i] = 0;
+                        }
+                    } else {
+                        dp[i] = 0;
+                    }
+                }
+            }
+        }
+        OptionalInt res = Arrays.stream(dp).max();
+        return res.getAsInt();
+
     }
 }
