@@ -109,7 +109,6 @@ public class MayEight {
     }
 
 
-
     public int longestValidParentheses(String s) {
         //和回文有关呢这个题目
         if (s.length() == 0) {
@@ -173,21 +172,27 @@ public class MayEight {
     }
 
     public static void main(String[] args) {
-
+        String res = new MayEight().multiply("123", "456");
+        System.out.println(res);
     }
+
     public String multiply(String num1, String num2) {
+        if ("0".equals(num1) || "0".equals(num2)) {
+            return "0";
+        }
+        ;
         int len1 = num1.length();
         int len2 = num2.length();
         int len = Math.max(len1, len2);
-        int[] arr = new int[len*2];
-        int n= 0;
-        if (num1.length() > num2.length()) {
-            for (int i = len1 - 1; i >= 0; i++) {
-                for (int j = len2 - 1; j >= 0; j++) {
+        int[] arr = new int[len * 2];
+        int n = 0;
+        if (num1.length() < num2.length()) {
+            for (int i = len1 - 1; i >= 0; i--) {
+                for (int j = len2 - 1; j >= 0; j--) {
                     int a = num1.charAt(i) - '0';
                     int b = num2.charAt(j) - '0';
                     int res = a * b;
-                    arr[2*len- i-n] += res;
+                    arr[len + j - n] += res;
                 }
                 n++;
             }
@@ -197,15 +202,19 @@ public class MayEight {
                     int a = num2.charAt(i) - '0';
                     int b = num1.charAt(j) - '0';
                     int res = a * b;
-                    arr[2*len -i -n] += res;
+                    arr[len + j - n] += res;
                 }
                 n++;
             }
         }
+        int index = 0;
+        while (index < arr.length && arr[index] == 0) {
+            index++;
+        }
         StringBuilder res = new StringBuilder();
-        for (int i = arr.length - 1; i >= 0; i--) {
+        for (int i = arr.length - 1; i >= index; i--) {
             res.insert(0, arr[i] % 10);
-            if (i != 0) {
+            if (i != index) {
                 arr[i - 1] += (arr[i] / 10);
             } else {
                 if (arr[i] / 10 != 0) {
