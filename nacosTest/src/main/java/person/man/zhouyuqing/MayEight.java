@@ -108,9 +108,8 @@ public class MayEight {
         return res.toString();
     }
 
-    public static void main(String[] args) {
-        new MayEight().longestValidParentheses(")()())()()(");
-    }
+
+
     public int longestValidParentheses(String s) {
         //和回文有关呢这个题目
         if (s.length() == 0) {
@@ -149,26 +148,71 @@ public class MayEight {
                 }
 
             }
-            max = Math.max(max,dp[i]);
+            max = Math.max(max, dp[i]);
         }
 
-        return dp[len-1];
+        return dp[len - 1];
 
     }
+
     public int search(int[] nums, int target) {
-    int l =0;
-    int r = nums.length-1;
-    while ((r!=l)){
-        int mid = l+(r-l)>>1;
-        if(nums[mid]==target){
-            return mid;
+        int l = 0;
+        int r = nums.length - 1;
+        while ((r != l)) {
+            int mid = l + (r - l) >> 1;
+            if (nums[mid] == target) {
+                return mid;
+            }
+            if (nums[mid] < target) {
+                l = mid + 1;
+            } else {
+                r = mid - 1;
+            }
         }
-        if(nums[mid]<target){
-            l=mid+1;
-        }else{
-            r=mid-1;
-        }
+        return l;
     }
-    return l;
+
+    public static void main(String[] args) {
+
+    }
+    public String multiply(String num1, String num2) {
+        int len1 = num1.length();
+        int len2 = num2.length();
+        int len = Math.max(len1, len2);
+        int[] arr = new int[len*2];
+        int n= 0;
+        if (num1.length() > num2.length()) {
+            for (int i = len1 - 1; i >= 0; i++) {
+                for (int j = len2 - 1; j >= 0; j++) {
+                    int a = num1.charAt(i) - '0';
+                    int b = num2.charAt(j) - '0';
+                    int res = a * b;
+                    arr[2*len- i-n] += res;
+                }
+                n++;
+            }
+        } else {
+            for (int i = len2 - 1; i >= 0; i--) {
+                for (int j = len1 - 1; j >= 0; j--) {
+                    int a = num2.charAt(i) - '0';
+                    int b = num1.charAt(j) - '0';
+                    int res = a * b;
+                    arr[2*len -i -n] += res;
+                }
+                n++;
+            }
+        }
+        StringBuilder res = new StringBuilder();
+        for (int i = arr.length - 1; i >= 0; i--) {
+            res.insert(0, arr[i] % 10);
+            if (i != 0) {
+                arr[i - 1] += (arr[i] / 10);
+            } else {
+                if (arr[i] / 10 != 0) {
+                    res.insert(0, arr[i] / 10);
+                }
+            }
+        }
+        return res.toString();
     }
 }
