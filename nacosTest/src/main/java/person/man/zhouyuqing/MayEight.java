@@ -263,7 +263,7 @@ public class MayEight {
                     }
                     index++;
                 }
-                if(!flag){
+                if (!flag) {
                     return true;
                 }
             }
@@ -272,6 +272,54 @@ public class MayEight {
     }
 
     public void reorderList(ListNode head) {
-
+        //链表逆序 然后
+        ListNode slow = head;
+        ListNode fast = head;
+        while (fast.next != null && fast.next.next != null) {
+            slow = slow.next;
+            fast = fast.next.next;
+        }
+        //找到中点
+        //断开 逆序后面的
+        ListNode secHead = slow.next;
+        slow.next = null;
+        ListNode head1 = null;
+        while (secHead != null) {
+            if(secHead.next==null){
+                secHead.next =head1;
+                head1 =secHead;
+                break;
+            }
+           ListNode next = secHead.next;
+           secHead.next=head1;
+           head1 = secHead;
+           secHead=next;
+        }
+        //已逆
+        //合并 一个是head  一个是和ad
+        boolean flag = true;
+        ListNode res = new ListNode(-1);
+        ListNode res1 = res;
+        while (head != null || secHead != null) {
+            if (flag) {
+                if (head != null) {
+                    ListNode tmp = head.next;
+                    res.next = head;
+                    res = res.next;
+                    head.next = null;
+                    head = tmp;
+                }
+                flag = false;
+            } else {
+                if (head1 != null) {
+                    ListNode tmp = head1.next;
+                    res.next = head1;
+                    res=res.next;
+                    head1.next = null;
+                    head1 = tmp;
+                }
+                flag =true;
+            }
+        }
     }
 }
