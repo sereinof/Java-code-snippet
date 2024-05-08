@@ -115,7 +115,8 @@ public class MayEight {
         //和回文有关呢这个题目
         if (s.length() == 0) {
             return 0;
-        }f
+        }
+        int max = 0;
         int len = s.length();
         int dp[] = new int[len];
         dp[0] = 0;
@@ -148,9 +149,10 @@ public class MayEight {
                 }
 
             }
+            max = Math.max(max,dp[i]);
         }
-        OptionalInt res = Arrays.stream(dp).max();
-        return res.getAsInt();
+
+        return dp[len-1];
 
     }
 }
