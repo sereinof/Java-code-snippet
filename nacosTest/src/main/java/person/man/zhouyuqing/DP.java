@@ -38,9 +38,7 @@ public class DP {
         return dp[x - 1][y - 1];
     }
 
-    public static void main(String[] args) {
-        new DP().isInterleave("aabc", "abad", "aabadabc");
-    }
+
 
     public boolean isInterleave(String s1, String s2, String s3) {
 
@@ -146,4 +144,62 @@ public class DP {
         return res.toString();
     }
 
+    int count = 0;
+    boolean flag = false;
+    int index1 = 0;
+    int index2 = 0;
+
+    public static void main(String[] args) {
+          new DP().generateMatrix(3);
+    }
+    public int[][] generateMatrix(int n) {
+        int[][] res = new int[n][n];
+        while (!flag) {
+            print(res, '1', n);
+            print(res, '2', n);
+            print(res, '3', n);
+            print(res, '4', n);
+        }
+
+        return res;
+    }
+
+    public void print(int[][] matrix, char signal, int len) {
+        if (flag) {
+            return;
+        }
+        if (signal == '1') {
+            while (index2 < len && matrix[index1][index2] == 0) {
+                matrix[index1][index2] = ++count;
+                index2++;
+            }
+            index2--;
+            index1++;
+
+        } else if (signal == '2') {
+            while (index1 < len && matrix[index1][index2] == 0) {
+                matrix[index1][index2] = ++count;
+                index1++;
+            }
+            index1--;
+            index2--;
+        } else if (signal == '3') {
+            while (index2 >= 0 && matrix[index1][index2] == 0) {
+                matrix[index1][index2] = ++count;
+                index2--;
+            }
+            index2++;
+            index1--;
+        } else {
+            while (index1 >= 0 && matrix[index1][index2] == 0) {
+                matrix[index1][index2] = ++count;
+                index1--;
+            }
+            index1++;
+            index2++;
+        }
+        if (count == len * len) {
+            flag = true;
+        }
+    }
 }
