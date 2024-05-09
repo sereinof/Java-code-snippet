@@ -2,6 +2,7 @@ package person.man.zhouyuqing;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.stream.Stream;
 
 public class Link {
     public ListNode removeElements(ListNode head, int val) {
@@ -41,7 +42,7 @@ public class Link {
     public void reverseString(char[] s) {
         int l = 0;
         int r = s.length - 1;
-        while (l<r){
+        while (l < r) {
             char t = s[l];
             s[l] = s[r];
             s[r] = t;
@@ -51,6 +52,30 @@ public class Link {
     }
 
     public ListNode getIntersectionNode(ListNode headA, ListNode headB) {
+        HashMap map = new HashMap();
+        while (headA != null) {
+            map.put(headA, 3);
+            headA = headA.next;
+        }
+        while (headB != null) {
+            if (map.containsKey(headB)) {
+                return headB;
+            }
+            headB = headB.next;
+        }
+        return null;
+    }
 
+    public char findTheDifference(String s, String t) {
+        int res = 0;
+        for (int i = 0; i < t.length(); i++) {
+            res ^= t.charAt(i);
+        }
+        ;
+        for (int i = 0; i < t.length(); i++) {
+            res ^= t.charAt(i);
+        }
+        ;
+        return (char) res;
     }
 }
