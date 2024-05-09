@@ -195,9 +195,9 @@ public class Link {
     public int dfs(Node node) {
         int max = 0;
         for (Node n : node.children) {
-            max = Math.max(max, dfs(n,));
+            max = Math.max(max, dfs(n, ));
         }
-        return max+1;
+        return max + 1;
     }
 
     class Node {
@@ -217,5 +217,16 @@ public class Link {
         }
     }
 
-    ;
+
+    public int minCostClimbingStairs(int[] cost) {
+        int[] dp = new int[cost.length];
+        dp[0] = cost[0];
+        dp[1] = cost[1];
+        for (int i = 2; i < cost.length; i++) {
+            dp[i] = Math.min(dp[i - 2] + cost[i], dp[i - 1] + cost[i]);
+        }
+        return Math.min(dp[cost.length - 1], dp[cost.length - 2]);
+    }
+
+
 }
