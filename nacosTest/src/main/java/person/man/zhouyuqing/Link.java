@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Stack;
-import java.util.stream.Stream;
 
 public class Link {
     public ListNode removeElements(ListNode head, int val) {
@@ -195,7 +194,7 @@ public class Link {
     public int dfs(Node node) {
         int max = 0;
         for (Node n : node.children) {
-            max = Math.max(max, dfs(n, ));
+            max = Math.max(max, dfs(n));
         }
         return max + 1;
     }
@@ -244,6 +243,8 @@ public class Link {
         return max;
     }
 
+
+
     public int[] findErrorNums(int[] nums) {
         int xOry = 0;//存储多的那个数和小的那个数的异或结果
         int n = 1;
@@ -263,7 +264,7 @@ public class Link {
             }
         }
         for (int i = 1; i < nums.length + 1; i++) {
-            System.out.println(i&lowBit);
+            System.out.println(i & lowBit);
             if ((i & lowBit) == 1) {
                 nums1 ^= i;
             } else {
