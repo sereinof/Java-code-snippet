@@ -91,7 +91,7 @@ public class Link {
             if (nums[l] > nums[r]) {
                 asn[p] = nums[l];
                 p--;
-            }else{
+            } else {
                 asn[p] = nums[r];
                 p--;
             }
@@ -100,6 +100,23 @@ public class Link {
     }
 
     public ListNode deleteDuplicates(ListNode head) {
+        ListNode dummy = new ListNode(-1);
+        dummy.next = head;
+        while (head != null && head.next != null) {
+            if (head.val != head.next.val) {
+                head = head.next;
+                dummy = dummy.next;
+            } else {
+                ListNode tmp = head.next;
+                head.next = null;
+                dummy.next = tmp;
+                head = tmp;
+            }
+        }
+        return dummy.next;
+    }
+
+    public int[][] transpose(int[][] matrix) {
 
     }
 }
