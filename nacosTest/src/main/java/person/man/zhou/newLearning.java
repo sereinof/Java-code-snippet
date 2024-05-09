@@ -1,13 +1,12 @@
 package person.man.zhou;
 
+import org.checkerframework.checker.units.qual.A;
 import person.man.zhouyuqing.ListNode;
 
 import java.util.*;
 
 public class newLearning {
-    public static void main(String[] args) {
-        new newLearning().findErrorNums(new int[]{2, 3, 3, 4, 5, 6});
-    }
+
 
     public int[] findErrorNums(int[] nums) {
         int xOry = 0;//存储多的那个数和小的那个数的异或结果
@@ -67,5 +66,42 @@ public class newLearning {
         stuff.add(nums[index]);
         dfs(stuff, nums, index + 1);
         stuff.remove(nums[index]);
+    }
+
+
+    public static void main(String[] args) {
+        new newLearning().generateParenthesis(3);
+    }
+
+    public List<String> generateParenthesis(int n) {
+        List<List<String>> dp = new ArrayList<>(n + 1);
+        ArrayList dp1 = new ArrayList();
+        dp1.add("()");
+        dp.add(null);
+        dp.add(dp1);
+        ArrayList dp2 = new ArrayList();
+        dp1.add("()()");
+        dp1.add("(())");
+        dp.add(dp2);
+        for (int i = 3; i <=n; i++) {
+            List<String> thisTime = new ArrayList<String>();
+            //这里要做一个遍历
+            for (int p = 1; p <= i - 1; p++) {
+                int q = i - 1 - p;
+                for (String a : dp.get(p)) {
+                    for (String b : dp.get(q)) {
+                        StringBuilder val = new StringBuilder();
+                        val.append("(");
+                        val.append(a);
+                        val.append(")");
+                        val.append(b);
+                        thisTime.add(val.toString());
+                    }
+                }
+            }
+            dp.add(thisTime);
+        }
+
+        return dp.get(n);
     }
 }
