@@ -128,4 +128,40 @@ public class Link {
         }
         return ret;
     }
+
+    public boolean lemonadeChange(int[] bills) {
+        int five = 0;
+        int ten = 0;
+        int twenty = 0;
+        for (int i = 0; i < bills.length; i++) {
+            if (bills[i] == 5) {
+                five++;
+            } else if (bills[i] == 10) {
+                if (five == 0) {
+                    return false;
+                } else {
+                    five--;
+                    ten++;
+                }
+            } else if (bills[i] == 20) {
+                if (ten != 0) {
+                    ten--;
+                    if (five == 0) {
+                        return false;
+                    } else {
+                        five--;
+                    }
+                    twenty++;
+                } else {
+                    if (five < 3) {
+                        return false;
+                    }else{
+                        five -=3;
+                        twenty++;
+                    }
+                }
+            }
+        }
+        return false;
+    }
 }
