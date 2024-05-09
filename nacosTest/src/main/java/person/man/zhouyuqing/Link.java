@@ -2,6 +2,7 @@ package person.man.zhouyuqing;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Stack;
 import java.util.stream.Stream;
 
 public class Link {
@@ -155,8 +156,8 @@ public class Link {
                 } else {
                     if (five < 3) {
                         return false;
-                    }else{
-                        five -=3;
+                    } else {
+                        five -= 3;
                         twenty++;
                     }
                 }
@@ -164,4 +165,25 @@ public class Link {
         }
         return false;
     }
+
+    public String removeDuplicates(String s) {
+        Stack<Character> stack = new Stack<>();
+        for (int i = 0; i < s.length(); i++) {
+            if (stack.isEmpty()) {
+                stack.push(s.charAt(i));
+            } else {
+                if (s.charAt(i) == stack.peek()) {
+                    stack.pop();
+                } else {
+                    stack.push(s.charAt(i));
+                }
+            }
+        }
+        StringBuilder res = new StringBuilder();
+        while (!stack.isEmpty()) {
+            res.insert(0, stack.pop());
+        }
+        return res.toString();
+    }
+
 }
