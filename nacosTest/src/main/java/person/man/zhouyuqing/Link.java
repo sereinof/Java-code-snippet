@@ -228,5 +228,20 @@ public class Link {
         return Math.min(dp[cost.length - 1], dp[cost.length - 2]);
     }
 
+    public int findLengthOfLCIS(int[] nums) {
+        int l = 0;
+        int r = 0;
+        int max= 0;
+        while (r<nums.length){
+            if(nums[r+1]<nums[r]){
+                r++;
+            }else{
+                r++;
+                l=r;
+                max = Math.max(r-l,max);
+            }
+        }
+        return max;
+    }
 
 }
