@@ -78,4 +78,28 @@ public class Link {
         ;
         return (char) res;
     }
+
+    public int[] sortedSquares(int[] nums) {
+        for (int i = 0; i < nums.length; i++) {
+            nums[i] *= nums[i];
+        }
+        int[] asn = new int[nums.length];
+        int l = 0;
+        int r = nums.length - 1;
+        int p = nums.length - 1;
+        while (l < r) {
+            if (nums[l] > nums[r]) {
+                asn[p] = nums[l];
+                p--;
+            }else{
+                asn[p] = nums[r];
+                p--;
+            }
+        }
+        return asn;
+    }
+
+    public ListNode deleteDuplicates(ListNode head) {
+
+    }
 }
