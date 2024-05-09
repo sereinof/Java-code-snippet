@@ -1,7 +1,6 @@
 package person.man.zhou;
 
 import org.checkerframework.checker.units.qual.A;
-import person.man.zhouyuqing.ListNode;
 
 import java.util.*;
 
@@ -42,8 +41,6 @@ public class newLearning {
         return new int[]{nums2, nums1};
     }
 
-    public void deleteNode(ListNode node) {
-    }
 
     public List<List<Integer>> res = new ArrayList<>();
 
@@ -75,18 +72,20 @@ public class newLearning {
 
     public List<String> generateParenthesis(int n) {
         List<List<String>> dp = new ArrayList<>(n + 1);
+        ArrayList dp0 = new ArrayList();
+        dp0.add("");
+        dp.add(dp0);
         ArrayList dp1 = new ArrayList();
         dp1.add("()");
-        dp.add(null);
         dp.add(dp1);
         ArrayList dp2 = new ArrayList();
-        dp1.add("()()");
-        dp1.add("(())");
+        dp2.add("()()");
+        dp2.add("(())");
         dp.add(dp2);
         for (int i = 3; i <=n; i++) {
             List<String> thisTime = new ArrayList<String>();
             //这里要做一个遍历
-            for (int p = 1; p <= i - 1; p++) {
+            for (int p = 0; p <=i - 1; p++) {
                 int q = i - 1 - p;
                 for (String a : dp.get(p)) {
                     for (String b : dp.get(q)) {
@@ -98,10 +97,10 @@ public class newLearning {
                         thisTime.add(val.toString());
                     }
                 }
+
             }
             dp.add(thisTime);
         }
-
         return dp.get(n);
     }
 }

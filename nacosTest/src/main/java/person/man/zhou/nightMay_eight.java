@@ -5,11 +5,17 @@ import java.util.List;
 
 public class nightMay_eight {
 
+
+    public static void main(String[] args) {
+        new newLearning().generateParenthesis(3);
+    }
     public List<String> generateParenthesis(int n) {
         List<List<String>> dp = new ArrayList<>(n + 1);
+        ArrayList dp0 = new ArrayList();
+        dp0.add("");
+        dp.add(dp0);
         ArrayList dp1 = new ArrayList();
         dp1.add("()");
-        dp.add(null);
         dp.add(dp1);
         ArrayList dp2 = new ArrayList();
         dp1.add("()()");
