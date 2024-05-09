@@ -2,6 +2,7 @@ package person.man.zhouyuqing;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Stack;
 import java.util.stream.Stream;
 
@@ -186,4 +187,35 @@ public class Link {
         return res.toString();
     }
 
+    public int maxDepth(Node root) {
+        int len = dfs(root);
+        return len;
+    }
+
+    public int dfs(Node node) {
+        int max = 0;
+        for (Node n : node.children) {
+            max = Math.max(max, dfs(n,));
+        }
+        return max+1;
+    }
+
+    class Node {
+        public int val;
+        public List<Node> children;
+
+        public Node() {
+        }
+
+        public Node(int _val) {
+            val = _val;
+        }
+
+        public Node(int _val, List<Node> _children) {
+            val = _val;
+            children = _children;
+        }
+    }
+
+    ;
 }
