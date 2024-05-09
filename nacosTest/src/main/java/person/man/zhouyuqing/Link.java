@@ -231,17 +231,50 @@ public class Link {
     public int findLengthOfLCIS(int[] nums) {
         int l = 0;
         int r = 0;
-        int max= 0;
-        while (r<nums.length){
-            if(nums[r+1]<nums[r]){
+        int max = 0;
+        while (r < nums.length) {
+            if (nums[r + 1] < nums[r]) {
                 r++;
-            }else{
+            } else {
                 r++;
-                l=r;
-                max = Math.max(r-l,max);
+                l = r;
+                max = Math.max(r - l, max);
             }
         }
         return max;
     }
 
+    public int[] findErrorNums(int[] nums) {
+        int xOry = 0;//存储多的那个数和小的那个数的异或结果
+        int n = 1;
+        for (int i = 0; i < nums.length; i++) {
+            xOry ^= nums[i];
+            xOry ^= n;
+            n++;
+        }
+        int lowBit = xOry & (-xOry);
+        int nums1 = 0;
+        int nums2 = 0;
+        for (int num : nums) {
+            if ((num & lowBit) == 1) {
+                nums1 ^= num;
+            } else {
+                nums2 ^= num;
+            }
+        }
+        for (int i = 1; i < nums.length + 1; i++) {
+            System.out.println(i&lowBit);
+            if ((i & lowBit) == 1) {
+                nums1 ^= i;
+            } else {
+                nums2 ^= i;
+            }
+        }
+        for (int num : nums) {
+            if (num == nums1) {
+                return new int[]{nums1, nums2};
+            }
+        }
+        return new int[]{nums2, nums1};
+    }
 }
