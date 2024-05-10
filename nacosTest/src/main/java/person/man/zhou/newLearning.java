@@ -105,59 +105,38 @@ public class newLearning {
     }
 
     public int myAtoi(String s) {
-        s = s.trim();
-        StringBuilder preprosses = new StringBuilder();
-        boolean start = false;
-        boolean flaed = false;
-        boolean signed = false;
-        for (int i = 0; i < s.length(); i++) {
-            char thisTurn = s.charAt(i);
-            if (!(thisTurn <= '9' && thisTurn >= '0') && thisTurn != '+' && thisTurn != '-') {//
-                if (start) {
-                    break;
-                }
-                if (flaed && !start && thisTurn == ' ') {
-                    return 0;
-                }
-                if (thisTurn == '.') return 0;
-                flaed = true;
-                continue;
-            } else {
-                if (start) {
-                    if (thisTurn == '-' || thisTurn == '+') return 0;
-                }
-                if (!start && thisTurn == ' ') {
-                    return 0;
-                }
-                if (thisTurn == '+' || thisTurn == '-') {
-                    if (signed) return 0;
-                    signed = true;
-                }
-                if (thisTurn == '+') continue;
-                preprosses.append(thisTurn);
-                start = true;
-            }
+        if ("".equals(s)) {
+            return 0;
         }
-        int res;
-        try {
-            if (preprosses.charAt(preprosses.length() - 1) == '-') {
-                preprosses.deleteCharAt(preprosses.length() - 1);
-            }
-            if (preprosses.length() == 1 && (preprosses.charAt(0) == '+' || preprosses.charAt(0) == '-')) return 0;
-            res = Integer.parseInt(preprosses.toString());
+        int l = 0;
+        long res = 0;
 
-        } catch (Exception e) {
-            if (preprosses.isEmpty()) {
-                return 0;
-            }
-
-            if (preprosses.charAt(0) == '-') {
-                return Integer.MIN_VALUE;
-            } else {
-                return Integer.MAX_VALUE;
-            }
-            // return 0;
+        boolean signed = true;
+        while (s.charAt(l) == ' ') {
+            l++;
         }
-        return res;
+        if (s.charAt(l) == '+' || s.charAt(l) == '-') {
+            if (s.charAt(l) == '-') {
+                signed = false;
+            }
+            l++;
+        }
+
+        //读入shuzi
+        while (l < s.length() && Character.isDigit(s.charAt(l))) {
+
+            res = res * 10 + s.charAt(l) - '0';
+            if(signed){
+                if(res>Integer.MAX_VALUE){
+                    return Integer.MAX_VALUE;
+                }
+            }else{
+                if(-res<Integer.MIN_VALUE){
+                    return Integer.MIN_VALUE;
+                }
+            }
+            l++;
+        }
+        return signed ? (int) res : (int) -res;
     }
 }
