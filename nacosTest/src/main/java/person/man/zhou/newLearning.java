@@ -82,10 +82,10 @@ public class newLearning {
         dp2.add("()()");
         dp2.add("(())");
         dp.add(dp2);
-        for (int i = 3; i <=n; i++) {
+        for (int i = 3; i <= n; i++) {
             List<String> thisTime = new ArrayList<String>();
             //这里要做一个遍历
-            for (int p = 0; p <=i - 1; p++) {
+            for (int p = 0; p <= i - 1; p++) {
                 int q = i - 1 - p;
                 for (String a : dp.get(p)) {
                     for (String b : dp.get(q)) {
@@ -102,5 +102,62 @@ public class newLearning {
             dp.add(thisTime);
         }
         return dp.get(n);
+    }
+
+    public int myAtoi(String s) {
+        s = s.trim();
+        StringBuilder preprosses = new StringBuilder();
+        boolean start = false;
+        boolean flaed = false;
+        boolean signed = false;
+        for (int i = 0; i < s.length(); i++) {
+            char thisTurn = s.charAt(i);
+            if (!(thisTurn <= '9' && thisTurn >= '0') && thisTurn != '+' && thisTurn != '-') {//
+                if (start) {
+                    break;
+                }
+                if (flaed && !start && thisTurn == ' ') {
+                    return 0;
+                }
+                if (thisTurn == '.') return 0;
+                flaed = true;
+                continue;
+            } else {
+                if (start) {
+                    if (thisTurn == '-' || thisTurn == '+') return 0;
+                }
+                if (!start && thisTurn == ' ') {
+                    return 0;
+                }
+                if (thisTurn == '+' || thisTurn == '-') {
+                    if (signed) return 0;
+                    signed = true;
+                }
+                if (thisTurn == '+') continue;
+                preprosses.append(thisTurn);
+                start = true;
+            }
+        }
+        int res;
+        try {
+            if (preprosses.charAt(preprosses.length() - 1) == '-') {
+                preprosses.deleteCharAt(preprosses.length() - 1);
+            }
+            if (preprosses.length() == 1 && (preprosses.charAt(0) == '+' || preprosses.charAt(0) == '-')) return 0;
+            res = Integer.parseInt(preprosses.toString());
+
+        } catch (Exception e) {
+            if (preprosses.isEmpty()) {
+                return 0;
+            }
+
+            if (preprosses.charAt(0) == '-') {
+                return Integer.MIN_VALUE;
+            } else {
+                return Integer.MAX_VALUE;
+            }
+            // return 0;
+        }
+        return res;
     }
 }
