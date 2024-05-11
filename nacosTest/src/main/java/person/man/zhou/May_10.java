@@ -36,13 +36,36 @@ public class May_10 {
     public static void main(String[] args) {
         //
         //lengthOfLongestSubstring("abcabcff");
-        double res = findMedianSortedArrays(new int[]{2}, new int[]{});
+        int res  =  minEatingSpeed(new int[]{3,6,7,11},8);
         System.out.println("nihao");
     }
 
 
-    public int minEatingSpeed(int[] piles, int h) {
+    public static int minEatingSpeed(int[] piles, int h) {
+        int max = 0;
+        for (int i = 0; i < piles.length; i++) {
+            max = Math.max(max, piles[i]);
+        }
+        int l = 0;
+        int r = max;
+        while (r > l) {
+            int midSpeed = l + (r - l)/ 2;
+            if (eated(piles, h, midSpeed)) {
+                r = midSpeed ;
+            } else {
+                l = midSpeed + 1;
+            }
+        }
+        return l;
 
+    }
+
+    public    static boolean eated(int[] piles, int h, int speed) {
+        int time = 0;
+        for (int n : piles) {
+            time += n / speed + 1;
+        }
+        return time <= h;
     }
 
 
