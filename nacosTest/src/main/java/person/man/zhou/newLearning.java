@@ -126,12 +126,12 @@ public class newLearning {
         while (l < s.length() && Character.isDigit(s.charAt(l))) {
 
             res = res * 10 + s.charAt(l) - '0';
-            if(signed){
-                if(res>Integer.MAX_VALUE){
+            if (signed) {
+                if (res > Integer.MAX_VALUE) {
                     return Integer.MAX_VALUE;
                 }
-            }else{
-                if(-res<Integer.MIN_VALUE){
+            } else {
+                if (-res < Integer.MIN_VALUE) {
                     return Integer.MIN_VALUE;
                 }
             }
@@ -139,4 +139,15 @@ public class newLearning {
         }
         return signed ? (int) res : (int) -res;
     }
+
+    public int[] twoSum(int[] nums, int target) {
+        HashMap map = new HashMap();
+        for (int i = 0; i < nums.length; i++) {
+            if (map.containsKey(target - nums[i])) {
+                return new int[]{(int) map.get(target - nums[i]), i};
+            }
+        }
+        return new int[]{-1, -1};
+    }
+
 }
