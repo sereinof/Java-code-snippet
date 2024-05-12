@@ -1,6 +1,8 @@
 package person.man.zhou;
 
 
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 
 public class May_10 {
@@ -65,6 +67,8 @@ public class May_10 {
         for (int n : piles) {
             time += n / speed + 1;
         }
+        Integer a = 10;
+        a.toString()
         return time <= h;
     }
 
