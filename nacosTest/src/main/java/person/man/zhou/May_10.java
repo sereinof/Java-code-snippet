@@ -67,8 +67,11 @@ public class May_10 {
         for (int n : piles) {
             time += n / speed + 1;
         }
+
+
+
         Integer a = 10;
-        a.toString()
+        a.toString();
         return time <= h;
     }
 
