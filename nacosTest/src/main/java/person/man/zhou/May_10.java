@@ -1,6 +1,7 @@
 package person.man.zhou;
 
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
@@ -68,6 +69,7 @@ public class May_10 {
             time += n / speed + 1;
         }
 
+        ArrayList res = new ArrayList();
 
 
         Integer a = 10;
