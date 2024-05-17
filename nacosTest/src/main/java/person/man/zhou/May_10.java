@@ -44,6 +44,11 @@ public class May_10 {
     }
 
 
+    public int maxArea(int[] height) {
+return 0;
+    }
+
+
     public static int minEatingSpeed(int[] piles, int h) {
         int max = 0;
         for (int i = 0; i < piles.length; i++) {
@@ -69,8 +74,9 @@ public class May_10 {
             time += n / speed + 1;
         }
 
-        ArrayList res = new ArrayList();
-
+        ArrayList<String> res = new ArrayList();
+   String[] s;
+   s=   res.toArray(new String[0]);
 
         Integer a = 10;
         a.toString();
