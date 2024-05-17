@@ -43,8 +43,30 @@ public class May_10 {
         //  int res = minEatingSpeed(new int[]{3, 6, 7, 11}, 8);
         convert("PAYPALISHIRING", 3);
         System.out.println("nihao");
+
+
     }
 
+    public int reverse(int x) {
+        boolean negtive = x < 0 ? true : false;
+        int res = 0;
+        while (x != 0) {
+            if (negtive) {
+                if (res < Integer.MIN_VALUE / 10) {
+                    return 0;
+                }
+                res = res * 10 + x % 10;
+                x /= 10;
+            } else {
+                if (res > Integer.MAX_VALUE / 10) {
+                    return 0;
+                }
+                res = res * 10 + x % 10;
+                x /= 10;
+            }
+        }
+        return res;
+    }
 
     public static String convert(String s, int numRows) {
         StringBuilder[] tmp = new StringBuilder[numRows];
@@ -56,14 +78,14 @@ public class May_10 {
         boolean flag = true;
         while (i < s.length()) {
             if (flag) {
-                for (int j=1; j <numRows; j++) {
+                for (int j = 1; j < numRows; j++) {
                     if (i == s.length()) break;
                     tmp[j].append(s.charAt(i));
                     i++;
                 }
                 flag = false;
             } else {
-                for (int j = numRows-2; j >= 0; j--) {
+                for (int j = numRows - 2; j >= 0; j--) {
                     if (i == s.length()) break;
                     tmp[j].append(s.charAt(i));
                     i++;
