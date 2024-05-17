@@ -39,13 +39,32 @@ public class May_10 {
     public static void main(String[] args) {
         //
         //lengthOfLongestSubstring("abcabcff");
-        int res  =  minEatingSpeed(new int[]{3,6,7,11},8);
+        int res = minEatingSpeed(new int[]{3, 6, 7, 11}, 8);
         System.out.println("nihao");
     }
 
 
+    public String convert(String s, int numRows) {
+
+    }
+
     public int maxArea(int[] height) {
-return 0;
+        int maxArea = 0;
+        int l = 0;
+        int r = height.length;
+        while (l < r) {
+            maxArea = Math.max(Math.min(height[l], height[r]) * (r - l), maxArea);
+            if (height[l] == height[r]) {
+                break;
+            } else {
+                 if(height[l] > height[r]){
+                     r--;
+                 }else{
+                     l++;
+                 };
+            }
+        }
+        return maxArea;
     }
 
 
@@ -57,9 +76,9 @@ return 0;
         int l = 0;
         int r = max;
         while (r > l) {
-            int midSpeed = l + (r - l)/ 2;
+            int midSpeed = l + (r - l) / 2;
             if (eated(piles, h, midSpeed)) {
-                r = midSpeed ;
+                r = midSpeed;
             } else {
                 l = midSpeed + 1;
             }
@@ -68,15 +87,15 @@ return 0;
 
     }
 
-    public    static boolean eated(int[] piles, int h, int speed) {
+    public static boolean eated(int[] piles, int h, int speed) {
         int time = 0;
         for (int n : piles) {
             time += n / speed + 1;
         }
 
         ArrayList<String> res = new ArrayList();
-   String[] s;
-   s=   res.toArray(new String[0]);
+        String[] s;
+        s = res.toArray(new String[0]);
 
         Integer a = 10;
         a.toString();
