@@ -43,9 +43,37 @@ public class May_10 {
 
     }
 
+    public boolean isMatch(String s, String p) {
 
+    }
     public int romanToInt(String s) {
-
+        int res = 0;
+        HashMap<String,Integer> map = new HashMap();
+        map.put("IV", 4);
+        map.put("IX", 9);
+        map.put("XL", 40);
+        map.put("XC", 90);
+        map.put("CD", 400);
+        map.put("CM", 900);
+        map.put("I", 1);
+        map.put("V", 5);
+        map.put("X", 10);
+        map.put("L", 50);
+        map.put("C", 100);
+        map.put("D", 500);
+        map.put("M", 1000);
+      int i=0;
+      while (i<s.length()){
+       if(map.containsKey(s.substring(i,i+2))&&i<=s.length()-2){
+           res += map.get(s.substring(i,i+2));
+           i++;
+           i++;
+       }else{
+           res +=map.get(s.substring(i,i+1));
+           i++;
+       }
+        }
+      return res;
     }
 
     public List<List<Integer>> threeSum(int[] nums) {
