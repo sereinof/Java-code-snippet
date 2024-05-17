@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.stream.Stream;
 
 public class May_10 {
 
@@ -39,13 +40,43 @@ public class May_10 {
     public static void main(String[] args) {
         //
         //lengthOfLongestSubstring("abcabcff");
-        int res = minEatingSpeed(new int[]{3, 6, 7, 11}, 8);
+        //  int res = minEatingSpeed(new int[]{3, 6, 7, 11}, 8);
+        convert("PAYPALISHIRING", 3);
         System.out.println("nihao");
     }
 
 
-    public String convert(String s, int numRows) {
+    public static String convert(String s, int numRows) {
+        StringBuilder[] tmp = new StringBuilder[numRows];
+        for (int i = 0; i < numRows; i++) {
+            tmp[i] = new StringBuilder();
+        }
+        int i = 1;
+        tmp[0].append(s.charAt(0));
+        boolean flag = true;
+        while (i < s.length()) {
+            if (flag) {
+                for (int j=1; j <numRows; j++) {
+                    if (i == s.length()) break;
+                    tmp[j].append(s.charAt(i));
+                    i++;
+                }
+                flag = false;
+            } else {
+                for (int j = numRows-2; j >= 0; j--) {
+                    if (i == s.length()) break;
+                    tmp[j].append(s.charAt(i));
+                    i++;
+                }
+                flag = true;
+            }
 
+        }
+        StringBuilder res = new StringBuilder();
+        for (StringBuilder g : tmp) {
+            res.append(g.toString());
+        }
+        return res.toString();
     }
 
     public int maxArea(int[] height) {
@@ -57,11 +88,12 @@ public class May_10 {
             if (height[l] == height[r]) {
                 break;
             } else {
-                 if(height[l] > height[r]){
-                     r--;
-                 }else{
-                     l++;
-                 };
+                if (height[l] > height[r]) {
+                    r--;
+                } else {
+                    l++;
+                }
+                ;
             }
         }
         return maxArea;
