@@ -1,10 +1,7 @@
 package person.man.zhou;
 
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.HashMap;
+import java.util.*;
 import java.util.stream.Stream;
 
 public class May_10 {
@@ -44,7 +41,59 @@ public class May_10 {
         convert("PAYPALISHIRING", 3);
         System.out.println("nihao");
 
+    }
 
+    public List<List<Integer>> threeSum(int[] nums) {
+
+    }
+
+    public String longestCommonPrefix(String[] strs) {
+        if(strs.length==1){
+            return strs[0];
+        }
+       String longesCommonprefix =strs[0];
+       for(int i =0;i<strs.length;i++){
+           int l = 0;
+           while (l<longesCommonprefix.length()&&l<strs[i].length()){
+               if(longesCommonprefix.charAt(l)==strs[i].charAt(l)){
+                   l++;
+               }else{
+                   break;
+               }
+           }
+           longesCommonprefix = longesCommonprefix.substring(0,l);
+       }
+       return longesCommonprefix;
+    }
+
+    public int myAtoi(String s) {
+        int res = 0;//先去除空格 然后读入符号位  然后读入数字 用double来看是否溢出了 这坑比题目
+        int l = 0;
+        boolean signed = true;
+        while (s.charAt(l) == ' ') {
+            l++;
+        }
+        if (s.charAt(l) == '-' || s.charAt(l) == '+') {
+            if (s.charAt(l) == '-') {
+                signed = false;
+            }
+            ;
+            l++;
+        }
+        while (l < s.length() && Character.isDigit(s.charAt(l))) {
+            res = res *10 + s.charAt(l)-'0';
+            if(signed){
+                if(res>Integer.MAX_VALUE){
+                    return Integer.MAX_VALUE;
+                }
+            }else{
+                if(-res<Integer.MIN_VALUE){
+                    return Integer.MIN_VALUE;
+                }
+            }
+            l++;
+        }
+        return signed?res:-res;
     }
 
     public int reverse(int x) {
