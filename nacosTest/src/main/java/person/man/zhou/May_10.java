@@ -44,9 +44,10 @@ public class May_10 {
         System.out.println("nihao");
 
     }
+
     public List<List<Integer>> permuteUnique(int[] nums) {
 
-
+        return null;
 
     }
 
