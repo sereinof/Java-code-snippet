@@ -43,27 +43,66 @@ public class May_10 {
 
     }
 
-    public List<List<Integer>> threeSum(int[] nums) {
+
+    public int romanToInt(String s) {
 
     }
 
+    public List<List<Integer>> threeSum(int[] nums) {
+//排序 对于剩下的做两数之和处理；
+        List res = new ArrayList<>();
+        Arrays.sort(nums);
+        if (nums.length == 0) {
+            return res;
+        }
+        if (nums[0] > 0) {
+            return res;
+        }
+
+        for (int i = 0; i < nums.length - 2; i++) {
+            if (i > 0 && nums[i] == nums[i - 1]) continue;//去除nums[i]
+            int l = i + 1;
+            int r = nums.length - 1;
+            int target = -nums[i];
+            while (l < r) {
+                if (nums[l] + nums[r] > target) {
+                    r--;
+                } else if (nums[l] + nums[r] < target) {
+                    l++;
+                } else {
+                    //处理重复值
+                    while (l < r && nums[l] == nums[l + 1]) {
+                        l++;
+                    }
+                    while (l < r && nums[r] == nums[r - 1]) {
+                        r--;
+                    }
+                    res.add(new int[]{nums[i], nums[l], nums[r]});
+                    r--;
+                    l++;
+                }
+            }
+        }
+        return res;
+    }
+
     public String longestCommonPrefix(String[] strs) {
-        if(strs.length==1){
+        if (strs.length == 1) {
             return strs[0];
         }
-       String longesCommonprefix =strs[0];
-       for(int i =0;i<strs.length;i++){
-           int l = 0;
-           while (l<longesCommonprefix.length()&&l<strs[i].length()){
-               if(longesCommonprefix.charAt(l)==strs[i].charAt(l)){
-                   l++;
-               }else{
-                   break;
-               }
-           }
-           longesCommonprefix = longesCommonprefix.substring(0,l);
-       }
-       return longesCommonprefix;
+        String longesCommonprefix = strs[0];
+        for (int i = 0; i < strs.length; i++) {
+            int l = 0;
+            while (l < longesCommonprefix.length() && l < strs[i].length()) {
+                if (longesCommonprefix.charAt(l) == strs[i].charAt(l)) {
+                    l++;
+                } else {
+                    break;
+                }
+            }
+            longesCommonprefix = longesCommonprefix.substring(0, l);
+        }
+        return longesCommonprefix;
     }
 
     public int myAtoi(String s) {
@@ -81,19 +120,19 @@ public class May_10 {
             l++;
         }
         while (l < s.length() && Character.isDigit(s.charAt(l))) {
-            res = res *10 + s.charAt(l)-'0';
-            if(signed){
-                if(res>Integer.MAX_VALUE){
+            res = res * 10 + s.charAt(l) - '0';
+            if (signed) {
+                if (res > Integer.MAX_VALUE) {
                     return Integer.MAX_VALUE;
                 }
-            }else{
-                if(-res<Integer.MIN_VALUE){
+            } else {
+                if (-res < Integer.MIN_VALUE) {
                     return Integer.MIN_VALUE;
                 }
             }
             l++;
         }
-        return signed?res:-res;
+        return signed ? res : -res;
     }
 
     public int reverse(int x) {
