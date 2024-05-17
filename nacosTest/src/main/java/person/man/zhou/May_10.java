@@ -1,6 +1,8 @@
 package person.man.zhou;
 
 
+import org.checkerframework.checker.units.qual.A;
+
 import java.util.*;
 import java.util.stream.Stream;
 
@@ -42,8 +44,43 @@ public class May_10 {
         System.out.println("nihao");
 
     }
+    public List<List<Integer>> permuteUnique(int[] nums) {
+
+
+
+    }
+
+
+    List<String> res = new ArrayList<>();
+    StringBuilder every = new StringBuilder();
+    HashMap<String, String> map = new HashMap();
 
     public List<String> letterCombinations(String digits) {
+
+        map.put("2", "abc");
+        map.put("3", "def");
+        map.put("4", "ghi");
+        map.put("5", "jkl");
+        map.put("6", "mno");
+        map.put("7", "pqrs");
+        map.put("8", "tuv");
+        map.put("9", "wxyz");
+
+        backtracking(digits, 0);
+        return res;
+    }
+
+    public void backtracking(String digits, int level) {
+        if (level == digits.length()) {
+            res.add(every.toString());
+            return;
+        }
+        String q = map.get(String.valueOf(digits.charAt(level)));
+        for (int i = 0; i < q.length(); i++) {
+            every.append(q.charAt(i));
+            backtracking(digits, level + 1);
+            every.deleteCharAt(every.length() - 1);
+        }
 
     }
 
