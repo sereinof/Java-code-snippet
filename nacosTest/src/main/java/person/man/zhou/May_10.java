@@ -44,11 +44,26 @@ public class May_10 {
     }
 
     public boolean isMatch(String s, String p) {
-
+        boolean[][] dp = new boolean[s.length() + 1][p.length() + 1];
+        dp[0][0] = true;
+        for (int i = 2; i < p.length() + 1; i += 2) {
+            dp[0][i] = dp[0][i - 2] && p.charAt(i - 1) == '*';
+        }
+        for (int i = 1; i < s.length() + 1; i++) {
+            for (int j = 1; j < p.length() + 1; j++) {
+                if (p.charAt(i - 1) == '*') {
+                    dp[i][j] =
+                } else {
+                    dp[i][j] = dp[i - 1][j - 1] && (p.charAt(j - 1) == '.' || p.charAt(j - 1) == s.charAt(i - 1));
+                }
+            }
+        }
+        return dp[s.length()][p.length()];
     }
+
     public int romanToInt(String s) {
         int res = 0;
-        HashMap<String,Integer> map = new HashMap();
+        HashMap<String, Integer> map = new HashMap();
         map.put("IV", 4);
         map.put("IX", 9);
         map.put("XL", 40);
@@ -62,18 +77,18 @@ public class May_10 {
         map.put("C", 100);
         map.put("D", 500);
         map.put("M", 1000);
-      int i=0;
-      while (i<s.length()){
-       if(map.containsKey(s.substring(i,i+2))&&i<=s.length()-2){
-           res += map.get(s.substring(i,i+2));
-           i++;
-           i++;
-       }else{
-           res +=map.get(s.substring(i,i+1));
-           i++;
-       }
+        int i = 0;
+        while (i < s.length()) {
+            if (map.containsKey(s.substring(i, i + 2)) && i <= s.length() - 2) {
+                res += map.get(s.substring(i, i + 2));
+                i++;
+                i++;
+            } else {
+                res += map.get(s.substring(i, i + 1));
+                i++;
+            }
         }
-      return res;
+        return res;
     }
 
     public List<List<Integer>> threeSum(int[] nums) {
