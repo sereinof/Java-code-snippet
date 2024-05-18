@@ -7,9 +7,65 @@ public class May_17 {
         //permuteUnique(new int[]{1, 2, 3});
         // int res = maxCoins(new int[]{3, 1, 5, 8});
         //System.out.println(res);
-        String res = new May_17().minWindow("ADOBECODEBANC", "ABC");
+        // String res = new May_17().minWindow("ADOBECODEBANC", "ABC");
+        int res = largestRectangleArea(new int[]{2, 1, 5, 6, 2, 3});
         System.out.println(res);
     }
+
+    public static int largestRectangleArea(int[] heights) {
+        if (heights.length == 0) {
+            return 0;
+        }
+        if (heights.length == 1) {
+            return heights[0];
+        }
+        Deque<Integer> deque = new ArrayDeque();
+        boolean[] cacled = new boolean[heights.length];
+        int max = 0;
+        for (int i = 0; i < heights.length; i++) {
+
+            if (cacled[i]) continue;
+            deque.push(i);
+            int cur = heights[i];
+            int p = i + 1;
+            while (p < heights.length && heights[p] >= heights[p - 1]) {
+                deque.push(p);
+                p++;
+                if (p == heights.length) {
+                    break;
+                }
+            }
+            int r = p;
+
+                if (p < heights.length) {
+                    while (!deque.isEmpty()&&heights[deque.peek()] > heights[r]) {
+                        int index = deque.pop();
+             /*   while (heights[index]==heights[deque.peek()]){
+                    //c处理相等值
+                    int index1 = deque.peek();
+                    cacled[index1] = true;
+                }*/
+                        max = Math.max(max, (r - index) * heights[index]);
+                        cacled[index] = true;
+                    }
+                }else{
+                    break;
+                }
+            max = Math.max(heights[i] * (r - i), max);
+        }
+        while (!deque.isEmpty()){
+            int index = deque.pop();
+            int width=0;
+            if(deque.isEmpty()){
+                width=heights.length;
+            }else{
+                width=heights.length-index;
+            }
+            max = Math.max(heights[index]*width,max);
+        }
+        return max;
+    }
+
 
     HashMap<Character, Integer> map = new HashMap<>();
     HashMap<Character, Integer> map1 = new HashMap<>();
@@ -23,7 +79,7 @@ public class May_17 {
         int l = 0;
         int r = 0;
         while (r < s.length()) {
-            while (r<s.length()&&!check()) {
+            while (r < s.length() && !check()) {
                 map.put(s.charAt(r), map.getOrDefault(s.charAt(r), 0) + 1);
                 r++;
             }
@@ -33,7 +89,7 @@ public class May_17 {
                     min = r - l;
                     interve = new int[]{l, r};
                 }
-                map.put(s.charAt(l),map.get(s.charAt(l))-1);
+                map.put(s.charAt(l), map.get(s.charAt(l)) - 1);
                 l++;
             }
         }
