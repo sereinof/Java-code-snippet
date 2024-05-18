@@ -14,10 +14,17 @@ public class May_17 {
 
     public static int maxCoins(int[] nums) {
         int[][] dp = new int[nums.length + 2][nums.length + 2];
+        int[] arr = new int[nums.length + 2];
+        arr[0] = 1;
+        for (int i = 0; i < nums.length; i++) {
+            arr[i + 1] = nums[i];
+        }
+        arr[arr.length - 1] = 1;
+        nums = arr;
         int len = nums.length + 2;
-        int n = 1;
+        int n = 2;
         while (n <= nums.length) {
-            for (int i = 0; i < len - n; i++) {
+            for (int i = 0; i < len-2 - n; i++) {
                 //区间是 i,i+n
                 int maxThisTurn = 0;
                 for (int k = i + 1; k < i + n; k++) {
@@ -31,7 +38,7 @@ public class May_17 {
             n++;
         }
 
-        return dp[0][len];
+        return dp[0][len - 3];
     }
 
 
