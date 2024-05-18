@@ -1,14 +1,17 @@
 package person.man.zhou;
 
-import java.util.*;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.stereotype.Component;
 
+import java.util.*;
+@Configuration
 public class May_17 {
     public static void main(String[] args) {
         //permuteUnique(new int[]{1, 2, 3});
         // int res = maxCoins(new int[]{3, 1, 5, 8});
         //System.out.println(res);
         // String res = new May_17().minWindow("ADOBECODEBANC", "ABC");
-        int res = largestRectangleArea(new int[]{2, 1, 5, 6, 2, 3});
+        int res = largestRectangleArea(new int[]{3,5,5,2,5,5,6,6,4,4,1,1,2,5,5,6,6,4,1,3});
         System.out.println(res);
     }
 
@@ -23,45 +26,54 @@ public class May_17 {
         boolean[] cacled = new boolean[heights.length];
         int max = 0;
         for (int i = 0; i < heights.length; i++) {
-
             if (cacled[i]) continue;
             deque.push(i);
-            int cur = heights[i];
             int p = i + 1;
             while (p < heights.length && heights[p] >= heights[p - 1]) {
                 deque.push(p);
+
                 p++;
                 if (p == heights.length) {
                     break;
                 }
             }
             int r = p;
-
-                if (p < heights.length) {
-                    while (!deque.isEmpty()&&heights[deque.peek()] > heights[r]) {
-                        int index = deque.pop();
-             /*   while (heights[index]==heights[deque.peek()]){
-                    //c处理相等值
-                    int index1 = deque.peek();
-                    cacled[index1] = true;
-                }*/
-                        max = Math.max(max, (r - index) * heights[index]);
+            if (p < heights.length) {
+                while (!deque.isEmpty() && heights[deque.peek()] > heights[r]) {
+                    int index = deque.pop();
+                    cacled[index] = true;
+                    while (!deque.isEmpty() && heights[index] == heights[deque.peek()]) {
+                        //c处理相等值
+                        index = deque.pop();
                         cacled[index] = true;
                     }
-                }else{
-                    break;
+                    int widht = 0;
+                    if (deque.isEmpty()) {
+                        widht = r;
+                    } else {
+                        widht = r - deque.peek()-1;
+                    }
+                    max = Math.max(max, widht * heights[index]);
+                    cacled[index] = true;
                 }
-            max = Math.max(heights[i] * (r - i), max);
-        }
-        while (!deque.isEmpty()){
-            int index = deque.pop();
-            int width=0;
-            if(deque.isEmpty()){
-                width=heights.length;
-            }else{
-                width=heights.length-index;
+            } else {
+                break;
             }
-            max = Math.max(heights[index]*width,max);
+          //  max = Math.max(heights[i] * (r - i), max);
+        }
+        while (!deque.isEmpty()) {
+            int index = deque.pop();
+            while (!deque.isEmpty() && heights[index] == heights[deque.peek()]) {
+                //c处理相等值
+                index = deque.pop();
+            }
+            int width = 0;
+            if (deque.isEmpty()) {
+                width = heights.length;
+            } else {
+                width = heights.length - deque.peek()-1;
+            }
+            max = Math.max(heights[index] * width, max);
         }
         return max;
     }
