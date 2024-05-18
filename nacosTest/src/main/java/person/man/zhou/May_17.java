@@ -1,8 +1,6 @@
 package person.man.zhou;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 public class May_17 {
     public static void main(String[] args) {
@@ -10,6 +8,57 @@ public class May_17 {
         int res = maxCoins(new int[]{3, 1, 5, 8});
         System.out.println(res);
 
+    }
+
+    public String minWindow(String s, String t) {
+
+    }
+
+
+    class Item {
+        ListNode node;
+        int index;
+
+        public Item(ListNode node, int index) {
+            this.node = node;
+            this.index = index;
+        }
+    }
+
+    public ListNode mergeKLists(ListNode[] lists) {
+        PriorityQueue<Item> queue = new PriorityQueue<Item>(Comparator.comparingInt((a) -> a.node.val));
+        for (int i = 0; i < lists.length; i++) {
+            Item item = new Item(lists[i], i);
+            if(lists[i]!=null){
+                queue.add(item);
+                lists[i] = lists[i].next;
+            }
+        }
+        ListNode dummy = new ListNode(-1);
+        ListNode result = dummy;
+        while (!queue.isEmpty()) {
+            Item item = queue.poll();
+            dummy.next = item.node;
+            dummy = dummy.next;
+            item.node.next = null;
+
+            if (lists[item.index] != null) {
+                queue.add(new Item(lists[item.index], item.index));
+                lists[item.index] = lists[item.index].next;
+            }
+
+        }
+        return result.next;
+    }
+
+    class ListNode {
+        public int val;
+        public ListNode next;
+
+        public ListNode(int x) {
+            val = x;
+            next = null;
+        }
     }
 
     public static int maxCoins(int[] nums) {
@@ -24,7 +73,7 @@ public class May_17 {
         int len = nums.length + 2;
         int n = 2;
         while (n <= nums.length) {
-            for (int i = 0; i < len-2 - n; i++) {
+            for (int i = 0; i < len - 2 - n; i++) {
                 //区间是 i,i+n
                 int maxThisTurn = 0;
                 for (int k = i + 1; k < i + n; k++) {
