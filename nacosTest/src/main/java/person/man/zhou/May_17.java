@@ -5,15 +5,83 @@ import java.util.*;
 public class May_17 {
     public static void main(String[] args) {
         //permuteUnique(new int[]{1, 2, 3});
-        int res = maxCoins(new int[]{3, 1, 5, 8});
+        // int res = maxCoins(new int[]{3, 1, 5, 8});
+        //System.out.println(res);
+        String res = new May_17().minWindow("ADOBECODEBANC", "ABC");
         System.out.println(res);
-
     }
+
+    HashMap map = new HashMap<>();
+    HashMap<Character, Integer> map1 = new HashMap<>();
+    int l = 0;
+    int r = 0;
+    int[] interve;
+    int min = Integer.MAX_VALUE;
 
     public String minWindow(String s, String t) {
-
+        for (int i = 0; i < t.length(); i++) {
+            map1.put(t.charAt(i), 0);
+        }
+        expand(s);
+        return s.substring(interve[0], interve[1] + 1);
     }
 
+    public void expand(String s) {
+        while (r < s.length()) {
+            if (map1.containsKey(s.charAt(r))) {
+                Character cha = s.charAt(r);
+                map1.put(cha, map1.get(cha) + 1);
+                if (check()) {
+                    ///
+                    if ((r - l) < min) {
+                        min = r - l;
+                        interve = new int[]{l, r};
+                    }
+                    shousuo(s);
+                } else {
+
+                    r++;
+                }
+            } else {
+                r++;
+            }
+        }
+    }
+
+    public void shousuo(String s) {
+        while (l <= r) {
+            if (map1.containsKey(s.charAt(l))) {
+                Character cha = s.charAt(l);
+                map1.put(cha, map1.get(cha) - 1);
+                l++;
+                if (check()) {
+                    if ((r - l) < min) {
+                        min = r - l;
+                        interve = new int[]{l, r};
+                    }
+                } else {
+                    expand(s);
+                }
+            } else {
+                l++;
+                if ((r - l) < min) {
+                    min = r - l;
+                    interve = new int[]{l, r};
+                }
+            }
+        }
+    }
+
+    public boolean check() {
+        for (int value : map1.values()) {
+            if (value == 0) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    ;
 
     class Item {
         ListNode node;
@@ -29,7 +97,7 @@ public class May_17 {
         PriorityQueue<Item> queue = new PriorityQueue<Item>(Comparator.comparingInt((a) -> a.node.val));
         for (int i = 0; i < lists.length; i++) {
             Item item = new Item(lists[i], i);
-            if(lists[i]!=null){
+            if (lists[i] != null) {
                 queue.add(item);
                 lists[i] = lists[i].next;
             }
