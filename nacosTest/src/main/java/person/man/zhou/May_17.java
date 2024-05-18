@@ -6,8 +6,34 @@ import java.util.List;
 
 public class May_17 {
     public static void main(String[] args) {
-        permuteUnique(new int[]{1, 2, 3});
+        //permuteUnique(new int[]{1, 2, 3});
+        int res = maxCoins(new int[]{3, 1, 5, 8});
+        System.out.println(res);
+
     }
+
+    public static int maxCoins(int[] nums) {
+        int[][] dp = new int[nums.length + 2][nums.length + 2];
+        int len = nums.length + 2;
+        int n = 1;
+        while (n <= nums.length) {
+            for (int i = 0; i < len - n; i++) {
+                //区间是 i,i+n
+                int maxThisTurn = 0;
+                for (int k = i + 1; k < i + n; k++) {
+                    int val = dp[i][k] + nums[i] * nums[k] * nums[i + n] + dp[k][i + n];
+                    if (val > maxThisTurn) {
+                        maxThisTurn = val;
+                    }
+                }
+                dp[i][i + n] = maxThisTurn;
+            }
+            n++;
+        }
+
+        return dp[0][len];
+    }
+
 
     static List<List<Integer>> res = new ArrayList<>();
     static boolean used[];
