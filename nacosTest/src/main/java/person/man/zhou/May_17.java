@@ -11,70 +11,39 @@ public class May_17 {
         System.out.println(res);
     }
 
-    HashMap map = new HashMap<>();
+    HashMap<Character, Integer> map = new HashMap<>();
     HashMap<Character, Integer> map1 = new HashMap<>();
-    int l = 0;
-    int r = 0;
     int[] interve;
     int min = Integer.MAX_VALUE;
 
     public String minWindow(String s, String t) {
         for (int i = 0; i < t.length(); i++) {
-            map1.put(t.charAt(i), 0);
+            map1.put(t.charAt(i), map1.getOrDefault(t.charAt(i), 0) + 1);//初始化匹配字符哈希表
         }
-        expand(s);
-        return s.substring(interve[0], interve[1] + 1);
-    }
-
-    public void expand(String s) {
+        int l = 0;
+        int r = 0;
         while (r < s.length()) {
-            if (map1.containsKey(s.charAt(r))) {
-                Character cha = s.charAt(r);
-                map1.put(cha, map1.get(cha) + 1);
-                if (check()) {
-                    ///
-                    if ((r - l) < min) {
-                        min = r - l;
-                        interve = new int[]{l, r};
-                    }
-                    shousuo(s);
-                } else {
-
-                    r++;
-                }
-            } else {
+            while (r<s.length()&&!check()) {
+                map.put(s.charAt(r), map.getOrDefault(s.charAt(r), 0) + 1);
                 r++;
             }
-        }
-    }
 
-    public void shousuo(String s) {
-        while (l <= r) {
-            if (map1.containsKey(s.charAt(l))) {
-                Character cha = s.charAt(l);
-                map1.put(cha, map1.get(cha) - 1);
-                l++;
-                if (check()) {
-                    if ((r - l) < min) {
-                        min = r - l;
-                        interve = new int[]{l, r};
-                    }
-                } else {
-                    expand(s);
-                }
-            } else {
-                l++;
+            while (check()) {
                 if ((r - l) < min) {
                     min = r - l;
                     interve = new int[]{l, r};
                 }
+                map.put(s.charAt(l),map.get(s.charAt(l))-1);
+                l++;
             }
         }
+        return s.substring(interve[0], interve[1]);
     }
 
+
     public boolean check() {
-        for (int value : map1.values()) {
-            if (value == 0) {
+        for (Map.Entry entry : map1.entrySet()) {
+            if (map.getOrDefault(entry.getKey(), 0) < map1.get(entry.getKey())) {
                 return false;
             }
         }
