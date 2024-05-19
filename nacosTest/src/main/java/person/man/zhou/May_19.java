@@ -13,8 +13,47 @@ public class May_19 {
     public static void main(String[] args) {
         //  List<String> res = new May_19().removeInvalidParentheses("()())()");
 
-        int[] res = maxSlidingWindow(new int[]{1, 3, 1, 2, 0, 5}, 3);
+        // int[] res = maxSlidingWindow(new int[]{1, 3, 1, 2, 0, 5}, 3);
+        List<Integer> res = new May_19().findSubstring("wordgoodgoodgoodbestword", new String[]{"word","good","best","good"});
         System.out.println(res);
+
+    }
+
+    public List<Integer> findSubstring(String s, String[] words) {
+        List<Integer> res = new ArrayList<>();
+        if (words.length == 0) return res;
+        HashMap<String, Integer> map = new HashMap();
+        int singleWordLen = words[0].length();
+        for (String g : words) {
+            map.put(g, map.getOrDefault(g, 0) + 1);
+        }
+        int everyL = words.length * words[0].length();
+        for (int i = 0; i < s.length() - everyL+1; i++) {
+            HashMap<String, Integer> mapa = new HashMap<>();
+            for (int j = i; j < i+everyL; j += singleWordLen) {
+                String key = s.substring(j, j + singleWordLen);
+                mapa.put(key, mapa.getOrDefault(key, 0) + 1);
+            }
+            if (equals_map(map, mapa)) {
+                res.add(i);
+            }
+        }
+
+        return res;
+    }
+
+    public boolean equals_map(HashMap<String, Integer> a, HashMap<String, Integer> b) {
+        for (Map.Entry<String, Integer> entry : a.entrySet()) {
+            String key = entry.getKey();
+            int value = a.get(key);
+            if (!b.containsKey(key)) {
+                return false;
+            }
+            if (value != b.get(key)) {
+                return false;
+            }
+        }
+        return true;
     }
 
     public List<String> fullJustify(String[] words, int maxWidth) {
@@ -56,14 +95,14 @@ public class May_19 {
                     res.append(" ");
                 }
             }
-            for (int i = 0; i < maxwidth - res.length();i++) {
+            for (int i = 0; i < maxwidth - res.length(); i++) {
                 res.append(" ");
             }
             return res.toString();
         }
-        if(n==1){
+        if (n == 1) {
             res.append(words[l]);
-            for(int i=0;i<maxwidth-words[l].length();i++){
+            for (int i = 0; i < maxwidth - words[l].length(); i++) {
                 res.append(" ");
             }
             return res.toString();
