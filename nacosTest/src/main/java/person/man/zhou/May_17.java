@@ -4,15 +4,42 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.stereotype.Component;
 
 import java.util.*;
-@Configuration
+
 public class May_17 {
     public static void main(String[] args) {
         //permuteUnique(new int[]{1, 2, 3});
         // int res = maxCoins(new int[]{3, 1, 5, 8});
         //System.out.println(res);
         // String res = new May_17().minWindow("ADOBECODEBANC", "ABC");
-        int res = largestRectangleArea(new int[]{3,5,5,2,5,5,6,6,4,4,1,1,2,5,5,6,6,4,1,3});
+        //  int res = largestRectangleArea(new int[]{3, 5, 5, 2, 5, 5, 6, 6, 4, 4, 1, 1, 2, 5, 5, 6, 6, 4, 1, 3});
+        char[] a = new char[]{'1', '0', '0', '0', '1'};
+        char[] b = new char[]{'1', '1', '0', '1', '1'};
+        char[] c = new char[]{'1', '1', '1', '1', '1'};
+        char[] d = new char[]{'1', '0', '0', '1', '0'};
+        char[][] p = new char[][]{a, b, c};
+        int res = maximalRectangle(p);
         System.out.println(res);
+    }
+
+
+    public static int maximalRectangle(char[][] matrix) {
+        if (matrix.length == 0 || matrix[0].length == 0) {
+            return 0;
+        }
+        int res = 0;
+        int[] height = new int[matrix[0].length];
+        for (int i = 0; i < matrix.length; i++) {
+            for (int j = 0; j < matrix[0].length; j++) {
+                if (matrix[i][j] == '1') {
+                    height[j] += 1;
+                } else {
+                    height[j] = 0;
+                }
+            }
+            res = Math.max(res, largestRectangleArea(height));
+        }
+
+        return res;
     }
 
     public static int largestRectangleArea(int[] heights) {
@@ -51,7 +78,7 @@ public class May_17 {
                     if (deque.isEmpty()) {
                         widht = r;
                     } else {
-                        widht = r - deque.peek()-1;
+                        widht = r - deque.peek() - 1;
                     }
                     max = Math.max(max, widht * heights[index]);
                     cacled[index] = true;
@@ -59,7 +86,7 @@ public class May_17 {
             } else {
                 break;
             }
-          //  max = Math.max(heights[i] * (r - i), max);
+            //  max = Math.max(heights[i] * (r - i), max);
         }
         while (!deque.isEmpty()) {
             int index = deque.pop();
@@ -71,7 +98,7 @@ public class May_17 {
             if (deque.isEmpty()) {
                 width = heights.length;
             } else {
-                width = heights.length - deque.peek()-1;
+                width = heights.length - deque.peek() - 1;
             }
             max = Math.max(heights[index] * width, max);
         }
