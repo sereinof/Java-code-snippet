@@ -1,8 +1,24 @@
 package person.man.zhou;
 
-import org.checkerframework.checker.units.qual.A;
 
 import java.util.*;
+
+class ListNode {
+    int val;
+    ListNode next;
+
+    ListNode() {
+    }
+
+    ListNode(int val) {
+        this.val = val;
+    }
+
+    ListNode(int val, ListNode next) {
+        this.val = val;
+        this.next = next;
+    }
+}
 
 public class May_19 {
     int min = Integer.MAX_VALUE;
@@ -19,6 +35,53 @@ public class May_19 {
 
     }
 
+    public ListNode reverseKGroup(ListNode head, int k) {
+        if (head == null) {
+            return null;
+        }
+        if (head.next == null) {
+            return head;
+        }
+        if(k==1){
+            return head;
+        }
+        ListNode p = head;
+        int len = 0;
+        while (p != null) {
+            p = p.next;
+            len++;
+        }
+        int times = len / k;
+        int exactlytimes = 0;
+        ListNode dummy = new ListNode(-1);
+        ListNode res = dummy;
+        dummy.next = head;
+        int count = 1;
+        ListNode curPre = head;
+        ListNode cur = head.next;
+        while (cur != null) {
+            ListNode curNext = cur.next;
+            cur.next = dummy.next;
+            dummy.next = cur;
+            curPre.next = curNext;
+            cur = curNext;
+            count++;
+            if (count % k == 0) {
+                exactlytimes++;
+                count = 1;
+                dummy = curPre;
+                curPre = cur;
+                if(cur==null){
+                    break;
+                }
+                cur = cur.next;
+                if(exactlytimes==times){
+                    break;
+                }
+            }
+        }
+        return res.next;
+    }
 
     public int calculate(String s) {
         int ret = 0;
@@ -29,9 +92,9 @@ public class May_19 {
         int n = s.length();
         while (i < n) {
 
-            if(s.charAt(i)==' '){
+            if (s.charAt(i) == ' ') {
                 i++;
-            }else if (s.charAt(i) == '+') {
+            } else if (s.charAt(i) == '+') {
                 sign = deque.peek();
                 i++;
             } else if (s.charAt(i) == '-') {
@@ -54,6 +117,7 @@ public class May_19 {
         }
         return ret;
     }
+
 
     public List<Integer> findSubstring(String s, String[] words) {
         List<Integer> res = new ArrayList<>();
