@@ -14,9 +14,45 @@ public class May_19 {
         //  List<String> res = new May_19().removeInvalidParentheses("()())()");
 
         // int[] res = maxSlidingWindow(new int[]{1, 3, 1, 2, 0, 5}, 3);
-        List<Integer> res = new May_19().findSubstring("wordgoodgoodgoodbestword", new String[]{"word","good","best","good"});
+        List<Integer> res = new May_19().findSubstring("wordgoodgoodgoodbestword", new String[]{"word", "good", "best", "good"});
         System.out.println(res);
 
+    }
+
+
+    public int calculate(String s) {
+        int ret = 0;
+        Deque<Integer> deque = new ArrayDeque();
+        deque.push(1);
+        int sign = 1;
+        int i = 0;
+        int n = s.length();
+        while (i < n) {
+
+            if(s.charAt(i)==' '){
+                i++;
+            }else if (s.charAt(i) == '+') {
+                sign = deque.peek();
+                i++;
+            } else if (s.charAt(i) == '-') {
+                sign = -deque.peek();
+                i++;
+            } else if (s.charAt(i) == '(') {
+                deque.push(sign);
+                i++;
+            } else if (s.charAt(i) == ')') {
+                deque.pop();
+                i++;
+            } else {
+                int num = 0;
+                while (i < n && Character.isDigit(s.charAt(i))) {
+                    num = num * 10 + s.charAt(i) - '0';
+                    i++;
+                }
+                ret += sign * num;
+            }
+        }
+        return ret;
     }
 
     public List<Integer> findSubstring(String s, String[] words) {
@@ -28,9 +64,9 @@ public class May_19 {
             map.put(g, map.getOrDefault(g, 0) + 1);
         }
         int everyL = words.length * words[0].length();
-        for (int i = 0; i < s.length() - everyL+1; i++) {
+        for (int i = 0; i < s.length() - everyL + 1; i++) {
             HashMap<String, Integer> mapa = new HashMap<>();
-            for (int j = i; j < i+everyL; j += singleWordLen) {
+            for (int j = i; j < i + everyL; j += singleWordLen) {
                 String key = s.substring(j, j + singleWordLen);
                 mapa.put(key, mapa.getOrDefault(key, 0) + 1);
             }
