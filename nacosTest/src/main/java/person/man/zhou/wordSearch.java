@@ -4,6 +4,8 @@ import java.util.*;
 
 public class wordSearch {
 
+
+
     public int findMaximizedCapital(int k, int w, int[] profits, int[] capital) {
         int[][] info = new int[profits.length][2];
         for (int i = 0; i < profits.length; i++) {
@@ -27,10 +29,10 @@ public class wordSearch {
                 pq.add(info[index][0]);
                 index++;
             }
-            if(!pq.isEmpty()){
-                w +=pq.poll();
+            if (!pq.isEmpty()) {
+                w += pq.poll();
                 k--;
-            }else{
+            } else {
                 break;
             }
         }
