@@ -19,6 +19,7 @@ public class review {
             } else if (ch == '{') {
                 stack.push('}');
             } else if (ch == '[') {
+
                 stack.push(']');
             } else {
                 if (stack.isEmpty()) {
