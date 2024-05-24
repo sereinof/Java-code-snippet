@@ -5,9 +5,28 @@ import java.util.Arrays;
 import java.util.List;
 
 public class May_23 {
+    int prev = 0;
+    boolean flag = false;
+    int max = Integer.MAX_VALUE;
 
     public int getMinimumDifference(TreeNode root) {
+        dfs(root);
+        new
+        return max;
+    }
 
+    public void dfs(TreeNode node) {
+        if (node == null) return;
+        dfs(node.left);
+        if (flag == false) {
+            flag = true;
+        }
+        if (flag) {
+            max = Math.min(max, Math.abs(node.val - prev));
+        }
+        prev = node.val;
+
+        dfs(node.right);
     }
 
     public int longestEqualSubarray(List<Integer> nums, int k) {
