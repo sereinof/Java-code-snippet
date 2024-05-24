@@ -3,15 +3,22 @@ package person.man.zhou;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.concurrent.Semaphore;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 
 public class May_23 {
     int prev = 0;
     boolean flag = false;
     int max = Integer.MAX_VALUE;
 
-    public int getMinimumDifference(TreeNode root) {
+    public int getMinimumDifference(TreeNode root) throws InterruptedException {
         dfs(root);
-        new
+        ReentrantLock lock = new ReentrantLock();
+        lock.lock();
+        lock.tryLock(100, TimeUnit.MINUTES);
+        new Semaphore(2);
         return max;
     }
 
