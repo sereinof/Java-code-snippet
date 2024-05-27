@@ -10,9 +10,16 @@ class Foo {
     }
 
     public int maxProfit(int[] prices) {
-        int min =prices[0];
-        int res =
+        int min = prices[0];
+        int res = Integer.MIN_VALUE;
+        for (int i = 1; i < prices.length; i++) {
+            int profix = prices[i] - min;
+            res = Math.max(profix, res);
+            min = Math.min(min,prices[i]);
+        }
+        return res < 0 ? 0 : res;
     }
+
     public void first(Runnable printFirst) throws InterruptedException {
 
         // printFirst.run() outputs "first". Do not change or remove this line.
