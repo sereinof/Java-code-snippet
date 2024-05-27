@@ -1,6 +1,32 @@
 package person.man.zhou;
 
+import java.util.HashMap;
+
 public class May_26 {
+    public boolean isHappy(int n) {
+        HashMap map = new HashMap();
+        map.put(n,1);
+        while (n!=1){
+            int x = getNext(n);
+            if(map.containsKey(x)){
+                return false;
+            }else {
+                map.put(x,1);
+                n = x;
+            }
+        }
+        return true;
+    }
+
+    public int getNext(int x) {
+        int res = 0;
+        while (x != 0) {
+            int last = x % 10;
+            res += (last * last);
+            x = x/10;
+        }
+        return res;
+    }
 
     public boolean isSubStructure(TreeNode A, TreeNode B) {
         if (A == null || B == null) return false;
