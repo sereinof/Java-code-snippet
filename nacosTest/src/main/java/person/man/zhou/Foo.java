@@ -1,6 +1,8 @@
 package person.man.zhou;
 
 import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.locks.ReentrantLock;
 
 class Foo {
     CountDownLatch latch = new CountDownLatch(1);
@@ -16,6 +18,8 @@ class Foo {
             int profix = prices[i] - min;
             res = Math.max(profix, res);
             min = Math.min(min,prices[i]);
+            new ReentrantLock();
+            new ThreadPoolExecutor();
         }
         return res < 0 ? 0 : res;
     }
