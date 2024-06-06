@@ -7,8 +7,39 @@ import java.util.Queue;
 class MyStack {
 
     public ListNode addTwoNumbers(ListNode l1, ListNode l2) {
-
+        int carry = 0;
+        ListNode res = new ListNode(-1);
+        ListNode pointer = res;
+        while (l1 != null || l2 != null) {
+            if (l1 == null) {
+                int val = (l2.val + carry) % 10;
+                carry = (l2.val + carry) / 10;
+                pointer.next = new ListNode(val);
+                pointer = pointer.next;
+                l2 = l2.next;
+                continue;
+            }
+            if (l2 == null) {
+                int val = (l1.val + carry) % 10;
+                carry = (l1.val + carry) / 10;
+                pointer.next = new ListNode(val);
+                pointer = pointer.next;
+                l1 = l1.next;
+                continue;
+            }
+            int val = (carry + l1.val + l2.val) % 10;
+            carry = (carry + l1.val + l2.val) / 10;
+            pointer.next = new ListNode(val);
+            pointer = pointer.next;
+            l1 = l1.next;
+            l2 = l2.next;
+        }
+        if (carry != 0) {
+            pointer.next = new ListNode(carry);
+        }
+        return res.next;
     }
+
     Queue<Integer> A = new LinkedList();
     Queue<Integer> B = new LinkedList();
 
