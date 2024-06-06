@@ -5,6 +5,10 @@ import java.util.LinkedList;
 import java.util.Queue;
 
 class MyStack {
+
+    public ListNode addTwoNumbers(ListNode l1, ListNode l2) {
+
+    }
     Queue<Integer> A = new LinkedList();
     Queue<Integer> B = new LinkedList();
 
