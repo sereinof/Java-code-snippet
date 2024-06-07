@@ -1,10 +1,48 @@
 package person.man.zhou;
 
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.Queue;
+import java.util.*;
 
 class MyStack {
+    public List<List<Integer>> threeSum(int[] nums) {
+        ArrayList res = new ArrayList<>();
+        if (nums.length == 0) {
+            return res;
+        }
+        if (nums[0] > 0) {
+            return res;
+        }
+        Arrays.sort(nums);//先排序
+
+        for (int i = 0; i < nums.length - 2; i++) {
+            if (i > 0 && nums[i] == nums[i - 1]) {
+                continue;
+            }
+            int target = -nums[i];
+            int l = i + 1;
+            int r = nums.length - 1;//来吧 双指针；；；
+            while (l < r) {
+                int sum = nums[l] + nums[r];
+                if (sum > target) {
+                    r--;
+                } else if (sum < target) {
+                    l++;
+                } else {//此时是相等的；
+                    res.add(new int[]{nums[i], nums[l], nums[r]});
+                    //这里还需要处理重复逻辑
+                    while (l < r && nums[l + 1] == nums[l]) {
+                        l++;
+                    }
+                    while (l < r && nums[r - 1] == nums[r]) {
+                        r--;
+                    }
+                    l++;
+                    r--;
+                }
+            }
+        }
+        return res;
+    }
+
 
     public ListNode addTwoNumbers(ListNode l1, ListNode l2) {
         int carry = 0;
