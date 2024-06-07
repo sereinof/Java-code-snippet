@@ -3,22 +3,45 @@ package person.man.zhou;
 import java.util.*;
 
 class MyStack {
-    public int reverse(int x) {
+
+    public void recoverTree(TreeNode root) {
 
     }
+
+    public int reverse(int x) {
+        boolean positive = x > 0 ? true : false;
+        int res = 0;
+        while (x != 0) {
+            if (positive) {
+                if (x > Integer.MAX_VALUE / 10) {
+                    return 0;
+                }
+                res = res * 10 + x % 10;
+                x = x / 10;
+            } else {
+                if (x < Integer.MIN_VALUE / 10) {
+                    return 0;
+                }
+                res = res * 10 + x % 10;
+                x = x / 10;
+            }
+        }
+        return res;
+    }
+
     public String convert(String s, int numRows) {//z字形打印字符串卧槽
-        if(numRows==1){
+        if (numRows == 1) {
             return s;
         }
         StringBuilder[] arr = new StringBuilder[numRows];
         for (int i = 0; i < numRows; i++) {
-           arr[i]=new StringBuilder();
+            arr[i] = new StringBuilder();
         }
         boolean flag = true;
         int index = 0;
         for (int i = 0; i < s.length(); i++) {
             if (flag) {
-               arr[index].append(s.charAt(i));
+                arr[index].append(s.charAt(i));
                 index++;
             } else {
                 arr[i].append(s.charAt(i));
