@@ -3,11 +3,38 @@ package person.man.zhou;
 import java.util.*;
 
 class MyStack {
+    public int reverse(int x) {
 
-    public String convert(String s, int numRows) {
-
-        return "";
     }
+    public String convert(String s, int numRows) {//z字形打印字符串卧槽
+        if(numRows==1){
+            return s;
+        }
+        StringBuilder[] arr = new StringBuilder[numRows];
+        for (int i = 0; i < numRows; i++) {
+           arr[i]=new StringBuilder();
+        }
+        boolean flag = true;
+        int index = 0;
+        for (int i = 0; i < s.length(); i++) {
+            if (flag) {
+               arr[index].append(s.charAt(i));
+                index++;
+            } else {
+                arr[i].append(s.charAt(i));
+                index--;
+            }
+            if (index == 0 || index == numRows - 1) {
+                flag = !flag;
+            }
+        }
+        StringBuilder res = new StringBuilder();
+        for (StringBuilder g : arr) {
+            res.append(g.toString());
+        }
+        return res.toString();
+    }
+
     public List<List<Integer>> threeSum(int[] nums) {
         ArrayList res = new ArrayList<>();
         if (nums.length == 0) {
