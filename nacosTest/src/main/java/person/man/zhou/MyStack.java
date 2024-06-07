@@ -3,6 +3,11 @@ package person.man.zhou;
 import java.util.*;
 
 class MyStack {
+
+    public String convert(String s, int numRows) {
+
+        return "";
+    }
     public List<List<Integer>> threeSum(int[] nums) {
         ArrayList res = new ArrayList<>();
         if (nums.length == 0) {
