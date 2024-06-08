@@ -3,6 +3,67 @@ package person.man.zhou;
 import java.util.*;
 
 class MyStack {
+    public List<Integer> findSubstring(String s, String[] words) {
+        List<Integer> res = new ArrayList<>();
+        HashMap<String, Integer> total = new HashMap();
+        for (String word : words) {
+            total.put(word, total.getOrDefault(word, 0) + 1);//初始化哈希表
+        }
+        int single_word_length = words[0].length();
+        int total_length = single_word_length * words.length;
+        HashMap<String, Integer> window = new HashMap();
+        int cnt = 0;//这是用来记录所谓的汉明距离的吗？
+        int windowSize = 0;
+        for (int i = 0; i < single_word_length; i++) {
+            for (int j = i; j < s.length() - single_word_length; j += single_word_length) {
+                String thisTime = s.substring(j, j + single_word_length);
+                if (windowSize >= words.length) {
+                    String first = s.substring(i - total_length, i - total_length + single_word_length);
+                    window.put(first, window.get(first) - 1);
+                    windowSize--;
+                    if(window.get(first)<total.getOrDefault(first,0)){
+                        cnt--;
+                    }
+                    //这里还要看情况更新cnt的值
+                }
+                windowSize++;
+                window.put(thisTime, window.getOrDefault(thisTime, 0) + 1);//更新窗口的值
+                if(window.get(thisTime)<=total.getOrDefault(thisTime,0)){
+                    cnt++;
+                }
+                //并且还需要更新cnt的值 视情况
+                if (cnt == words.length) {
+                    res.add(j - single_word_length * words.length);
+                }
+            }
+        }
+        return res;
+    }
+
+    public int[] searchRange(int[] nums, int target) {
+        int l = 0;
+        int r = nums.length - 1;
+        while (l < r) {
+            int mid = l + (r - l) / 2;//向下取整；
+            if (nums[mid] == target) {
+                int a = mid;
+                int b = mid;
+                while (a - 1 >= 0 && nums[a - 1] == nums[a]) {
+                    a--;
+                }
+                while (b + 1 <= nums.length - 1 && nums[b + 1] == nums[b]) {
+                    b++;
+                }
+                return new int[]{a, b};
+            } else if (nums[mid] > target) {
+                r = mid - 1;
+            } else {
+                l = mid + 1;
+            }
+        }
+        return new int[]{l, r};
+    }
+
     TreeNode before;
     TreeNode mid;
     TreeNode after;
