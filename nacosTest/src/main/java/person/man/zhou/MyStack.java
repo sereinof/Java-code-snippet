@@ -3,9 +3,60 @@ package person.man.zhou;
 import java.util.*;
 
 class MyStack {
+    TreeNode before;
+    TreeNode mid;
+    TreeNode after;
+    TreeNode x = null;
+    TreeNode y = null;
 
     public void recoverTree(TreeNode root) {
+//1，2，3，4，5，6，7
+//1，2，3，7，5，6，4  --交换了7，4
+//1，2，4，3，5，6，7  --交换了3，4
+//1,5,3,4,5,2,7
+//需要中序遍历维持三个变量卧槽
 
+        //老老实实中序遍历吧
+        //这题我想的太复杂了 其实是可以直接改val属性的  想太复杂了
+        //可以用Morris遍历来优化而已 不过那个遍历我想我用不上呢
+        inorder(root);
+        if (after.val < mid.val) {
+            y = mid;
+        }
+        int val = x.val;
+        x.val = y.val;
+        y.val = val;
+    }
+
+    public void inorder(TreeNode node) {
+        if (node == null) return;
+        inorder(node.left);
+        before = mid;
+        mid = after;
+        after = node;
+        judge();
+        inorder(node.right);
+    }
+
+    public void judge() {
+        if (mid == null) return;
+        if (before == null) {
+            if (mid.val > after.val) {
+                if (x == null) {
+                    x = mid;
+                } else {
+                    y = mid;
+                }
+            }
+            return;
+        }
+        if ((before.val < mid.val && mid.val > after.val) || before.val > mid.val && mid.val < after.val) {
+            if (x == null) {
+                x = mid;
+            } else {
+                y = mid;
+            }
+        }
     }
 
     public int reverse(int x) {
