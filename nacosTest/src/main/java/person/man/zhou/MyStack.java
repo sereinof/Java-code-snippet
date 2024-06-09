@@ -1,9 +1,16 @@
 package person.man.zhou;
 
+
 import java.util.*;
+import java.util.concurrent.Callable;
 
 class MyStack {
-    public List<Integer> findSubstring(String s, String[] words) {
+    public static void main(String[] args) {
+        // new Thread();
+        findSubstring("barfoothefoobarman", new String[]{"foo", "bar"});
+    }
+
+    public static List<Integer> findSubstring(String s, String[] words) {
         List<Integer> res = new ArrayList<>();
         HashMap<String, Integer> total = new HashMap();
         for (String word : words) {
@@ -18,17 +25,17 @@ class MyStack {
             for (int j = i; j < s.length() - single_word_length; j += single_word_length) {
                 String thisTime = s.substring(j, j + single_word_length);
                 if (windowSize >= words.length) {
-                    String first = s.substring(i - total_length, i - total_length + single_word_length);
+                    String first = s.substring(j - total_length, j - total_length + single_word_length);
                     window.put(first, window.get(first) - 1);
                     windowSize--;
-                    if(window.get(first)<total.getOrDefault(first,0)){
+                    if (window.get(first) < total.getOrDefault(first, 0)) {
                         cnt--;
                     }
                     //这里还要看情况更新cnt的值
                 }
                 windowSize++;
                 window.put(thisTime, window.getOrDefault(thisTime, 0) + 1);//更新窗口的值
-                if(window.get(thisTime)<=total.getOrDefault(thisTime,0)){
+                if (window.get(thisTime) <= total.getOrDefault(thisTime, 0)) {
                     cnt++;
                 }
                 //并且还需要更新cnt的值 视情况
