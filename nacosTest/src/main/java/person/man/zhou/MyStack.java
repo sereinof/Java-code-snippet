@@ -7,11 +7,42 @@ import java.util.concurrent.Callable;
 class MyStack {
     public static void main(String[] args) {
         // new Thread();
-        findSubstring("wordgoodgoodgoodbestword", new String[]{"word","good","best","good"});
+        findSubstring("wordgoodgoodgoodbestword", new String[]{"word", "good", "best", "good"});
     }
 
     public int romanToInt(String s) {
-
+        //下面这种方法太low了 现在进行改写
+        HashMap<String, Integer> map = new HashMap();
+        map.put("I", 1);
+        map.put("V", 5);
+        map.put("X", 10);
+        map.put("L", 50);
+        map.put("C", 100);
+        map.put("D", 500);
+        map.put("M", 1000);
+        map.put("IV", 4);
+        map.put("IX", 9);
+        map.put("XL", 40);
+        map.put("XC", 90);
+        map.put("CD", 400);
+        map.put("CM", 900);
+        int i = 0;
+        int res = 0;
+        while (i < s.length()) {
+            if (i < s.length() - 1) {
+                if (map.containsKey(s.substring(i, i + 2))) {
+                    res += map.get(s.substring(i, i + 2));
+                } else {
+                    res += map.get(s.charAt(i));
+                }
+                i++;
+                i++;
+            } else {
+                res += map.get(s.charAt(i)+"");
+                i++;
+            }
+        }
+        return res;
     }
 
     public static List<Integer> findSubstring(String s, String[] words) {
@@ -22,7 +53,7 @@ class MyStack {
         }
         int single_word_length = words[0].length();
         int total_length = single_word_length * words.length;
-       //这是用来记录所谓的汉明距离的吗？
+        //这是用来记录所谓的汉明距离的吗？
 
         for (int i = 0; i < single_word_length; i++) {
             HashMap<String, Integer> window = new HashMap();
@@ -46,7 +77,7 @@ class MyStack {
                 }
                 //并且还需要更新cnt的值 视情况
                 if (cnt == words.length) {
-                    res.add(j - single_word_length * words.length+single_word_length);
+                    res.add(j - single_word_length * words.length + single_word_length);
                 }
             }
         }
