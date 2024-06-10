@@ -7,7 +7,11 @@ import java.util.concurrent.Callable;
 class MyStack {
     public static void main(String[] args) {
         // new Thread();
-        findSubstring("barfoothefoobarman", new String[]{"foo", "bar"});
+        findSubstring("wordgoodgoodgoodbestword", new String[]{"word","good","best","good"});
+    }
+
+    public int romanToInt(String s) {
+
     }
 
     public static List<Integer> findSubstring(String s, String[] words) {
@@ -18,11 +22,13 @@ class MyStack {
         }
         int single_word_length = words[0].length();
         int total_length = single_word_length * words.length;
-        HashMap<String, Integer> window = new HashMap();
-        int cnt = 0;//这是用来记录所谓的汉明距离的吗？
-        int windowSize = 0;
+       //这是用来记录所谓的汉明距离的吗？
+
         for (int i = 0; i < single_word_length; i++) {
-            for (int j = i; j < s.length() - single_word_length; j += single_word_length) {
+            HashMap<String, Integer> window = new HashMap();
+            int windowSize = 0;
+            int cnt = 0;
+            for (int j = i; j <= s.length() - single_word_length; j += single_word_length) {
                 String thisTime = s.substring(j, j + single_word_length);
                 if (windowSize >= words.length) {
                     String first = s.substring(j - total_length, j - total_length + single_word_length);
@@ -40,7 +46,7 @@ class MyStack {
                 }
                 //并且还需要更新cnt的值 视情况
                 if (cnt == words.length) {
-                    res.add(j - single_word_length * words.length);
+                    res.add(j - single_word_length * words.length+single_word_length);
                 }
             }
         }
