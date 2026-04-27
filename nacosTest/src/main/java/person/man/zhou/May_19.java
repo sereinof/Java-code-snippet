@@ -25,7 +25,7 @@ public class May_19 {
     List<String> res = new ArrayList<>();
     String deleted = "";
     int lenght = 0;
-
+   HashMap in   = new HashMap();
     public static void main(String[] args) {
         //  List<String> res = new May_19().removeInvalidParentheses("()())()");
 

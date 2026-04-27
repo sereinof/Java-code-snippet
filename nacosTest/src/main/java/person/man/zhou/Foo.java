@@ -10,7 +10,6 @@ import java.util.concurrent.locks.ReentrantLock;
 class Foo {
     CountDownLatch latch = new CountDownLatch(1);
     CountDownLatch latch2 = new CountDownLatch(1);
-
     public Foo() {
     }
 

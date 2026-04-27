@@ -31,5 +31,18 @@
             <version>1.4.4</version>
         </dependency>
     </dependencies>
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.11.0</version> <!-- 确保使用较新版本，避免兼容性问题 -->
+                <configuration>
+                    <source>17</source> <!-- 与上面properties中的版本保持一致 -->
+                    <target>17</target>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 
 </project>
