@@ -17,7 +17,6 @@ public class StringSummery {
             if (map.containsKey(sign)) {
                 map.get(sign).add(strs[i]);
             } else {
-                12
                 ArrayList strArr = new ArrayList<String>();
                 strArr.add(strs[i]);
                 map.put(sign, strArr);
