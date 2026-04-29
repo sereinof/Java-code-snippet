@@ -33,6 +33,7 @@ public class Trap {
                 } else {
                     break;
                 }
+
             }
             int waterReally = Math.min(left, right);
             if(waterReally<=height[i]){
