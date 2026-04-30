@@ -32,6 +32,7 @@ public class Trap {
                     b++;
                 } else {
                     break;
+
                 }
 
             }
