@@ -33,6 +33,7 @@ public class Trap {
                 } else {
                     break;
 
+
                 }
 
             }
