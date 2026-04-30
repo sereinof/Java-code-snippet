@@ -32,7 +32,7 @@ public class Trap {
                     b++;
                 } else {
                     break;
-
+int ad =9;
 
                 }
 
