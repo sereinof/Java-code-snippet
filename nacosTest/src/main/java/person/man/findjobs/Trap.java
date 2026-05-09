@@ -14,6 +14,8 @@ public class Trap {
         //对与每一根柱子 都需要找他左右两边的最大值，然后取最小值才是它实际能到达的高度
 // 接雨水 思路 将整体问题转化每一个点所能接住的雨水 。问题就变得简单了
         //超时优化
+        //这个解法尼玛叫做动态规划？
+
         int total = 0;
         int[] left = new int[height.length];
         int[] right = new int[height.length];
