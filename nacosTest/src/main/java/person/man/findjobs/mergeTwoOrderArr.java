@@ -74,18 +74,62 @@ public class mergeTwoOrderArr {
     }
 
     public int majorityElement(int[] nums) {
-//先用哈希表走一遍吧  //
-        HashMap<Integer, Integer> map = new HashMap<>();
-        for (int i = 0; i < nums.length; i++) {
-            int num = nums[i];
-            int count = map.getOrDefault(num, 0);
-            if ((count + 1) > (nums.length/2)) {
-                return num;
-            } else {
-                map.put(num, count + 1);
-            }
-
+        if (nums.length == 0) {
+            return 0;
         }
-        return 0;
+//先用哈希表走一遍吧  //参考别人的解法  使用摩尔投票做一遍吧
+        int count = 1;
+        int res = nums[0];
+        for (int i = 1; i < nums.length; i++) {
+            int num = nums[i];
+            if (num == res) {
+                count++;
+            } else {
+                if (count > 0) {
+                    count--;
+                } else {
+                    res = num;
+                    count = 1;
+                }
+            }
+        }
+        return res;
+    }
+
+    public void rotate(int[] nums, int k) {
+        if (nums.length <= 1) {
+            return;
+        }
+        //一个个元素跳到最终位置可以吗 ，使用一个变量可以实现吗？
+
+        //这个 k 可能很大，所以需要对k取余 失算了
+//轮转数组 有许多种解法 但是先尝试一种吧
+        int finalK = k % nums.length;
+//试一下吧
+        int s = nums[k - 1];
+
+        for (int i = 1; i < nums.length - 1; i++) {
+            if (i + k > nums.length - 1) {
+
+                nums[i + k % nums.length] = nums[i];
+            } else {
+
+            }
+        }
+    }
+
+    public void reverseArr(int[] nums, int start, int end) {
+        if (start >= end) {
+            return;
+        }
+        int l = start;
+        int r = end;
+        while (l < r) {
+            int temp = nums[r];
+            nums[r] = nums[l];
+            nums[l] = temp;
+            l++;
+            r--;
+        }
     }
 }
