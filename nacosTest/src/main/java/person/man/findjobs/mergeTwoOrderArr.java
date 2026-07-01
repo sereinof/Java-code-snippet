@@ -145,4 +145,19 @@ public class mergeTwoOrderArr {
             r--;
         }
     }
+
+    public int maxProfit(int[] prices) {
+ //买卖股票 问题转化为子问题 每一天买入股票的最大可能收获是多少
+        int max = 0;
+        int pay = 0;
+        for (int i = 0; i <prices.length-1 ; i++) {
+            pay  = prices[i];
+            for (int j = i+1; j <prices.length ; j++) {
+                 if(prices[j]-pay>max){
+                     max= prices[j]-pay;
+                 }
+            }
+        }
+        return max;
+    }
 }
