@@ -1,5 +1,6 @@
 package person.man.findjobs;
 
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 
@@ -23,8 +24,9 @@ public class mergeTwoOrderArr {
     public static void main(String[] args) {
         //int[] nums = new int[]{0, 1, 2, 2, 3, 0, 4, 2};
         // removeElement(nums, 2);
-        int nums[] = new int[]{1, 1, 2};
-        new mergeTwoOrderArr().removeDuplicates(nums);
+        int nums[] = new int[]{1,2};
+        // new mergeTwoOrderArr().removeDuplicates(nums);
+        new mergeTwoOrderArr().rotate(nums, 1);
     }
 
     public static int removeElement(int[] nums, int val) {
@@ -100,20 +102,31 @@ public class mergeTwoOrderArr {
         if (nums.length <= 1) {
             return;
         }
-        //一个个元素跳到最终位置可以吗 ，使用一个变量可以实现吗？
-
-        //这个 k 可能很大，所以需要对k取余 失算了
-//轮转数组 有许多种解法 但是先尝试一种吧
+        if (k == 0) {
+            return;
+        }
         int finalK = k % nums.length;
-//试一下吧
-        int s = nums[k - 1];
+        int s = nums[0];
+        int index = finalK;
+        int start = index;
+        for (int i = 0; i < nums.length; i++) {
+            int nextindex = index + finalK;
+            if (nextindex >= nums.length) {
+                nextindex = nextindex % nums.length;
+            }
+            int temp = nums[index];
+            nums[index] = s;
+            s = temp;
 
-        for (int i = 1; i < nums.length - 1; i++) {
-            if (i + k > nums.length - 1) {
-
-                nums[i + k % nums.length] = nums[i];
-            } else {
-
+            index = nextindex;
+            if (index == start && i < nums.length-1) {
+                ++index;
+                s = nums[index];
+                index = index + finalK;
+                if (index >= nums.length) {
+                    index = index - nums.length;
+                }
+                start = index;
             }
         }
     }
