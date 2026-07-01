@@ -24,9 +24,9 @@ public class mergeTwoOrderArr {
     public static void main(String[] args) {
         //int[] nums = new int[]{0, 1, 2, 2, 3, 0, 4, 2};
         // removeElement(nums, 2);
-        int nums[] = new int[]{1,2};
+        int nums[] = new int[]{1,2,3};
         // new mergeTwoOrderArr().removeDuplicates(nums);
-        new mergeTwoOrderArr().rotate(nums, 1);
+        System.out.println(new mergeTwoOrderArr().canJump(nums));
     }
 
     public static int removeElement(int[] nums, int val) {
@@ -119,7 +119,7 @@ public class mergeTwoOrderArr {
             s = temp;
 
             index = nextindex;
-            if (index == start && i < nums.length-1) {
+            if (index == start && i < nums.length - 1) {
                 ++index;
                 s = nums[index];
                 index = index + finalK;
@@ -147,17 +147,37 @@ public class mergeTwoOrderArr {
     }
 
     public int maxProfit(int[] prices) {
- //买卖股票 问题转化为子问题 每一天买入股票的最大可能收获是多少
-        int max = 0;
-        int pay = 0;
-        for (int i = 0; i <prices.length-1 ; i++) {
-            pay  = prices[i];
-            for (int j = i+1; j <prices.length ; j++) {
-                 if(prices[j]-pay>max){
-                     max= prices[j]-pay;
-                 }
+        //买卖股票 问题转化为子问题 每一天买入股票的最大可能收获是多少
+        //优化一下
+        int profit = 0;
+        for (int i = 1; i < prices.length; i++) {
+            if (prices[i] > prices[i - 1]) {
+                profit += prices[i] - prices[i - 1];
             }
         }
-        return max;
+        return profit;
+    }
+
+    public boolean canJump(int[] nums) {
+        if (nums.length == 0) {
+            return false;
+        }
+        if (nums.length == 1) {
+            return true;
+        }
+        int fartest = nums[0];
+        if (fartest >= nums.length - 1) {
+            return true;
+        }
+        for (int i = 0; i <= fartest; i++) {
+            if (i + nums[i] > fartest) {
+                fartest = i + nums[i];
+                if (fartest >= nums.length - 1) {
+                    return true;
+                }
+            }
+        }
+
+        return false;
     }
 }
