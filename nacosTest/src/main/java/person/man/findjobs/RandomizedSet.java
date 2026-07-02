@@ -101,12 +101,78 @@ public class RandomizedSet {
             }
         }
         for (int i = 0; i < n; i++) {
-            totalSum+= Math.max(L[i],R[i]);
+            totalSum += Math.max(L[i], R[i]);
         }
         return totalSum;
     }
 
     public int trap(int[] height) {
+        //接雨水
+        int n = height.length;
+        int[] L = new int[n];
+        int[] R = new int[n];
+        int totalSum = 0;
+        for (int i = 1; i < n; i++) {
+            L[i] = Math.max(L[i - 1], height[i - 1]);
+        }
+        for (int i = n - 2; i >= 0; i--) {
+            R[i] = Math.max(L[i + 1], height[i + 1]);
+        }
+        for (int i = 0; i < n; i++) {
+            int min = Math.min(L[i], R[i]);
+            if (min > height[i]) {
+                totalSum += (min - height[i]);
+            }
+        }
+        return totalSum;
+    }
+
+    public static void main(String[] args) {
+        String res = new RandomizedSet().intToRoman(3749);
+        System.out.println(res);
+    }
+    public int romanToInt(String s) {
+        int val = 0;
+        HashMap<Character, Integer> map = new HashMap<>();
+        map.put('I', 1);
+        map.put('V', 5);
+        map.put('X', 10);
+        map.put('L', 50);
+        map.put('C', 100);
+        map.put('D', 500);
+        map.put('M', 1000);
+        for (int i = 0; i < s.length(); i++) {
+            char ch = s.charAt(i);
+            if (i == s.length() - 1) {
+                val += map.get(ch);
+            } else {
+                char next = s.charAt(i + 1);
+                if (map.get(ch) > map.get(next)) {
+                    val += map.get(ch);
+                } else {
+                    val -= map.get(ch);
+                }
+            }
+        }
+        return val;
+    }
+
+    public String intToRoman(int num) {
+        int[] val = new int[]{1000, 900, 500, 400, 100, 90, 50, 40, 10, 9, 5, 4, 1};
+        String[] symbol = new String[]{"M", "CM", "D", "CD", "C", "XC", "L", "XL", "X", "IX", "V", "IV", "I"};
+        StringBuilder res = new StringBuilder();
+        for (int i = 0; i < val.length; i++) {
+            if(num>=val[i]){
+                while (num>=val[i]){
+                    res.append(symbol[i]);
+                    num-=val[i];
+                }
+            }
+        }
+        return res.toString();
+    }
+
+    public int lengthOfLastWord(String s) {
 
     }
 }
