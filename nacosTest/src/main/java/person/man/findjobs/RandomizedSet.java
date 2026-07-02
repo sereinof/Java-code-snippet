@@ -131,6 +131,7 @@ public class RandomizedSet {
         String res = new RandomizedSet().intToRoman(3749);
         System.out.println(res);
     }
+
     public int romanToInt(String s) {
         int val = 0;
         HashMap<Character, Integer> map = new HashMap<>();
@@ -162,10 +163,10 @@ public class RandomizedSet {
         String[] symbol = new String[]{"M", "CM", "D", "CD", "C", "XC", "L", "XL", "X", "IX", "V", "IV", "I"};
         StringBuilder res = new StringBuilder();
         for (int i = 0; i < val.length; i++) {
-            if(num>=val[i]){
-                while (num>=val[i]){
+            if (num >= val[i]) {
+                while (num >= val[i]) {
                     res.append(symbol[i]);
-                    num-=val[i];
+                    num -= val[i];
                 }
             }
         }
@@ -173,6 +174,21 @@ public class RandomizedSet {
     }
 
     public int lengthOfLastWord(String s) {
-
+        if (s == null || s.length() == 0) {
+            return 0;
+        }
+        int ptr = s.length() - 1;
+        int lenOfWord = 0;
+        while (s.charAt(ptr) == ' ') {
+            ptr--;
+        }
+        if (ptr < 0) {
+            return 0;
+        }
+        while (ptr >= 0 && s.charAt(ptr) != ' ') {
+            lenOfWord++;
+            ptr--;
+        }
+        return lenOfWord;
     }
 }
