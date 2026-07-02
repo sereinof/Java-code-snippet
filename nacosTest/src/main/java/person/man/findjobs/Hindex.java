@@ -7,7 +7,7 @@ public class Hindex {
         System.out.println(res);
     }
 
-    public int hIndex(int[] citations) {
+    public int hIndexI(int[] citations) {
         if (citations.length == 0) {
             return 0;
         }
@@ -27,5 +27,29 @@ public class Hindex {
             }
         }
         return maxHindex;
+    }
+
+    public int hIndex(int[] citations) {
+        //使用计数排序写
+        int[] arr = new int[citations.length + 1];//零处不用
+        int hidex = 0;
+        int publicS = 0;//这部分是所有都可以用的
+        for (int i = 0; i < citations.length; i++) {
+            if (citations[i] > citations.length) {
+                publicS++;
+            } else {
+                arr[citations[i]]++;
+            }
+
+        }
+        for (int i = arr.length-1; i >0; i--) {
+            if(publicS+arr[i]>=i){
+                hidex = i;
+                break;
+            }else {
+                publicS=publicS+ arr[i];
+            }
+        }
+        return hidex;
     }
 }
