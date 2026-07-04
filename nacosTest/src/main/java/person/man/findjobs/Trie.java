@@ -22,11 +22,6 @@ public class Trie {
         return res.toString();
     }
 
-    public static void main(String[] args) {
-        String s = "zhou   yu  qing     yasuo";//
-        String res = new Trie().reverseWords(s);
-        System.out.println(res);
-    }
 
     public String compact(StringBuilder s) {
         int p = 0;
@@ -104,9 +99,55 @@ public class Trie {
         }
     }
 
+    public static void main(String[] args) {
+        String s = "PAYPALISHIRING";//
+        String res = new Trie().convert(s, 3);
+        System.out.println(res);
+    }
+
     public String convert(String s, int numRows) {
+        //下面这种方法太low了 只需要一个索引变量就行了 哥
+        if(s.length()==1){
+            return s;
+        }
+        if(numRows==1){
+            return  s;
+        }
+        StringBuilder res = new StringBuilder();
         //虽然但是 再次见到还是觉得很新颖
+        int len = (2 * s.length()) / 3;
+        char[][] arr = new char[numRows][len];
+
+        boolean isDown = true;
+        int indexA = 0;
+        int indexB = 0;
+        for (int i = 0; i < s.length(); i++) {
+            arr[indexA][indexB] = s.charAt(i);
+
+            if (indexA == 0 && indexB != 0) {
+                isDown = true;
+            }
+            if (indexA == arr.length - 1) {
+                isDown = false;
+            }
+
+            if (isDown) {
+                indexA++;
+            } else {
+                indexA--;
+                indexB++;
+            }
+
+        }
 
 
+        for (int i = 0; i < arr.length; i++) {
+            for (int j = 0; j < len; j++) {
+                if (arr[i][j] != 0) {
+                    res.append(arr[i][j]);
+                }
+            }
+        }
+        return res.toString();
     }
 }
