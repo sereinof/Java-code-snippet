@@ -4,9 +4,11 @@ import java.util.Arrays;
 
 public class KMP {
     public static void main(String[] args) {
-        String s = "aabaaab";
-        int[] next = new KMP().getNextII(s);
+        String s = "issip";
+        int[] next = new KMP().getNext(s);
         System.out.println(Arrays.toString(next));
+        int index = new KMP().strStr("mississippi", "issip");
+        System.out.println(index + "----------");
     }
 
     public int[] getNext(String s) {
@@ -42,8 +44,32 @@ public class KMP {
 
     public int strStr(String haystack, String needle) {
         //使用kmp实现
-
         int n = haystack.length(), m = needle.length();
+        int[] kmpArr = getNextII(needle);
+        if (m > n) {
+            return -1;
+        }
+        int L = 0;
+        int l = 0;
+        while (L != n) {
+            while (L < n && l < m && haystack.charAt(L) == needle.charAt(l)) {
+                l++;
+                L++;
+            }
+            if (l == needle.length()) {
+                return L - l;
+            } else {
+                if (L == n) {
+                    return -1;
+                }
+                if (l == 0) {
+                    L++;
+                }else {
+                    l = kmpArr[l-1];
+                }
+            }
+        }
+        return -1;
     }
 
     public int[] getNextII(String s) {
@@ -53,9 +79,9 @@ public class KMP {
             while (s.charAt(i) != s.charAt(l) && l > 0) {
                 l = kmp[l - 1];
             }
-            if(s.charAt(i)!=s.charAt(l)){
+            if (s.charAt(i) != s.charAt(l)) {
                 kmp[i] = 0;
-            }else {
+            } else {
                 kmp[i] = l + 1;
                 l++;
             }
