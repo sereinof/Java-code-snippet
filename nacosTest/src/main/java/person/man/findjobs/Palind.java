@@ -91,8 +91,9 @@ public class Palind {
     }
 
     public List<List<Integer>> threeSum(int[] nums) {
+        Arrays.sort(nums);
         Set<Integer> map = new HashSet<>();
-        List<List<Integer>> res = new ArrayList<>();
+        Set<List<Integer>> res = new HashSet<>();
         for (int i = 0; i <= nums.length - 3; i++) {
             int remain = 0 - nums[i];
             map.clear();
@@ -103,7 +104,7 @@ public class Palind {
                     List<Integer> item = new ArrayList<>();
                     item.add(nums[i]);
                     item.add(need);
-                    item.add(nums[nums[j]]);
+                    item.add(nums[j]);
                     res.add(item);
                 } else {
                     map.add(nums[j]);
@@ -113,7 +114,52 @@ public class Palind {
             }
         }
 
-        return res;
+        return new ArrayList<>(res);
     }
 
+
+    public List<List<Integer>> threeSumII(int[] nums) {
+        Arrays.sort(nums);
+        List<List<Integer>> res = new ArrayList<>();
+        int l = 0;
+        for (int i = 0; i < nums.length - 3; i++) {
+            if (nums[i] > 0) {
+                continue;
+            }
+            if (i > 0 && nums[i] == nums[i - 1]) {
+                continue;// 去重
+            }
+            //i+1 -
+            int L = i + 1;
+            int R = nums.length - 1;
+            int target = -nums[i];
+            while (L != R) {
+                int sum = nums[L] + nums[R];
+                if (sum == target) {
+                    List<Integer> item = new ArrayList<>();
+                    item.add(nums[i]);
+                    item.add(nums[L]);
+                    item.add(nums[R]);
+                    res.add(item);
+                    //去重了
+                    while (L <R && nums[L] == nums[L + 1]) {
+                        L++;
+                    }
+
+                    while (R > L && nums[R] == nums[R - 1]) {
+                        R--;
+                    }
+                }
+                if (sum > target) {
+                    R--;
+                }
+                if (sum < target) {
+                    L++;
+                }
+            }
+
+        }
+
+        return null;
+    }
 }
