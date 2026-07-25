@@ -5,8 +5,8 @@ import java.util.*;
 public class Palind {
     public static void main(String[] args) {
         String s = "A man, a plan, a canal: Panama";
-        boolean res = new Palind().isPalindrome(s);
-        System.out.println(res);
+        int[] arr = new int[]{0,0,0};
+        new Palind().threeSumII(arr);
     }
 
     public boolean isPalindrome(String s) {
@@ -121,8 +121,7 @@ public class Palind {
     public List<List<Integer>> threeSumII(int[] nums) {
         Arrays.sort(nums);
         List<List<Integer>> res = new ArrayList<>();
-        int l = 0;
-        for (int i = 0; i < nums.length - 3; i++) {
+        for (int i = 0; i < nums.length - 2; i++) {
             if (nums[i] > 0) {
                 continue;
             }
@@ -133,7 +132,7 @@ public class Palind {
             int L = i + 1;
             int R = nums.length - 1;
             int target = -nums[i];
-            while (L != R) {
+            while (L < R && L < nums.length) {
                 int sum = nums[L] + nums[R];
                 if (sum == target) {
                     List<Integer> item = new ArrayList<>();
@@ -141,12 +140,14 @@ public class Palind {
                     item.add(nums[L]);
                     item.add(nums[R]);
                     res.add(item);
+                    L++;
+                    R--;
                     //去重了
-                    while (L <R && nums[L] == nums[L + 1]) {
+                    while (L < R && nums[L] == nums[L - 1]) {
                         L++;
                     }
 
-                    while (R > L && nums[R] == nums[R - 1]) {
+                    while (R > L && nums[R] == nums[R + 1]) {
                         R--;
                     }
                 }
@@ -160,6 +161,6 @@ public class Palind {
 
         }
 
-        return null;
+        return res;
     }
 }
