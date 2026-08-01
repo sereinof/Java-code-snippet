@@ -5,11 +5,10 @@ import java.util.*;
 public class SubArray {
 
     public static void main(String[] args) {
-        String s = "wordgoodgoodgoodbestword";
-        String[] words = new String[]{"word","good","best","good"};
-        List<Integer> res = new SubArray().findSubstring(s, words);
+        String s = "aaaaaaaaaaaabbbbbcdd";
+        String t = "abcdd";
+        String res = new SubArray().minWindow(s, t);
         System.out.println(res);
-
 
     }
 
@@ -86,12 +85,11 @@ public class SubArray {
         for (int i = 0; i < windowCount; i++) {
             int Left = i;
             HashMap<String, Integer> windowinfo = new HashMap<>();
-            for (int j = i; j < s.length() - wordLen; j += wordLen) {
+            for (int j = i; j <= (s.length() - wordLen); j += wordLen) {
                 String cur = s.substring(j, j + wordLen);
                 //A 该词为无关词
                 if (!map.containsKey(cur)) {
-                    j += wordLen;
-                    Left = j;
+                    Left = j + wordLen;
                     windowinfo.clear();
                     continue;
                 }
@@ -109,4 +107,46 @@ public class SubArray {
 
         return res;
     }
+
+    public String minWindow(String s, String t) {
+        String res = t + "test";
+        boolean isSstisfy = false;
+        int[] map = new int[130];
+        for (int i = 0; i < t.length(); i++) {
+            map[t.charAt(i)]++;
+        }
+
+        int Left = 0;
+        int[] winfowInfo = new int[130];
+        int realSize = 0;
+        for (int i = 0; i < s.length(); i++) {
+            char ch = s.charAt(i);
+            if (map[ch] == 0) {
+                continue;
+            }
+            if (winfowInfo[ch] < map[ch]) {
+                realSize++;
+            }
+            winfowInfo[ch]++;
+            while (realSize == t.length()) {
+                if (i - Left + 1 < res.length()) {
+                    res = s.substring(Left, i + 1);
+                }
+                char ch1 = s.charAt(Left);
+                if (map[ch1] > 0 && winfowInfo[ch1] == map[ch1]) {
+                    realSize--;
+                }
+                winfowInfo[ch1]--;
+                Left++;
+
+            }
+            while (Left <= i && map[s.charAt(Left)] <= 0) {
+                Left++;
+            }
+        }
+
+        return (res.equals(t + "test")) ? "" : res;
+    }
+
+
 }
