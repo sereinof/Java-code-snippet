@@ -225,7 +225,7 @@ public class Board {
                     board[i][j] |= 2;
 //复活
                 } else {
-                    if((board[i][j] & 1) ==1){
+                    if ((board[i][j] & 1) == 1) {
                         board[i][j] |= 2;
                     }
 
@@ -244,6 +244,49 @@ public class Board {
         return board[i][j] & 1;
     }
 
+    public boolean canConstruct(String ransomNote, String magazine) {
+        int[] map = new int[130];
+        for (int i = 0; i < magazine.length(); i++) {
+            map[magazine.charAt(i)]++;
+        }
+        for (int i = 0; i < ransomNote.length(); i++) {
+            char ch = ransomNote.charAt(i);
+            if (map[ch] == 0) {
+                return false;
+            } else {
+                map[ch]--;
+            }
+        }
+        return true;
+    }
 
 
+    public boolean isIsomorphic(String s, String t) {
+        if (s.length() != t.length()) {
+            return false;
+        }
+        HashMap<Character, Character> SToC = new HashMap<>();
+        HashMap<Character, Character> SCtoS = new HashMap<>();
+        for (int i = 0; i < s.length(); i++) {
+            char sch = s.charAt(i);
+            char tch = t.charAt(i);
+            if (SToC.containsKey(sch)) {
+                if (SToC.get(sch) != tch) {
+                    return false;
+                }
+            } else {
+                SToC.put(sch, tch);
+            }
+            if (SCtoS.containsKey(tch)
+            ) {
+                if(SCtoS.get(tch)!=sch){
+                    return  false;
+                }
+
+            }else {
+                SCtoS.put(tch,sch);
+            }
+        }
+        return true;
+    }
 }
