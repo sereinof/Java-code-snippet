@@ -19,7 +19,7 @@ public class Board {
                 {'.', '.', '.', '.', '8', '.', '.', '7', '9'}
         };
         //boolean res = new Board().isValidSudoku(board);
-        int[][] matrix = {{1, 2, 3}, {4, 5, 6}, {7, 8, 9}};
+        //int[][] matrix = {{1, 2, 3}, {4, 5, 6}, {7, 8, 9}};
         // List<Integer> result = new Board().spiralOrder(matrix);
 
         int[][] arr = {
@@ -27,7 +27,13 @@ public class Board {
                 {4, 5, 6},
                 {7, 8, 9}
         };
-        new Board().rotate(arr);
+        int[][] matrix = {
+                {0, 1, 0},
+                {0, 0, 1},
+                {1, 1, 1},
+                {0, 0, 0}
+        };
+        new Board().gameOfLife(matrix);
 
 
     }
@@ -137,7 +143,107 @@ public class Board {
     }
 
     public void setZeroes(int[][] matrix) {
+        int n = matrix[0].length;
+        int m = matrix.length;
+        boolean isFirstRowZero = false;
+        boolean isFirstColumZero = false;
+        for (int i = 0; i < n; i++) {
+            if (matrix[0][i] == 0) {
+                isFirstRowZero = true;
+            }
+        }
+        for (int i = 0; i < m; i++) {
+            if (matrix[i][0] == 0) {
+                isFirstColumZero = true;
+            }
+        }
+        for (int i = 1; i < m; i++) {
+            for (int j = 1; j < n; j++) {
+                if (matrix[i][j] == 0) {
+                    matrix[i][0] = 0;
+                    matrix[0][j] = 0;
+                }
+            }
+        }
+        for (int i = 1; i < m; i++) {
+            for (int j = 1; j < n; j++) {
+                if (matrix[i][0] == 0 || matrix[0][j] == 0) {
+                    matrix[i][j] = 0;
+                }
+
+            }
+        }
+        if (isFirstRowZero) {
+            Arrays.fill(matrix[0], 0);
+        }
+        if (isFirstColumZero) {
+            for (int i = 0; i < m; i++) {
+                matrix[i][0] = 0;
+            }
+        }
+
 
     }
+
+    public void gameOfLife(int[][] board) {
+        int row = board.length;
+        int colum = board[0].length;
+        for (int i = 0; i < row; i++) {
+            for (int j = 0; j < colum; j++) {
+                int liveCellCount = 0;
+
+                if (i - 1 >= 0) {
+                    liveCellCount += make(i - 1, j, board);
+                    if (j - 1 >= 0) {
+                        liveCellCount += make(i - 1, j - 1, board);
+
+                    }
+                    if (j + 1 < colum) {
+                        liveCellCount += make(i - 1, j + 1, board);
+
+                    }
+                }
+                if (j - 1 >= 0) {
+                    liveCellCount += make(i, j - 1, board);
+                }
+                if (j + 1 < colum) {
+                    liveCellCount += make(i, j + 1, board);
+
+                }
+                if (i + 1 < row) {
+                    liveCellCount += make(i + 1, j, board);
+                    if (j - 1 >= 0) {
+                        liveCellCount += make(i + 1, j - 1, board);
+                    }
+                    if (j + 1 < colum) {
+                        liveCellCount += make(i + 1, j + 1, board);
+                    }
+                }
+                if (liveCellCount < 2 || liveCellCount > 3) {
+
+                } else if (liveCellCount == 3 && (board[i][j] & 1) == 0) {
+                    board[i][j] |= 2;
+//复活
+                } else {
+                    if((board[i][j] & 1) ==1){
+                        board[i][j] |= 2;
+                    }
+
+                }
+            }
+        }
+
+        for (int i = 0; i < row; i++) {
+            for (int j = 0; j < colum; j++) {
+                board[i][j] >>= 1;
+            }
+        }
+    }
+
+    private int make(int i, int j, int[][] board) {
+        return board[i][j] & 1;
+    }
+
+
 
 }
