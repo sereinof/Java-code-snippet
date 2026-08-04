@@ -1,9 +1,6 @@
 package person.man.findjobs;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 import java.util.regex.Pattern;
 
 public class LCHashMap {
@@ -13,8 +10,14 @@ public class LCHashMap {
         String pattern = "abba";
         String s = "dog cat cat dog";
         // new LCHashMap().wordPattern(pattern, s);
-        int[] nums = new int[]{0, 3, 7, 2, 5, 8, 4, 6, 0, 1};
-        int res = new LCHashMap().longestConsecutive(nums);
+
+        int[][] intervals = {
+                {1, 3},
+                {2, 6},
+                {8, 10},
+                {15, 18}
+        };
+        new LCHashMap().merge(intervals);
     }
 
     public boolean wordPattern(String pattern, String s) {
@@ -147,8 +150,8 @@ public class LCHashMap {
     }
 
     public List<String> summaryRanges(int[] nums) {
-        if(nums.length==0){
-            return  null;
+        if (nums.length == 0) {
+            return null;
         }
         List<String> res = new ArrayList<>();
         int l = 0;
@@ -166,7 +169,7 @@ public class LCHashMap {
                 l = i;
             }
         }
-        StringBuilder finalRange = new StringBuilder()
+        StringBuilder finalRange = new StringBuilder();
         if (l == nums.length - 1) {
             finalRange.append(nums[l]);
         } else {
@@ -175,5 +178,37 @@ public class LCHashMap {
             finalRange.append(nums[nums.length - 1]);
         }
         return res;
+    }
+
+    public int[][] merge(int[][] intervals) {
+
+        Arrays.sort(intervals, new Comparator<int[]>() {
+            @Override
+            public int compare(int[] o1, int[] o2) {
+                return o1[0] - o2[0];
+            }
+        });
+        List<int[]> merged = new ArrayList<>();
+        int l = intervals[0][0];
+        int lIndex = 0;
+        for (int i = 1; i < intervals.length; i++) {
+            if (intervals[i][0] > intervals[i - 1][1]) {
+                int[] range = new int[2];
+                range[0] = l;
+                range[1] = intervals[i - 1][1];
+                merged.add(range);
+                l = intervals[i][0];
+                lIndex = i;
+            } else {
+                intervals[i][0] = l;
+                intervals[i][1] = Math.max(intervals[i][1],intervals[lIndex][1]);
+            }
+        }
+        merged.add(new int[]{l, intervals[intervals.length - 1][1]});
+        return merged.toArray(new int[merged.size()][2]);
+    }
+
+    public int[][] insert(int[][] intervals, int[] newInterval) {
+
     }
 }
