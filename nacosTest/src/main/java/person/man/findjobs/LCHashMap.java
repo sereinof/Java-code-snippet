@@ -11,10 +11,19 @@ public class LCHashMap {
         String s = "dog cat cat dog";
         // new LCHashMap().wordPattern(pattern, s);
 
-        int[][] intervals = {
-                {1, 5},
+        int[][] points = {
+                {3, 9},
+                {7, 12},
+                {3, 8},
+                {6, 8},
+                {9, 10},
+                {2, 9},
+                {0, 9},
+                {3, 9},
+                {0, 6},
+                {2, 8}
         };
-        new LCHashMap().insert(intervals, new int[]{6, 8});
+        int res = new LCHashMap().findMinArrowShots(points);
     }
 
     public boolean wordPattern(String pattern, String s) {
@@ -284,6 +293,19 @@ public class LCHashMap {
     }
 
     public int findMinArrowShots(int[][] points) {
-
+        Arrays.sort(points, Comparator.comparingInt(a -> a[1]));
+        if (points.length == 0) return 0;
+        int res = 1;
+        int postion = points[0][1];
+        for (int i = 1; i < points.length; i++) {
+            int ball = points[i][0];
+            if (ball <= postion) {
+                continue;
+            } else {
+                res++;
+                postion = points[i][1];
+            }
+        }
+        return res;
     }
 }
