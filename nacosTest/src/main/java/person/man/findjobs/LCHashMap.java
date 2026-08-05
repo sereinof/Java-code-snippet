@@ -12,12 +12,9 @@ public class LCHashMap {
         // new LCHashMap().wordPattern(pattern, s);
 
         int[][] intervals = {
-                {1, 3},
-                {2, 6},
-                {8, 10},
-                {15, 18}
+                {1, 5},
         };
-        new LCHashMap().merge(intervals);
+        new LCHashMap().insert(intervals, new int[]{6, 8});
     }
 
     public boolean wordPattern(String pattern, String s) {
@@ -201,7 +198,7 @@ public class LCHashMap {
                 lIndex = i;
             } else {
                 intervals[i][0] = l;
-                intervals[i][1] = Math.max(intervals[i][1],intervals[lIndex][1]);
+                intervals[i][1] = Math.max(intervals[i][1], intervals[lIndex][1]);
             }
         }
         merged.add(new int[]{l, intervals[intervals.length - 1][1]});
@@ -209,6 +206,84 @@ public class LCHashMap {
     }
 
     public int[][] insert(int[][] intervals, int[] newInterval) {
+        if (intervals.length == 0) {
+            return new int[][]{newInterval};
+        }
+        int l = 0;
+        int r = intervals.length;
+        List<int[]> res = new ArrayList<>();
+        while (l != r) {
+            int mid = (l + r) / 2;
+            if (intervals[mid][0] == newInterval[0]) {
+                l = mid;
+                r = mid;
+            }
+            if (intervals[mid][0] >= newInterval[0]) {
+                r = mid;
+            } else {
+                l = mid + 1;
+            }
+        }
+        for (int i = 0; i < intervals.length; i++) {
+            if (res.size() == 0) {
+                if (l == i) {
+                    res.add(newInterval);
+                    int[] last = res.get(res.size() - 1);
+                    if (intervals[i][0] <= last[1]) {
+                        last[0] = Math.min(last[0], intervals[i][0]);
+                        last[1] = Math.max(intervals[i][1], last[1]);
+                        res.set(res.size() - 1, last);
+                    } else {
+                        res.add(intervals[i]);
+                    }
+
+                } else {
+                    res.add(intervals[i]);
+                }
+                continue;
+            }
+            if (i == l) {
+                int[] last = res.get(res.size() - 1);
+                if (newInterval[0] <= last[1]) {
+                    last[0] = Math.min(last[0], intervals[i][0]);
+                    last[1] = Math.max(newInterval[1], last[1]);
+                    res.set(res.size() - 1, last);
+                } else {
+                    res.add(newInterval);
+                }
+
+                int[] last1 = res.get(res.size() - 1);
+                if (intervals[i][0] <= last1[1]) {
+                    last[0] = Math.min(last[0], intervals[i][0]);
+                    last1[1] = Math.max(intervals[i][1], last1[1]);
+                    res.set(res.size() - 1, last1);
+                } else {
+                    res.add(intervals[i]);
+                }
+            } else {
+                int[] last = res.get(res.size() - 1);
+                if (intervals[i][0] <= last[1]) {
+                    last[1] = Math.max(intervals[i][1], last[1]);
+                    res.set(res.size() - 1, last);
+                } else {
+                    res.add(intervals[i]);
+                }
+
+            }
+        }
+        if (l == intervals.length) {
+            int[] last = res.get(res.size() - 1);
+            if (newInterval[0] <= last[1]) {
+                last[1] = Math.max(newInterval[1], last[1]);
+                res.set(res.size() - 1, last);
+            } else {
+                res.add(newInterval);
+            }
+        }
+        return res.toArray(new int[res.size()][2]);
+    }
+
+    public int findMinArrowShots(int[][] points) {
 
     }
 }
