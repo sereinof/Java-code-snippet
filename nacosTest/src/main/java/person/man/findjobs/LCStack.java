@@ -56,8 +56,9 @@ public class LCStack {
     }
 
     public static void main(String[] args) {
-        String s = "/home/";
-        String res = new LCStack().simplifyPath(s);
+        String s = "1-(     -2)";
+        int res = new LCStack().calculate(s);
+        System.out.println(res);
     }
 
     public String simplifyPath(String path) {
@@ -120,6 +121,79 @@ public class LCStack {
     }
 
     public int calculate(String s) {
+        StringBuilder stringBuilder = new StringBuilder();
+        for (int i = 0; i < s.length(); i++) {
+            if (s.charAt(i) != ' ') {
+                stringBuilder.append(s.charAt(i));
+            }
+        }
+        Stack<String> nums = new Stack<>();
+        Stack<String> operators = new Stack<>();
+        String s1 = s.replace(" ", "");
+        int i = 0;
+        s = stringBuilder.toString();
+        while (i < s.length()) {
+            char ch = s.charAt(i);
+            if (ch == ' ') {
+                i++;
+                continue;
+            }
+            if (ch == ')') {
+                while (!operators.peek().equals("(")) {
+                    calcu(nums, operators);
+                }
+                operators.pop();//弹出（
+                i++;
+                continue;
+            }
+            if (ch == '+' || ch == '-') {
+                if (i == 0 || s.charAt(i - 1) == '(') {
+                    nums.push("0");
+                }
+                if (operators.isEmpty() || operators.peek().equals("(")) {
+                    operators.push(String.valueOf(ch));
+                } else {//这里可以添加优先级处理 包正操作栈里的优先级是从小到大的
+                    calcu(nums, operators);
+                    operators.push(String.valueOf(ch));
+                }
+                i++;
+                continue;
+            }
+            if (ch != '(' && ch != ')') {
+                Integer num = Integer.parseInt(String.valueOf(ch));
+                i++;
+                while (i < s.length() && (s.charAt(i) >= '0' && s.charAt(i) <= '9')) {
+                    num = num * 10 + Integer.parseInt(String.valueOf(s.charAt(i)));
+                    i++;
+                }
+                nums.push(String.valueOf(num));
+                continue;
+            }
+            if (ch == '(') {
+                operators.push(String.valueOf(ch));
+            }
+            i++;
 
+        }
+        if (!operators.isEmpty()) {
+            calcu(nums, operators);
+        }
+        return Integer.parseInt(nums.pop());
+
+    }
+
+    private void calcu(Stack<String> nums, Stack<String> op) {
+        int bb = Integer.parseInt(nums.pop());
+        int aa = Integer.parseInt(nums.pop());
+        String opp = op.pop();
+        switch (opp) {
+            case "+":
+                nums.push(String.valueOf(aa + bb));
+                break;
+            case "-":
+                nums.push(String.valueOf(aa - bb));
+                break;
+            default:
+        }
     }
 }
