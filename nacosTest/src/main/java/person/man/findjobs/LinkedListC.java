@@ -279,9 +279,56 @@ public class LinkedListC {
         }
 
         public ListNode deleteDuplicates(ListNode head) {
+            ListNode dummy = new ListNode();
+            dummy.next = head;
+            ListNode pre = dummy;
+            ListNode after = head;
+            while (after != null) {
+                boolean flag = false;
+                while (after.next != null && after.val == after.next.val) {
+                    after = after.next;
+                    flag = true;
+                }
+                if (flag) {
+                    pre.next = after.next;
+                    after = after.next;
+                    continue;
+                } else {
+                    pre = pre.next;
+                    after = after.next;
+                }
+            }
+            return dummy.next;
+        }
 
+        public ListNode rotateRight(ListNode head, int k) {
+            int size = 0;
+            ListNode res = head;
+            if (head == null || k == 0) {
+                return head;
+            }
+            ListNode countHelp = head;
+            while (countHelp != null) {
+                size++;
+                countHelp = countHelp.next;
+            }
+            countHelp = new ListNode(-1);
+            countHelp.next = head;
+            int realK = k / size;
+            for (int i = 0; i < realK; i++) {
+                countHelp = countHelp.next;
+            }
+            res = countHelp.next;
+            countHelp.next = null;
+            ListNode help = res;
+            while (help.next != null) {
+                help = help.next;
+            }
+            help.next = head;
+            return res;
         }
     }
+
 
     class Node {
         int val;
