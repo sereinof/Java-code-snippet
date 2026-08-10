@@ -1,6 +1,7 @@
 package person.man.findjobs;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class LinkedListC {
@@ -117,13 +118,7 @@ public class LinkedListC {
 
     public static void main(String[] args) {
         // 这就是你提供的入参
-        Object[][] data = {
-                {7, null},
-                {13, 0},
-                {11, 4},
-                {10, 2},
-                {1, 0}
-        };
+        Object[][] data = {{7, null}, {13, 0}, {11, 4}, {10, 2}, {1, 0}};
         LinkedListC linkedListC = new LinkedListC();
         // 生成链表头节点
         Node head = linkedListC.buildLinkedList(data);
@@ -207,7 +202,85 @@ public class LinkedListC {
 
 
     public ListNode reverseBetween(ListNode head, int left, int right) {
-        return null;
+        if (head == null) return head;
+        int l = 1;
+        ListNode ptr = head;
+        while (l < left - 1) {
+            ptr = ptr.next;
+            l++;
+        }
+        ListNode ptr1 = ptr.next;
+        ListNode tail = ptr1;
+        for (int i = l; l < right - 1; i++) {
+            ptr1 = ptr1.next;
+            ListNode ptr1Next = ptr1.next;
+            ptr1.next = ptr.next;
+            ptr.next = ptr1;
+            ptr1 = ptr1Next;
+        }
+        tail.next = ptr1.next;
+        return head;
+    }
+
+    class Solution {
+        public ListNode reverseKGroup(ListNode head, int k) {
+            if (k == 1 || head == null) {
+                return head;
+            }
+            int count = 0;
+            ListNode countPtr = head;
+            while (countPtr != null) {
+                count++;
+                countPtr = countPtr.next;
+            }
+            if (count == 1) return head;
+            int reversetime = count / k;
+            ListNode dummy = new ListNode(-1);
+            ListNode dummy1 = new ListNode(-1);
+            dummy.next = null;
+            ListNode headNow = head;
+            ListNode tail = null;
+            for (int i = 0; i < reversetime; i++) {
+                tail = headNow;
+                for (int j = 0; j < k; j++) {
+                    ListNode nextHead = headNow.next;
+                    headNow.next = dummy.next;
+                    dummy.next = headNow;
+                    headNow = nextHead;
+                }
+                dummy = tail;
+                tail.next = headNow;
+            }
+
+            return dummy1.next;
+        }
+
+        public ListNode removeNthFromEnd(ListNode head, int n) {
+            ListNode fast = head;
+            ListNode fastPre = null;
+            for (int i = 0; i < n; i++) {
+                fastPre = fast;
+                fast = fast.next;
+            }
+            if (fast == null) {//头节点
+                return head.next;
+            }
+            ListNode slowPtr = head;
+            ListNode before = null;
+            while (fast != null) {
+                before = slowPtr;
+                slowPtr = slowPtr.next;
+                fast = fast.next;
+            }
+
+            before.next = slowPtr.next;
+            slowPtr.next = null;
+            return head;
+        }
+
+        public ListNode deleteDuplicates(ListNode head) {
+
+        }
     }
 
     class Node {
