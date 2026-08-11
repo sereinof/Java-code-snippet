@@ -327,6 +327,28 @@ public class LinkedListC {
             help.next = head;
             return res;
         }
+
+        public ListNode partition(ListNode head, int x) {
+            ListNode small = new ListNode(-1);
+            ListNode res = small;
+            ListNode big = new ListNode(-1);
+            ListNode bighead = big;
+
+            while (head != null) {
+                ListNode nxt = head.next;
+                if (head.val < x) {
+                    small.next = head;
+                    small = small.next;
+                } else {
+                    big.next = head;
+                    big = big.next;
+                }
+                head.next = null;
+                head = nxt;
+            }
+            small.next =bighead.next;
+            return res.next;
+        }
     }
 
 
