@@ -180,7 +180,7 @@ public class Tree {
                 }
                 help.right = cur.right;
                 TreeNode left = cur.left;
-                cur.right=left;
+                cur.right = left;
                 cur.left = null;
                 cur = left;
             } else {
@@ -200,10 +200,85 @@ public class Tree {
         make(right);
         return null;
     }
+
     public boolean hasPathSum(TreeNode root, int targetSum) {
+        if (root == null) return false;
+        Stack<TreeNode> stack = new Stack<>();
+        Stack<Integer> args = new Stack<>();
+        stack.push(root);
+        args.push(targetSum);
+        while (!stack.isEmpty()) {
+            TreeNode node = stack.pop();
+            Integer sum = args.pop();
+            if (node.left == null && node.right == null) {
+                if (node.val == sum) {
+                    return true;
+                }
+            }
+            if (node.right != null) {
+                stack.push(node.right);
+                args.push(sum - node.val);
+            }
+            if (node.left != null) {
+                stack.push(node.left);
+                args.push(sum - node.val);
+            }
+        }
+        return false;
+    }
+
+    public int sumNumbers(TreeNode root) {
+        int res = 0;
+        if (root != null) {
+            Stack<TreeNode> stack = new Stack<>();
+            Stack<Integer> arges = new Stack<>();
+            stack.push(root);
+            arges.push(0);
+            while (!stack.isEmpty()) {
+                TreeNode node = stack.pop();
+                int preSum = arges.pop() * 10 + node.val;
+                if (node.left == null && node.right == null) {
+                    res += preSum;
+                }
+                if (node.right != null) {
+                    stack.push(node.right);
+                    arges.push(preSum * 10);
+                }
+                if (node.left != null) {
+                    stack.push(node.left);
+                    arges.push(preSum * 10);
+                }
+            }
+        }
+        return res;
+    }
+
+    Integer res = 0;
+    public int maxPathSum(TreeNode root) {
+        if (root == null) return 0;
+        dfs(root);
+        return res;
+    }
+    public int dfs(TreeNode root) {
+        if (root == null) return -1000000;
+        int left = dfs(root.left);
+        int right = dfs(root.right);
+        int currentMax = Math.max(root.val, Math.max(root.val + left, Math.max(root.val + right, Math.max(left, Math.max(right, root.val + left + right)))));
+        res = Math.max(res, currentMax);
+        return Math.max(root.val + left, Math.max(root.val + right,root.val));
+    }
+
+    public BSTIterator(TreeNode root) {
 
     }
 
+    public int next() {
+
+    }
+
+    public boolean hasNext() {
+
+    }
 
     class Node {
         public int val;
