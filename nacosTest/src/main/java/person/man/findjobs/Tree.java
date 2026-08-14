@@ -1,6 +1,8 @@
 package person.man.findjobs;
 
+import java.util.ArrayDeque;
 import java.util.HashMap;
+import java.util.Queue;
 import java.util.Stack;
 
 public class Tree {
@@ -97,10 +99,10 @@ public class Tree {
     public TreeNode buildTree1(int[] inorder, int[] postorder) {
         if (inorder == null || inorder.length == 0) return null;
         Stack<TreeNode> help = new Stack<>();
-        TreeNode node = new TreeNode(postorder[postorder.length-1]);
+        TreeNode node = new TreeNode(postorder[postorder.length - 1]);
         help.push(node);
-        int in_idex = postorder.length-1;
-        for (int i = postorder.length-2; i >=0;  i--) {
+        int in_idex = postorder.length - 1;
+        for (int i = postorder.length - 2; i >= 0; i--) {
             TreeNode cur = new TreeNode(postorder[i]);
             if (help.peek().val != inorder[in_idex]) {
                 help.peek().right = cur;
@@ -117,9 +119,91 @@ public class Tree {
         }
         return node;
     }
+
+    public Node connect1(Node root) {
+        if (root == null) return null;
+        Queue<Node> queue = new ArrayDeque<>();
+        int size = 1;
+        queue.offer(root);
+        while (!queue.isEmpty()) {
+            size = queue.size();
+            for (int i = 0; i < size; i++) {
+                Node cur = queue.poll();
+                if (i != size - 1) {
+                    cur.next = queue.peek();
+                }
+                if (cur.left != null) {
+                    queue.offer(cur.left);
+                }
+                if (cur.right != null) {
+                    queue.offer(cur.right);
+                }
+            }
+        }
+        return root;
+    }
+
     public Node connect(Node root) {
+        if (root == null) return null;
+        Node levelRoot = root;
+        while (levelRoot != null) {
+            Node dummy = new Node(-1);
+            Node pre = dummy;
+            while (levelRoot != null) {
+                if (levelRoot.left != null) {
+                    dummy.next = levelRoot.left;
+                    dummy = dummy.next;
+                }
+                if (levelRoot.right != null) {
+                    dummy.next = levelRoot.right;
+                    dummy = dummy.next;
+                }
+                levelRoot = levelRoot.next;
+            }
+
+            levelRoot = pre.next;
+        }
+        return root;
+    }
+
+    TreeNode dummy = new TreeNode(-1);
+
+    public void flatten(TreeNode root) {// 手写Morris啊
+        TreeNode cur = root;
+        while (cur != null) {
+            if (cur.left != null) {
+                TreeNode node = cur.left;
+                TreeNode help = null;
+                while (node != null) {
+                    help = node;
+                    node = node.right;
+                }
+                help.right = cur.right;
+                TreeNode left = cur.left;
+                cur.right=left;
+                cur.left = null;
+                cur = left;
+            } else {
+                cur = cur.right;
+            }
+        }
+    }
+
+    public TreeNode make(TreeNode node) {
+        if (node == null) return null;
+        TreeNode right = node.right;
+        TreeNode left = node.left;
+        node.left = null;
+        dummy.right = node;
+        dummy = dummy.right;
+        make(left);
+        make(right);
+        return null;
+    }
+    public boolean hasPathSum(TreeNode root, int targetSum) {
 
     }
+
 
     class Node {
         public int val;
@@ -127,7 +211,8 @@ public class Tree {
         public Node right;
         public Node next;
 
-        public Node() {}
+        public Node() {
+        }
 
         public Node(int _val) {
             val = _val;
@@ -139,7 +224,9 @@ public class Tree {
             right = _right;
             next = _next;
         }
-    };
+    }
+
+    ;
 
     public class TreeNode {
         int val;
