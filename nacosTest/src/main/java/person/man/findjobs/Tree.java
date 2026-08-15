@@ -268,17 +268,7 @@ public class Tree {
         return Math.max(root.val + left, Math.max(root.val + right,root.val));
     }
 
-    public BSTIterator(TreeNode root) {
 
-    }
-
-    public int next() {
-
-    }
-
-    public boolean hasNext() {
-
-    }
 
     class Node {
         public int val;
