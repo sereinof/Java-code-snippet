@@ -152,7 +152,7 @@ public class BSTIterator {
         TreeNode cur = root.left;
         stack.push(root);
         int ans = Integer.MAX_VALUE;
-        while (cur!=null!stack.isEmpty()) {
+        while (cur != null !stack.isEmpty()){
             if (cur != null) {
                 while (cur != null) {
                     stack.push(cur);
@@ -175,7 +175,7 @@ public class BSTIterator {
         TreeNode cur = root.left;
         stack.push(root);
         int count = 0;
-        while (cur!=null||!stack.isEmpty()) {
+        while (cur != null || !stack.isEmpty()) {
             if (cur != null) {
                 while (cur != null) {
                     stack.push(cur);
@@ -190,6 +190,104 @@ public class BSTIterator {
             cur = cur.right;
         }
         return 0;
+    }
+
+    public boolean isValidBST(TreeNode root) {
+        Stack<TreeNode> stack = new Stack<>();
+        TreeNode cur = root;
+        TreeNode pre = null;
+        while (cur != null || !stack.isEmpty()) {
+            if (cur != null) {
+                while (cur != null) {
+                    stack.push(cur);
+                    cur = cur.left;
+                }
+            }
+            cur = stack.pop();
+
+            if (pre != null && pre.val >= cur.val) {
+                return false;
+            }
+            cur = cur.right;
+        }
+        return true;
+    }
+
+    public int numIslands(char[][] grid) {
+        int[][] visited = new int[grid.length][grid[0].length];
+        int res = 0;
+        for (int i = 0; i < grid.length; i++) {
+            for (int j = 0; j < grid[0].length; j++) {
+                if (visited[i][j] == 1) {
+                } else if (grid[i][j] == '0') {
+                } else {
+                    res++;
+                    fillIsland(grid, visited, i, j);
+                }
+            }
+        }
+        return res;
+    }
+
+    private void fillIsland(char[][] grid, int[][] visited, int i, int j) {
+        if (i < 0 || i >= grid.length) return;
+        if (j < 0 || j >= grid[0].length) return;
+        if (grid[i][j] == '0') return;
+        if (visited[i][j] == 1) return;
+        if (grid[i][j] == '1') {
+            visited[i][j] = 1;
+            fillIsland(grid, visited, i - 1, j);
+            fillIsland(grid, visited, i + 1, j);
+            fillIsland(grid, visited, i, j - 1);
+            fillIsland(grid, visited, i, j + 1);
+        }
+    }
+
+    public void findO(char[][] grid, int i, int j) {
+        if (i < 0 || i >= grid.length) return;
+        if (j < 0 || j >= grid[0].length) return;
+        if (grid[i][j] != 'O') return;
+
+        if (grid[i][j] == 'O') {
+            grid[i][j] = 'A';
+            findO(grid, i - 1, j);
+            findO(grid, i + 1, j);
+            findO(grid, i, j - 1);
+            findO(grid, i, j + 1);
+        }
+    }
+
+    public void solve(char[][] board) {
+        for (int i = 0; i < board.length; i++) {
+            char a = board[i][0];
+            if (a == 'O') {
+                findO(board, i, 0);
+            }
+            char b = board[i][board[0].length - 1];
+            if (b == 'O') {
+                findO(board, i, board[0].length - 1);
+            }
+        }
+
+        for (int i = 1; i < board[0].length - 1; i++) {
+            char a = board[0][i];
+            if (a == 'O') {
+                findO(board, 0, i);
+            }
+            char b = board[board.length - 1][i];
+            if (b == 'O') {
+                findO(board, board.length - 1, i);
+            }
+        }
+        for (int i = 0; i < board.length; i++) {
+            for (int j = 0; j < board[0].length; j++) {
+                if (board[i][j] == 'A') {
+                    board[i][j] = 'O';
+                } else {
+                    board[i][j] = 'X';
+                }
+            }
+        }
     }
 
     public boolean hasNext() {
