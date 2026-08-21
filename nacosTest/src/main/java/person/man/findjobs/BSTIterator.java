@@ -152,7 +152,7 @@ public class BSTIterator {
         TreeNode cur = root.left;
         stack.push(root);
         int ans = Integer.MAX_VALUE;
-        while (cur != null !stack.isEmpty()){
+        while (cur != null&& !stack.isEmpty()){
             if (cur != null) {
                 while (cur != null) {
                     stack.push(cur);
