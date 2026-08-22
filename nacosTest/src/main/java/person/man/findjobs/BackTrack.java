@@ -61,8 +61,8 @@ public class BackTrack {
     }
 
     public static void main(String[] args) {
-        BackTrack backTrack= new BackTrack();
-        backTrack.permute(new int[]{1,2,3});
+        BackTrack backTrack = new BackTrack();
+        backTrack.permute(new int[]{1, 2, 3});
     }
 
     public List<List<Integer>> permute(int[] nums) {
@@ -88,7 +88,27 @@ public class BackTrack {
     }
 
     public List<List<Integer>> combinationSum(int[] candidates, int target) {
-
+        List<List<Integer>> res = new ArrayList<>();
+        dfs3(candidates, target, 0, new ArrayList<>(), res, 0);
+        return res;
     }
 
+    private void dfs3(int[] candidates, int target, int sum, ArrayList<Integer> path, List res, int start) {
+        if (sum == target) {
+            res.add(new ArrayList<>(path));
+            return;
+        }
+        if (sum > target) {
+            return;
+        }
+        for (int i =start ; i < candidates.length; i++) {
+            int num = candidates[i];
+            path.add(num);
+            dfs3(candidates, target, sum + num, path, res, i);
+            path.remove(path.size() - 1);
+        }
+    }
+    public int totalNQueens(int n) {
+
+    }
 }
