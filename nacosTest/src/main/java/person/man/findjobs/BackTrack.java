@@ -59,12 +59,6 @@ public class BackTrack {
         }
 
     }
-
-    public static void main(String[] args) {
-        BackTrack backTrack = new BackTrack();
-        backTrack.permute(new int[]{1, 2, 3});
-    }
-
     public List<List<Integer>> permute(int[] nums) {
         List<List<Integer>> res = new ArrayList<>();
         boolean[] visited = new boolean[nums.length];
@@ -101,14 +95,37 @@ public class BackTrack {
         if (sum > target) {
             return;
         }
-        for (int i =start ; i < candidates.length; i++) {
+        for (int i = start; i < candidates.length; i++) {
             int num = candidates[i];
             path.add(num);
             dfs3(candidates, target, sum + num, path, res, i);
             path.remove(path.size() - 1);
         }
     }
-    public int totalNQueens(int n) {
 
+    public static void main(String[] args) {
+        BackTrack backTrack = new BackTrack();
+        backTrack.totalNQueens(4);
+    }
+    public int totalNQueens(int n) {
+        boolean[] visted = new boolean[n];
+        boolean[] sub = new boolean[2 * n];
+        boolean[] add = new boolean[2 * n];
+        return dfs4(n, 0, visted, sub, add);
+    }
+    private int dfs4(int n, int i, boolean[] visted, boolean[] sub, boolean[] add) {
+        if (i == n) {return 1;}
+        int res = 0;
+        for (int j = 0; j < n; j++) {
+            if (visted[j] || sub[i-j+n-1] || add[i + j]) {continue;}
+            visted[j] = true;
+            sub[i-j+n-1] = true;
+            add[i + j] = true;
+            res += dfs4(n,i+1,visted,sub,add);
+            visted[j] = false;
+            sub[i-j+n-1] = false;
+            add[i + j] = false;
+        }
+        return res;
     }
 }
