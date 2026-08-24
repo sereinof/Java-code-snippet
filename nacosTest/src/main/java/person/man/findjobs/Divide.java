@@ -64,26 +64,38 @@ public class Divide {
     }
 
     public static void main(String[] args) {
-        int[][] grid = new int[][]{{0, 1}, {1, 0}};
+        int[][] grid = new int[][]{
+                {1, 1, 1, 1, 0, 0, 0, 0},
+                {1, 1, 1, 1, 0, 0, 0, 0},
+                {1, 1, 1, 1, 1, 1, 1, 1},
+                {1, 1, 1, 1, 1, 1, 1, 1},
+                {1, 1, 1, 1, 0, 0, 0, 0},
+                {1, 1, 1, 1, 0, 0, 0, 0},
+                {1, 1, 1, 1, 0, 0, 0, 0},
+                {1, 1, 1, 1, 0, 0, 0, 0}
+        };
         new Divide().construct(grid);
 
     }
 
     public Node construct(int[][] grid) {
-        Node res = build(grid, 0, grid.length, 0, grid[0].length);
+        Node res = build(grid, 0, grid.length - 1, 0, grid[0].length - 1);
         return res;
     }
 
-    private Node build(int[][] grid, int i, int length, int j, int lengthj) {
-        if (i == length) {
-            return new Node(grid[i][j] == 1 ? true : false, true);
+    private Node build(int[][] grid, int rowStart, int rowEnd, int colStart, int colEnd) {
+        if (rowStart == rowEnd && colStart == colEnd) {
+            return new Node(grid[rowStart][colEnd] == 1 ? true : false, true);
         }
         Node res = new Node();
-        Node topLeft = build(grid, 0, length / 2, 0, lengthj / 2);
-        Node topRight = build(grid, 0, length / 2, (lengthj + 1) / 2, lengthj);
-        Node bottomLeft = build(grid, (length + 1) / 2, length, 0, lengthj / 2);
-        Node bottomRight = build(grid, (length + 1) / 2, length, (lengthj + 1) / 2, lengthj);
-        if (topLeft.val == topRight.val && topRight.val == bottomRight.val && bottomRight.val == bottomLeft.val) {
+        int rowMid = (rowStart + rowEnd) / 2;
+        int colMid = (colStart + colEnd) / 2;
+        Node topLeft = build(grid, rowStart, rowMid, colStart, colMid);
+        Node topRight = build(grid, rowStart, rowMid, colMid + 1, colEnd);
+        Node bottomLeft = build(grid, rowMid + 1, rowEnd, colStart, colMid);
+        Node bottomRight = build(grid, rowMid + 1, rowEnd, colMid + 1, colEnd);
+        if (topLeft.val == topRight.val && topRight.val == bottomRight.val && bottomRight.val == bottomLeft.val
+                && topRight.isLeaf && topLeft.isLeaf && bottomRight.isLeaf && bottomLeft.isLeaf) {
             res.isLeaf = true;
             res.val = topLeft.val;
             return res;
@@ -97,6 +109,121 @@ public class Divide {
         }
     }
 
+    public ListNode mergeKLists(ListNode[] lists) {
+        return doMerge(lists, 0, lists.length - 1);
+    }
+
+    private ListNode doMerge(ListNode[] lists, int start, int end) {
+        if (start > end) {
+            return null;
+        }
+        if (start == end) return lists[0];
+        int mid = (start + end) / 2;
+        ListNode dummy = new ListNode(-1);
+        ListNode ptr = dummy;
+        ListNode left = doMerge(lists, start, mid);
+        ListNode right = doMerge(lists, mid + 1, end);
+        while (left != null && right != null) {
+            if (left.val < right.val) {
+                ptr.next = left;
+                left = left.next;
+            } else {
+                ptr.next = right;
+                right = right.next;
+            }
+            ptr = ptr.next;
+        }
+        if (left != null) {
+            ptr.next = left;
+        } else if (right != null) {
+            ptr.next = right;
+        }
+        return dummy.next;
+    }
+
+    public int maxSubArray(int[] nums) {
+        int res = nums[0];
+        int prevRestut = nums[0];
+        for (int i = 1; i < nums.length; i++) {
+            if (prevRestut <= 0) {
+                prevRestut = nums[i];
+                res = Math.max(res, prevRestut);
+            } else {
+                prevRestut += nums[i];
+                res = Math.max(res, prevRestut);
+            }
+        }
+        return res;
+    }
+
+    public int maxSubarraySumCircular(int[] nums) {
+        int res = nums[0];
+        int prevRestut = nums[0];
+        for (int i = 1; i < nums.length; i++) {
+            if (prevRestut <= 0) {
+                prevRestut = nums[i];
+                res = Math.max(res, prevRestut);
+            } else {
+                prevRestut += nums[i];
+                res = Math.max(res, prevRestut);
+            }
+        }
+        int res_min = nums[0];
+        int sum = nums[0];
+        int prev = nums[0];
+        for (int i = 1; i < nums.length; i++) {
+            sum += nums[i];
+            prev = Math.min(prev + nums[i], nums[i]);
+            res_min = Math.min(res_min, prev);
+        }
+        return Math.max(res, sum - res_min);
+    }
+
+
+    public int searchInsert(int[] nums, int target) {
+        int l = -1;
+        int r = nums.length;
+        while (l + 1 != r) {
+            int mid = l + (l - r) / 2;
+            if (nums[mid] == target) return mid;
+            if (nums[mid] > target) {
+                r = mid;
+            } else {
+                l = mid;
+            }
+        }
+        return r;
+    }
+
+    public boolean searchMatrix(int[][] matrix, int target) {
+        int l = -1;
+        int r = matrix.length;
+        while (l + 1 != r) {
+            int mid = l + (r - l) / 2;
+            if (matrix[mid][0] == target) return true;
+            if (matrix[mid][0] > target) {
+                r = mid;
+            } else {
+                l = mid;
+            }
+        }
+        int row = l;
+        l = 0;
+        r = matrix[0].length;
+        while (l + 1 != r) {
+            int mid = l + (r - l) / 2;
+            if (matrix[row][mid] == target) return true;
+            if (matrix[row][mid] > target) {
+                r=mid;
+            }else {
+                l=mid;
+            }
+        }
+        return false;
+    }
+    public int findPeakElement(int[] nums) {
+
+    }
 
     class Node {
         public boolean val;
