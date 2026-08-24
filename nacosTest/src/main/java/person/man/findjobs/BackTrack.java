@@ -59,6 +59,7 @@ public class BackTrack {
         }
 
     }
+
     public List<List<Integer>> permute(int[] nums) {
         List<List<Integer>> res = new ArrayList<>();
         boolean[] visited = new boolean[nums.length];
@@ -107,25 +108,105 @@ public class BackTrack {
         BackTrack backTrack = new BackTrack();
         backTrack.totalNQueens(4);
     }
+
     public int totalNQueens(int n) {
         boolean[] visted = new boolean[n];
         boolean[] sub = new boolean[2 * n];
         boolean[] add = new boolean[2 * n];
         return dfs4(n, 0, visted, sub, add);
     }
+
     private int dfs4(int n, int i, boolean[] visted, boolean[] sub, boolean[] add) {
-        if (i == n) {return 1;}
+        if (i == n) {
+            return 1;
+        }
         int res = 0;
         for (int j = 0; j < n; j++) {
-            if (visted[j] || sub[i-j+n-1] || add[i + j]) {continue;}
+            if (visted[j] || sub[i - j + n - 1] || add[i + j]) {
+                continue;
+            }
             visted[j] = true;
-            sub[i-j+n-1] = true;
+            sub[i - j + n - 1] = true;
             add[i + j] = true;
-            res += dfs4(n,i+1,visted,sub,add);
+            res += dfs4(n, i + 1, visted, sub, add);
             visted[j] = false;
-            sub[i-j+n-1] = false;
+            sub[i - j + n - 1] = false;
             add[i + j] = false;
         }
         return res;
+    }
+
+    public List<String> generateParenthesis(int n) {
+        List<String> res = new ArrayList<>();
+        dfs5(n, new StringBuilder(), n, n, res);
+        return res;
+    }
+
+    private void dfs5(int n, StringBuilder help, int i, int rightRemain, List<String> res) {
+        if (help.length() == 2 * n) {
+            res.add(help.toString());
+            return;
+        }
+        if (i > 0) {
+            help.append('(');
+            dfs5(n, help, i - 1, rightRemain, res);
+            help.deleteCharAt(help.length() - 1);
+        }
+        if (i > rightRemain) {
+            help.append(')');
+            dfs5(n, help, i, rightRemain - 1, res);
+            help.deleteCharAt(help.length() - 1);
+        }
+    }
+
+    public boolean exist(char[][] board, String word) {
+        for (int i = 0; i < board.length; i++) {
+            for (int j = 0; j < board[0].length; j++) {
+                if (board[i][j] == word.charAt(0)) {
+                    if(dfs6(board,0,i,j,word)){
+                        return true;
+                    };
+                }
+            }
+        }
+        return  false;
+    }
+
+    private boolean dfs6(char[][] board, int index, int i, int j,String word) {
+        if(index==word.length()){
+            return  true;
+        }
+        char re = board[i][j];
+        if(word.charAt(index)==board[i][j]){
+            if(i-1>=0){
+                board[i][i]='#';
+                if(dfs6(board,index+1,i-1,j,word)){
+                    return true;
+                }
+                board[i][j]=re;
+            }
+            if(j-1>=0){
+                board[i][i]='#';
+                if(dfs6(board,index+1,i,j-1,word)){
+                    return  true;
+                }
+                board[i][j]=re;
+            }
+            if(i+1<board.length){
+                board[i][i]='#';
+                if(dfs6(board,index+1,i+1,j,word)){
+                    return true;
+                }
+                board[i][j]=re;
+            }
+            if(j+1<board[0].length){
+                board[i][i]='#';
+                if(dfs6(board,index+1,i,j+1,word)){
+                    return  true;
+                }
+                board[i][j]=re;
+            }
+        }
+        return  false;
     }
 }
