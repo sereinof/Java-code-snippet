@@ -214,16 +214,86 @@ public class Divide {
             int mid = l + (r - l) / 2;
             if (matrix[row][mid] == target) return true;
             if (matrix[row][mid] > target) {
-                r=mid;
-            }else {
-                l=mid;
+                r = mid;
+            } else {
+                l = mid;
             }
         }
         return false;
     }
+
     public int findPeakElement(int[] nums) {
+        int l = -1;
+        int r = nums.length;
+        int midR;
+        int midL;
+        while (l + 1 != r) {
+            int mid = l + (r - l) / 2;
+            midL = mid - 1 == -1 ? Integer.MIN_VALUE : nums[mid - 1];
+            midR = mid + 1 == nums.length ? Integer.MIN_VALUE : nums[mid + 1];
+            if (nums[mid] > midL && nums[mid] > midR) {
+                return mid;
+            }
+            if (nums[mid] < midL) {
+                r = mid;
+            } else {
+                l = mid;
+            }
+        }
+        return 0;
+    }
+
+    public int search(int[] nums, int target) {
+        int l = -1;
+        int r = nums.length;
+        while (l + 1 != r) {
+            int mid = l + (r - l) / 2;
+            if (nums[mid] == target) return mid;
+            if (nums[mid] > nums[l + 1]) {//左边有序
+                if (target >= nums[l + 1] && target < nums[mid]) {
+                    r = mid;
+                } else {
+                    l = mid;
+                }
+            } else {
+                if (target >= nums[mid] && target < nums[r - 1]) {
+                    l = mid;
+                } else {
+                    r = mid;
+                }
+            }
+        }
+        return -1;
+    }
+
+    public int[] searchRange(int[] nums, int target) {
+        int l = -1;
+        int r = nums.length;
+        while (l+1!=r){
+            int mid = l +(r-l)/2;
+            if(nums[mid]>=target){
+                r=mid;
+            }else{
+                l=mid;
+            }
+        }
+        int l1 =-1;
+        int r1 =nums.length;
+        while (l1+1!=r1){
+            int mid = l1+(r1-l1)/2;
+            if(nums[mid]<=target){
+                l1=mid;
+            }else {
+                r1=mid;
+            }
+        }
+        if(l==r1)return  new int[]{-1,-1};
+        return  new int[]{l+1,r1-1};
+    }
+    public int findMin(int[] nums) {
 
     }
+
 
     class Node {
         public boolean val;
