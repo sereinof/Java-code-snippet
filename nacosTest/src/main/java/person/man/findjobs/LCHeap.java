@@ -1,5 +1,6 @@
 package person.man.findjobs;
 
+import java.util.PriorityQueue;
 import java.util.Random;
 
 public class LCHeap {
@@ -53,5 +54,26 @@ public class LCHeap {
 
             }
         }
+    }
+
+    public int findMaximizedCapital(int k, int w, int[] profits, int[] capital) {
+        PriorityQueue<int[]> heap1 = new PriorityQueue<>((a, b) -> a[1] - b[1]);
+        for (int i = 0; i < profits.length; i++) {
+            heap1.add(new int[]{profits[i], capital[i]});
+        }
+        PriorityQueue<int[]> big = new PriorityQueue<>((a, b) -> b[0] - a[0]);
+        for (int i = 0; i < k; i++) {
+            while (!heap1.isEmpty() && heap1.peek()[1] <= w) {
+                big.add(heap1.poll());
+            }
+            if (!big.isEmpty()) {
+                w += big.poll()[0];
+            }
+        }
+        return w;
+    }
+
+    public int kthSmallest(int[][] matrix, int k) {
+
     }
 }
