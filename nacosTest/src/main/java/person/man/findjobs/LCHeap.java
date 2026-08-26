@@ -1,5 +1,7 @@
 package person.man.findjobs;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.PriorityQueue;
 import java.util.Random;
 
@@ -73,7 +75,26 @@ public class LCHeap {
         return w;
     }
 
-    public int kthSmallest(int[][] matrix, int k) {
+    public List<List<Integer>> kSmallestPairs(int[] nums1, int[] nums2, int k) {
+        List<List<Integer>> res = new ArrayList<>();
+        PriorityQueue<int[]> queue = new PriorityQueue<>((a, b) -> a[2] - b[2]);
+        for (int i = 0; i < nums1.length; i++) {
+            queue.add(new int[]{i, 0, nums1[i] + nums2[0]});
+        }
+        for (int i = 0; i < k; i++) {
+            int[] cur = queue.poll();
+            List<Integer> item = new ArrayList<>();
+            item.add(nums1[cur[0]]);
+            item.add(nums2[cur[1]]);
+            res.add(item);
+            if ((cur[1] + 1) < nums2.length) {
+                queue.add(new int[]{cur[0], cur[1] + 1, nums1[cur[0]] + nums2[cur[1] + 1]});
+            }
+        }
+        return res;
+    }
 
+    public int kthSmallest(int[][] matrix, int k) {
+        return 0;
     }
 }
