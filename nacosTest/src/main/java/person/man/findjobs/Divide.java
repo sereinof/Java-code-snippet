@@ -269,31 +269,71 @@ public class Divide {
     public int[] searchRange(int[] nums, int target) {
         int l = -1;
         int r = nums.length;
-        while (l+1!=r){
-            int mid = l +(r-l)/2;
-            if(nums[mid]>=target){
-                r=mid;
-            }else{
-                l=mid;
+        while (l + 1 != r) {
+            int mid = l + (r - l) / 2;
+            if (nums[mid] >= target) {
+                r = mid;
+            } else {
+                l = mid;
             }
         }
-        int l1 =-1;
-        int r1 =nums.length;
-        while (l1+1!=r1){
-            int mid = l1+(r1-l1)/2;
-            if(nums[mid]<=target){
-                l1=mid;
-            }else {
-                r1=mid;
+        int l1 = -1;
+        int r1 = nums.length;
+        while (l1 + 1 != r1) {
+            int mid = l1 + (r1 - l1) / 2;
+            if (nums[mid] <= target) {
+                l1 = mid;
+            } else {
+                r1 = mid;
             }
         }
-        if(l==r1)return  new int[]{-1,-1};
-        return  new int[]{l+1,r1-1};
+        if (l == r1) return new int[]{-1, -1};
+        return new int[]{l + 1, r1 - 1};
     }
+
     public int findMin(int[] nums) {
-
+        int l = 0;
+        int r = nums.length - 1;
+        while (l < r) {
+            int mid = l + (r - l);
+            if (nums[l] < nums[r]) return l;
+            if (nums[mid] > nums[l]) {
+                l = mid + 1;
+            } else {
+                r = mid;
+            }
+        }
+        return l;
     }
 
+    public double findMedianSortedArrays(int[] nums1, int[] nums2) {
+        int m = nums1.length;
+        int n = nums2.length;
+        if (m > n) {
+            return findMedianSortedArrays(nums2, nums1);
+        }
+        int l = 0;
+        int r = m - 1;
+        while (true) {
+            int i = l + (r - l) / 2;
+            int j = (m + n + 1) / 2 - i - 2;
+            int Aleft = i >= 0 ? nums1[i] : Integer.MIN_VALUE;
+            int Aright = i + 1 < m ? nums1[i + 1] : Integer.MAX_VALUE;
+            int Bleft = j >= 0 ? nums2[j] : Integer.MIN_VALUE;
+            int Bright = j + 1 < n ? nums2[j + 1] : Integer.MAX_VALUE;
+            if (Aright >= Bleft && Aleft <= Bright) {
+                if ((m + n) % 2 == 1) {
+                    return Math.max(Aleft, Bleft);
+                } else {
+                    return (Math.max(Aleft, Bleft) + Math.min(Aright, Bright)) * 0.5;
+                }
+            } else if (Bleft > Aright) {
+                l = i + 1;
+            } else {
+                r = i - 1;
+            }
+        }
+    }
 
     class Node {
         public boolean val;
