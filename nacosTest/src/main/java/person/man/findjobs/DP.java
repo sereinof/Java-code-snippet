@@ -103,12 +103,119 @@ public class DP {
                 tails[right] = nums[i];
             } else {
                 tails[r] = nums[i];
-            };
+            }
+            ;
         }
         return right;
     }
 
     public int minimumTotal(List<List<Integer>> triangle) {
+        if (triangle.size() == 1) return triangle.get(0).get(0);
+        List<Integer> pre = triangle.get(0);
+        for (int i = 1; i < triangle.size(); i++) {
+            for (int j = 0; j < triangle.get(i).size(); j++) {
+                if (j == 0) {
+                    triangle.get(i).set(j, pre.get(0) + triangle.get(i).get(j));
+                } else if (j == triangle.get(i).size() - 1) {
+                    triangle.get(i).set(j, pre.get(pre.size() - 1) + triangle.get(i).get(j));
+                } else {
+                    int a = pre.get(j);
+                    int b = pre.get(j - 1);
+                    triangle.get(i).set(j, Math.min(a, b) + triangle.get(i).get(j));
+                }
+
+            }
+            pre = triangle.get(i);
+        }
+        int res = Integer.MAX_VALUE;
+        List<Integer> lastRow = triangle.get(triangle.size() - 1);
+        for (int i = 0; i < lastRow.size(); i++) {
+            Integer val = lastRow.get(i);
+            if (val < res) {
+                res = val;
+            }
+        }
+        return res;
+    }
+
+    public int minPathSum(int[][] grid) {
+        int rows = grid.length;
+        int cols = grid[0].length;
+        for (int i = 1; i < rows; i++) {
+            grid[i][0] = grid[i - 1][0] + grid[i][0];
+        }
+        for (int i = 1; i < cols; i++) {
+            grid[0][i] = grid[0][i - 1] + grid[0][i];
+        }
+        for (int i = 1; i < rows; i++) {
+            for (int j = 1; j < cols; j++) {
+                grid[i][j] = grid[i][j] + Math.min(grid[i - 1][j], grid[i][j - 1]);
+            }
+        }
+        return grid[rows - 1][cols - 1];
+    }
+
+    public int uniquePathsWithObstacles(int[][] obstacleGrid) {
+        int rows = obstacleGrid.length;
+        int cols = obstacleGrid[0].length;
+        int[][] dp = new int[rows][cols];
+        for (int i = 1; i < rows; i++) {
+            if (obstacleGrid[i][0] == 1) break;
+            dp[i][0] = 1;
+        }
+        for (int i = 1; i < cols; i++) {
+            if (obstacleGrid[0][i] == 1) break;
+            dp[0][i] = 1;
+        }
+        for (int i = 1; i < rows; i++) {
+            for (int j = 1; j < cols; j++) {
+                if (obstacleGrid[i][j] == 1) {
+                    dp[i][j] = 0;
+                    continue;
+                }
+                if (obstacleGrid[i - 1][j] != 1 && obstacleGrid[i][j - 1] != 1) {
+                    dp[i][j] = dp[i - 1][j] + dp[i][j - 1];
+                } else if (obstacleGrid[i - 1][j] == 1 && obstacleGrid[i][j - 1] == 1) {
+                    dp[i][j] = 0;
+                } else if (obstacleGrid[i - 1][j] == 1) {
+                    dp[i][j] = dp[i][j - 1];
+                } else if (obstacleGrid[i][j - 1] == 1) {
+                    dp[i][j] = dp[i - 1][j];
+                }
+            }
+        }
+        return dp[rows - 1][cols - 1];
+    }
+
+    public String longestPalindrome(String s) {
+        StringBuilder ss = new StringBuilder();
+        for (int i = 0; i < s.length(); i++) {
+            ss.append('#');
+            ss.append(s.charAt(i));
+        }
+        ss.append('#');
+        int[] info = new int[s.length()];
+        int C = 0;
+        int R = 0;//这俩变量表示大蘑菇
+        for (int i = 1; i < s.length(); i++) {
+            if (R == i) {
+
+            } else if (R > i) {//分情况这里
+
+            } else if (R < i) {
+                int l = i - 1;
+                int r = i + 1;
+                while (i >= 0 && r <= s.length()) {
+
+
+                }
+            }
+
+
+            int l = i + 1;
+
+        }
+
 
     }
 }
